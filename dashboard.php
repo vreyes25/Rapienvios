@@ -10,6 +10,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/dashboard.css" />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Rapienvios | Dashboard</title>
   </head>
   <body>
@@ -53,5 +54,17 @@
             <h3>Tablas dinámicas aparecerán aquí</h3>
         </div>
     </div>
+
+    <script type="text/javascript">
+      (function(){
+        Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Bienvenido',
+              showConfirmButton: false,
+              timer: 1500
+            })
+      })();
+    </script>
   </body>
 </html>

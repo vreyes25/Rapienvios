@@ -111,7 +111,7 @@ strong{
 
 .up-content{
     display: flex;
-    height: 8%;
+    height: 5%;
     align-items: center;
     justify-content: space-between;
     margin: 20px 50px;
@@ -119,7 +119,7 @@ strong{
 
 .data{
     display: flex;
-    height: 92%;
+    height: 88%;
     align-items: center;
     justify-content: center;
 }

@@ -6,15 +6,6 @@ if(isset($_POST)){
     $contrasena=@$_POST["contra"]; 
     $usu= new Usuario();
     $temporal = $usu->login($conexion,$correo,$contrasena); 
-    
-
     echo json_encode($usu->login($conexion,$correo,$contrasena)); 
-
-
-
-
 }
-
-
-
 ?>
