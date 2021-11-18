@@ -1,0 +1,7 @@
+<?php
+
+
+    echo "HOLA MUNDO, AQUI ESTA LA SIGUIENTE PANTALLA";
+
+
+?>
