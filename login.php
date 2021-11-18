@@ -21,12 +21,38 @@
       <form action="" method="post">
           <h2>BIENVENIDO</h2>
           <i class="ri-user-line icons user"></i>
-          <input type="text" name="username" placeholder="Ingrese su usuario">
+          <input type="text" name="username" id="username" placeholder="Ingrese su usuario">
           <i class="ri-lock-2-line icons password"></i>
-          <input type="password" name="password" placeholder="Ingrese su contraseña">
-          <button class="startSession">Iniciar Sesión</button>
+          <input type="password" name="password" id="password" placeholder="Ingrese su contraseña">
+          <button type="button" onclick="iniciarSesion()" class="startSession" >Iniciar Sesión</button>
           <p>¿No tienes una cuenta? <a href="registration.php">Registrate</a></p>
       </form>
     </section>
   </body>
+
+
+  <script type="text/javascript">
+
+function iniciarSesion(){
+  var idusuario = document.getElementById("username").value;
+  var idpass = document.getElementById("password").value;
+
+  $.post(
+    "WS/login.php",
+    {
+      'usuario': idusuario,
+      'contra': idpass
+    },
+      function(data){
+        $Resp = JSON.parse(data);
+        if($Resp.Ok==1){
+        alert("Ingresado correctamente");
+        window.location="dashboard.php";
+        } else{
+            alert($Resp.Data);
+          }
+      }
+    );
+  }
+  </script>
 </html>
