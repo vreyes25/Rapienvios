@@ -34,38 +34,25 @@
   <script type="text/javascript">
 
 function iniciarSesion(){
-				var idusuario = document.getElementById("username").value;
-				var idpass = document.getElementById("password").value;
-				
-				$.post("WS/login.php",
-				{'usuario': idusuario,
-				'contra': idpass
-				 
-					},
-					function(data){
-                        //console.log(data);
-						$Resp = JSON.parse(data);
-                        if($Resp.Ok==1){
-                            alert("Ingresado correctamente");
-                            
-                        
-						window.location="temp.php";
-                        }
-                        else{
-                            alert($Resp.Data);
-                        }
+  var idusuario = document.getElementById("username").value;
+  var idpass = document.getElementById("password").value;
 
-					}
-				);
-
-                
-				}
-
-
-
-
-
+  $.post(
+    "WS/login.php",
+    {
+      'usuario': idusuario,
+      'contra': idpass
+    },
+      function(data){
+        $Resp = JSON.parse(data);
+        if($Resp.Ok==1){
+        alert("Ingresado correctamente");
+        window.location="dashboard.php";
+        } else{
+            alert($Resp.Data);
+          }
+      }
+    );
+  }
   </script>
-
-
 </html>
