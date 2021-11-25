@@ -54,7 +54,7 @@ class Usuario
         $this->numeroIntento = $num;
     }
 
-    public function login($conexion, $corre, $contra)
+    public function login($conexion, $corre, $contra) 
     {
 
         $Res = new Respuesta();
