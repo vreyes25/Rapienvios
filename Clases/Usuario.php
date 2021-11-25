@@ -23,6 +23,13 @@ class Usuario
         $this->usuario = $usuario;
         $this->contrasena = $contrasena;
     }
+    public function ConstructorEditar($idUsuario,$nombre, $correo, $usuario, $contrasena){
+        $this->idUsuario = $idUsuario;
+        $this->nombre = $nombre;
+        $this->correo = $correo;
+        $this->usuario = $usuario;
+        $this->contrasena = $contrasena;
+    }
 
     public function login($conexion) {
         $Res = new Respuesta();
@@ -68,11 +75,52 @@ class Usuario
         return $Res;
     }
     //Editar
+    public function editar($conexion){
+        $Res = new Respuesta();
+        if(trim($this->nombre) == "") {
+            $Res->NoSucces("Debes llenar el campo nombre");
+        } else if(trim($this->correo) == "") {
+            $Res->NoSucces("Debes llenar el campo correo");
+        } else if(trim($this->usuario) == "") {
+            $Res->NoSucces("Debes llenar el campo usuario");
+        } else if(trim($this->contrasena) == "") {
+            $Res->NoSucces("Debes llenar el campo contraseña");
+        } else {
+            mysqli_query($conexion, "UPDATE usuario set nombre='$this->nombre', correo='$this->correo'
+            ,usuario='$this->usuario',contrasena='$this->contrasena WHERE idUsuario='$idUsuario'
+            ");
+            if (mysqli_error($conexion)) {
+                $Res->NoSucces("No se pudo Modificar el usuario" . $resultado.error);
+            } else {
+                $Res->Succes("El usuario fue Modificado correctamente");
+            }
+        }
+        return $Res;
 
+    }
 
 
     //Buscar
+    public function buscar($conexion, $nombreUsuario){
+        $query = "SELECT usuario.idUsuario, usuario.nombre , usuario.correo, usuario.usuario
+        FROM usuario 
+        WHERE usuario = '$nombreUsuario'";
+        $resultado = mysqli_query($conexion,$query);
+        $data = $resultado->fetch_assoc();
+        if($data != null){
+            $usuarioNuevo = new Usuario();
+            $usuarioNuevo->ConstructorEditar($data['idUsuario'],$data['nombre'],$data['correo'],$data['usuario']);
+            $respuesta = new Respuesta();
+            $respuesta->Succes($usuarioNuevo);
+            return $respuesta;
+        }else{
+            $respuesta = new Respuesta();
+            $respuesta->NoSucces("No se pudo encontrar ese Producto.");
+            return $respuesta;
+        }
 
+
+    }
     
 
     //Eliminar
