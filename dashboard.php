@@ -19,7 +19,7 @@
       <div class="decoration-line"></div>
       <ul class="dashboard-elements">
         <li class="active">
-          <i class="ri-folder-user-fill side-icons "></i>
+          <i class="ri-folder-user-fill side-icons"></i>
           <a href="#">Clientes</a>
         </li>
         <li>
@@ -41,30 +41,63 @@
       </ul>
     </div>
     <div class="content-data">
+      <div class="up-content">
+        <div class="searchBar">
+          <input type="text" id="search" placeholder="Buscar" />
+          <i class="ri-search-line searchButton"></i>
+        </div>
+        <div class="user-name">
+          <h3>Bienvenido, <strong>Victor Reyes</strong></h3>
+        </div>
+      </div>
+      <div class="data">
         <div class="up-content">
-            <div class="searchBar">
-                <input type="text" id="search" placeholder="Buscar">
-                <i class="ri-search-line searchButton"></i>
-            </div>
-            <div class="user-name">
-                <h3>Bienvenido, <strong>Victor Reyes</strong></h3>
-            </div>
+          <h3>Total de clientes: <strong>50</strong></h3>
+          <button type="button" id="nuevoCliente" class="startSession">
+            Nuevo
+          </button>
         </div>
-        <div class="data">
-            <h3>Tablas dinámicas aparecerán aquí</h3>
+        <div class="content-tables"></div>
+      </div>
+    </div>
+    <div id="miModal" class="modal">
+      <div class="flex" id="flex">
+        <div class="contenido-modal">
+          <div class="modal-header flex">
+            <i class="ri-folder-user-fill side-icons"></i>
+            <h2>Nuevo Cliente</h2>
+            <span class="close" id="close">&times;</span>
+          </div>
+          <div class="modal-body">
+            <form action="dashboard.html" method="post" class="nuevoCliente">
+              <div class="form">
+                <input type="text" placeholder="ID Cliente" disabled/>
+                <input type="text" placeholder="Ingrese el nombre" />
+                <input type="text" placeholder="Ingrese el teléfono" />
+                <input type="text" placeholder="Ingrese la dirección" />
+                <button type="button" class="guardarCliente">Guardar</button>
+              </div>
+              <div class="imagen">
+                <img src="img/nuevoCliente.svg" alt="ilustracion" />
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
 
-    <script type="text/javascript">
-      (function(){
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Bienvenido',
-          showConfirmButton: false,
-          timer: 1500
-        })
-      })();
-    </script>
+    <script src="js/main.js"></script>
   </body>
 </html>
+
+<script type="text/javascript">
+  (function(){
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Bienvenido',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  })();
+</script>
