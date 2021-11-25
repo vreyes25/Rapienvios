@@ -92,7 +92,7 @@
 </html>
 
 <script type="text/javascript">
-  /*(function(){
+  (function(){
     Swal.fire({
       position: 'center',
       icon: 'success',
@@ -100,7 +100,7 @@
       showConfirmButton: false,
       timer: 1500
     })
-  })();*/
+  })();
 
 
   function registrarCliente(){
@@ -121,9 +121,23 @@
         //alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
-          window.location="dashboard.php";
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: $Resp.Data,
+            showConfirmButton: false,
+            timer: 1800
+          })
+          //sleep(4);
+          //window.location="dashboard.php";
         } else {
-          alert("ERROR");
+          Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: $Resp.Data,
+            showConfirmButton: false,
+            timer: 1800
+          })
         }
       }
     );
