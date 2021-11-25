@@ -29,17 +29,22 @@ class Usuario
         if (trim($this->usuario) == "" || trim($this->contrasena) == "") {
             $Res->NoSucces("Debes escribir un usuario y una contraseña");
         } else {
-            $query = "SELECT COUNT(*) AS registro FROM usuario WHERE usuario='$this->usuario' AND contrasena= '$this->contrasena'";
+            $query = "SELECT * FROM usuario WHERE usuario='$this->usuario'";
             $result = mysqli_query($conexion, $query);
+            $nr  = mysqli_num_rows($result);
+
             $row = mysqli_fetch_array($result);
-            if ($row['registro'] == "0") {
-                $Res->NoSucces("Usuario o contraseña incorrecta");
-            } else {
+            if (/*($nr == 1) &&*/(password_verify($this->contrasena, $row['contrasena'])) ) {
                 $Res->Succes("");
+            } else {
+               
+                $Res->NoSucces("Usuario o contraseña incorrecta");
             }
         }
         return $Res;
     }
+
+
 
     public function registro($conexion) {
         $Res = new Respuesta();
@@ -62,4 +67,17 @@ class Usuario
         }
         return $Res;
     }
+    //Editar
+
+
+
+    //Buscar
+
+    
+
+    //Eliminar
+
+
+
+
 }

@@ -45,6 +45,7 @@ function iniciarSesion(){
       'contrasena': contrasena
     },
       function(data){
+        //alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           window.location="dashboard.php";
