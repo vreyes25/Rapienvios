@@ -35,28 +35,28 @@
   <script type="text/javascript">
 
 function iniciarSesion(){
-  var idusuario = document.getElementById("username").value;
-  var idpass = document.getElementById("password").value;
+  var usuario = document.getElementById("username").value;
+  var contrasena = document.getElementById("password").value;
 
   $.post(
     "webservice/login.php",
     {
-      'usuario': idusuario,
-      'contra': idpass
+      'usuario': usuario,
+      'contrasena': contrasena
     },
       function(data){
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           window.location="dashboard.php";
-        } else{
-            Swal.fire({
-              position: 'center',
-              icon: 'warning',
-              title: $Resp.Data,
-              showConfirmButton: false,
-              timer: 1800
-            })
-          }
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: $Resp.Data,
+            showConfirmButton: false,
+            timer: 1800
+          })
+        }
       }
     );
   }
