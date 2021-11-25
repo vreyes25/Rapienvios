@@ -11,6 +11,7 @@
     />
     <link rel="stylesheet" href="css/dashboard.css" />
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/jquery.min.js"></script>
     <title>Rapienvios | Dashboard</title>
   </head>
   <body>
@@ -69,13 +70,13 @@
             <span class="close" id="close">&times;</span>
           </div>
           <div class="modal-body">
-            <form action="dashboard.html" method="post" class="nuevoCliente">
+            <form action="" method="post" class="nuevoCliente">
               <div class="form">
                 <input type="text" placeholder="ID Cliente" disabled/>
-                <input type="text" placeholder="Ingrese el nombre" />
-                <input type="text" placeholder="Ingrese el teléfono" />
-                <input type="text" placeholder="Ingrese la dirección" />
-                <button type="button" class="guardarCliente">Guardar</button>
+                <input type="text" placeholder="Ingrese el nombre"  id="nombreCliente"/>
+                <input type="text" placeholder="Ingrese el teléfono" id="telefono" />
+                <input type="text" placeholder="Ingrese la dirección" id="direccion"/>
+                <button type="button" onclick="registrarCliente()" class="guardarCliente">Guardar</button>
               </div>
               <div class="imagen">
                 <img src="img/nuevoCliente.svg" alt="ilustracion" />
@@ -91,7 +92,7 @@
 </html>
 
 <script type="text/javascript">
-  (function(){
+  /*(function(){
     Swal.fire({
       position: 'center',
       icon: 'success',
@@ -99,5 +100,36 @@
       showConfirmButton: false,
       timer: 1500
     })
-  })();
+  })();*/
+
+
+  function registrarCliente(){
+    var nombreCliente = document.getElementById("nombreCliente").value;
+    var telefono = document.getElementById("telefono").value;
+    var  direccion = document.getElementById("direccion").value;
+
+    
+    //alert(nombreCliente+" "+telefono);
+    $.post(
+    "webservice/RegistrarCliente.php",
+    {
+      'nombre': nombreCliente,
+      'telefono': telefono,
+      'direccion':direccion
+    },
+      function(data){
+        //alert(data);
+        $Resp = JSON.parse(data);
+        if($Resp.Ok==1){
+          window.location="dashboard.php";
+        } else {
+          alert("ERROR");
+        }
+      }
+    );
+    
+
+  }
+
+  
 </script>

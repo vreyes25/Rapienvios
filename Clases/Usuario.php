@@ -34,7 +34,7 @@ class Usuario
             $nr  = mysqli_num_rows($result);
 
             $row = mysqli_fetch_array($result);
-            if (/*($nr == 1) &&*/(password_verify($this->contrasena, $row['contrasena'])) ) {
+            if (($nr == 1) &&(password_verify($this->contrasena, $row['contrasena'])) ) {
                 $Res->Succes("");
             } else {
                
