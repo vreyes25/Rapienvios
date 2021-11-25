@@ -3,7 +3,7 @@
 :root {
   --main-color: #a71d31;
   --secondary-color: #fff;
-  --third-color: #B0B0B0;
+  --third-color: #b0b0b0;
 }
 
 * {
@@ -12,13 +12,13 @@
   box-sizing: border-box;
 }
 
-body{
-    font-family: 'Poppins', sans-serif;
-    display: flex;
+body {
+  font-family: "Poppins", sans-serif;
+  display: flex;
 }
 
 .side-panel {
-  width: 19%;
+  width: 40vh;
   background: var(--main-color);
   height: 100vh;
 }
@@ -66,64 +66,68 @@ li {
   cursor: pointer;
 }
 
-.active, li:hover {
+.active,
+li:hover {
   background: rgb(193, 39, 61);
   border-radius: 15px;
 }
 
-.logout{
-    margin-top: 245px;
+.logout {
+  position: absolute;
+  bottom: 5px;
+  padding-right: 13vh;
 }
 
-.searchButton, h3{
-    color: var(--third-color);
-    cursor: pointer;
+.searchButton,
+h3 {
+  color: var(--third-color);
+  cursor: pointer;
 }
 
-h3{
-    font-size: 16px;
+h3 {
+  font-size: 16px;
 }
 
-strong{
-    color: var(--main-color);
+strong {
+  color: var(--main-color);
 }
 
-#search{
-    border-radius: 50px;
-    width: 350px;
-    height: 35px;
-    border: solid 2px var(--third-color);
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    padding: 20px;
+#search {
+  border-radius: 50px;
+  width: 350px;
+  height: 35px;
+  border: solid 2px var(--third-color);
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 20px;
 }
 
-.content-data{
-    width: 81%;
+.content-data {
+  width: 81%;
 }
 
-.searchBar{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.searchBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.up-content{
-    display: flex;
-    height: 8%;
-    align-items: center;
-    justify-content: space-between;
-    margin: 20px 50px;
+.up-content {
+  display: flex;
+  height: 5%;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 50px;
 }
 
-.data{
-    display: flex;
-    height: 92%;
-    align-items: center;
-    justify-content: center;
+.data {
+  display: flex;
+  height: 88%;
+  align-items: center;
+  justify-content: center;
 }
 
-h2{
-    color: var(--third-color);
+h2 {
+  color: var(--third-color);
 }
