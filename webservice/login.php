@@ -2,10 +2,8 @@
 if(isset($_POST)){
     include("../php/conexion.php");
     include("../Clases/Usuario.php");
-    $correo=@$_POST["usuario"];
-    $contrasena=@$_POST["contra"]; 
-    $usu= new Usuario();
-    $temporal = $usu->login($conexion,$correo,$contrasena); 
-    echo json_encode($usu->login($conexion,$correo,$contrasena)); 
+    $usuario = new Usuario();
+    $usuario->ConstructorLogin(@$_POST['usuario'], @$_POST['contrasena']); 
+    echo json_encode($usuario->login($conexion)); 
 }
 ?>
