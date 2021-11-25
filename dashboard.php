@@ -10,6 +10,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/dashboard.css" />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Rapienvios | Dashboard</title>
   </head>
   <body>
@@ -35,7 +36,7 @@
         </li>
         <li class="logout">
           <i class="ri-logout-box-r-line side-icons"></i>
-          <a href="#">Cerrar Sesión</a>
+          <a href="index.php">Cerrar Sesión</a>
         </li>
       </ul>
     </div>
@@ -53,5 +54,17 @@
             <h3>Tablas dinámicas aparecerán aquí</h3>
         </div>
     </div>
+
+    <script type="text/javascript">
+      (function(){
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Bienvenido',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      })();
+    </script>
   </body>
 </html>

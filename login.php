@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/login.css" />
     <link rel="shortcut icon" href="img/RLogo.png" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/jquery.min.js"></script>
     <title>Rapienvios - Inicia sesión o registrate</title>
   </head>
@@ -38,7 +39,7 @@ function iniciarSesion(){
   var idpass = document.getElementById("password").value;
 
   $.post(
-    "WS/login.php",
+    "webservice/login.php",
     {
       'usuario': idusuario,
       'contra': idpass
@@ -46,10 +47,15 @@ function iniciarSesion(){
       function(data){
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
-        alert("Ingresado correctamente");
-        window.location="dashboard.php";
+          window.location="dashboard.php";
         } else{
-            alert($Resp.Data);
+            Swal.fire({
+              position: 'center',
+              icon: 'warning',
+              title: $Resp.Data,
+              showConfirmButton: false,
+              timer: 1800
+            })
           }
       }
     );
