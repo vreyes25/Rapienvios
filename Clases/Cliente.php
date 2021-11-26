@@ -1,49 +1,40 @@
 <?php
 include "Respuesta.php";
-Class Cliente{
+
+class Cliente {
     public $idCliente;
     public $nombre;
     public $telefono;
     public $direccion;
     public $estado;
 
+    public function _construct() {}
 
-    public function _construct(){
-
-    }
-
-    public function constructorSobrecargado($nombre,$telefono,$direccion){
-        
+    public function constructorSobrecargado($nombre, $telefono, $direccion) {
         $this->nombre = $nombre;
         $this->telefono = $telefono;
         $this->direccion = $direccion;
-        
     }
 
-    public function registrarCliente($conexion){
+    public function registrarCliente($conexion) {
         $Res = new Respuesta();
-        if (trim($this->nombre)=="" || trim($this->telefono)=="" || trim($this->direccion)==""){
-        $Res->NoSucces("No puede haber campos en blanco");
-            }else{
-                mysqli_query($conexion,
+        if (trim($this->nombre) == "") {
+            $Res->NoSucces("Debes ingresar el nombre");
+        } else if (trim($this->telefono) == "") {
+            $Res->NoSucces("Debes ingresar el teléfono");
+        } else if (trim($this->direccion) == "") {
+            $Res->NoSucces("Debes ingresar la dirección");
+        } else {
+            mysqli_query($conexion,
                 "INSERT into cliente(nombre,telefono,direccion,estado)
                  values('$this->nombre','$this->telefono','$this->direccion',true)"
-        );
-        if (mysqli_error($conexion)){
-            $Res->NoSucces("Error al Insertar: " . $conexion->error);
-        }else{
-            $Res->Succes("Se Inserto Correctamente el Cliente: ".$this->nombre );
+            );
+            if (mysqli_error($conexion)) {
+                $Res->NoSucces("No se pudo guardar el cliente " . $conexion->error);
+            } else {
+                $Res->Succes("El cliente fue registrado correctamente");
             }
         }
-    return $Res;
-
+        return $Res;
     }
-
-
 }
-
-
-
-
-
-?>

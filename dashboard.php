@@ -102,6 +102,11 @@
     })
   })();
 
+  function limpiar() {
+    var nombreCliente = document.getElementById("nombreCliente").value = "";
+    var telefono = document.getElementById("telefono").value = "";
+    var  direccion = document.getElementById("direccion").value = "";
+  }
 
   function registrarCliente(){
     var nombreCliente = document.getElementById("nombreCliente").value;
@@ -128,6 +133,7 @@
             showConfirmButton: false,
             timer: 1800
           })
+          limpiar();
           //sleep(4);
           //window.location="dashboard.php";
         } else {
@@ -141,8 +147,6 @@
         }
       }
     );
-    
-
   }
 
   
