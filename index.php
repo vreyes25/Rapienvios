@@ -1,31 +1,37 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/index.css" />
+    <title>Rapienvios | Bienvenidos</title>
     <link rel="shortcut icon" href="img/RLogo.png" />
-    <title>Rapienvios | Bienvenido</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
   </head>
   <body>
-    <header>
-      <nav class="nav-bar">
-        <img src="img/RLogo.png" alt="logo" id="logo" />
-        <a href="login.php" class="startButton">Iniciar Sesión</a>
-      </nav>
-    </header>
-    <section class="content-data">
-      <div class="information">
-        <h1>RAPIENVIOS</h1>
-        <p>
-          Somos la empresa lider en envios y distribución de paquetería a nivel
-          nacional. Nuestros precios son los mejores del mercado y nuestro
-          objetivo es que todos nuestros clientes queden satisfechos con nuestros
-          servicios.
-        </p>
+    <div class="container">
+        <img src="img/Logo2.png" alt="logo" class="logo">
+
+      <div class="buttons">
+        <a class="card1" href="#">
+            <i class="ri-settings-3-fill admin-icon"></i>
+            <p class="small">
+              Ingresar como administrador
+            </p>
+            <div class="go-corner" href="#">
+              <div class="go-arrow"><i class="ri-arrow-right-line"></i></div>
+            </div>
+          </a>
+    
+          <a class="card1" href="login.php">
+            <i class="ri-user-fill admin-icon"></i>
+            <p class="small">
+              Ingresar como cliente
+            </p>
+            <div class="go-corner" href="#">
+              <div class="go-arrow"><i class="ri-arrow-right-line"></i></div>
+            </div>
+          </a>
       </div>
-      <img id="cover" src="img/Ilustracion.png" alt="cover">
-    </section>
   </body>
 </html>
