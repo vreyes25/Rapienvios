@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/loginAdmin.css" />
     <link rel="shortcut icon" href="img/RLogo.png" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -18,16 +18,14 @@
       </nav>
     </header>
     <section class="content-data">
-      <img id="cover" src="img/Ilustracion2.png" alt="cover">
+      <img id="cover" src="img/IlustracionAdmin.png" alt="cover">
       <form action="" method="post">
-          <h2>BIENVENIDO</h2>
+          <h2>BIENVENIDO AL SISTEMA</h2>
           <i class="ri-user-line icons user"></i>
           <input type="text" name="username" id="username" placeholder="Ingrese su usuario">
           <i class="ri-lock-2-line icons password"></i>
           <input type="password" name="password" id="password" placeholder="Ingrese su contraseña">
-          <a class="forgot" href="forgotPassword.php">¿Olvidaste tu contraseña?</a>
           <button type="button" onclick="iniciarSesion()" class="startSession" >Iniciar Sesión</button>
-          <p>¿No tienes una cuenta? <a href="registration.php">Registrate</a></p>
       </form>
     </section>
   </body>
