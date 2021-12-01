@@ -60,6 +60,7 @@
             showConfirmButton: false,
             timer: 1800
           })
+          window.location="dashboard.php";
         } else if (data.Ok == "0") {
           Swal.fire({
               position: 'center',

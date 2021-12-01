@@ -13,7 +13,7 @@
         <img src="img/Logo2.png" alt="logo" class="logo">
 
       <div class="buttons">
-        <a class="card1" href="#">
+        <a class="card1" href="loginAdmin.php">
             <i class="ri-settings-3-fill admin-icon"></i>
             <p class="small">
               Ingresar como administrador
