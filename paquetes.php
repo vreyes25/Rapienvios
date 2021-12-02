@@ -83,9 +83,11 @@
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
                 <input type="text" placeholder="ID Paquete" disabled/>
+
                 <input type="text" placeholder="Ingrese la descripcion"  id="descripcion"/>
                 <input type="text" placeholder="Ingrese el peso" id="peso" />
                 <select name="idCasillero" id="idCasillero"></select>
+
                 <button type="button" onclick="registrarPaquete()" class="guardarCliente">Guardar</button>
               </div>
               <div class="imagen">
@@ -108,10 +110,12 @@
           <div class="modal-body">
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
+
                 <input type="text" placeholder="ID Paquete" id="idPaqueteEditar" disabled/>
                 <input type="text" placeholder="Ingrese la descripción"  id="descripciónEditar"/>
                 <input type="text" placeholder="Ingrese el peso" id="pesoEditar" />
                 <select name="idCasilleroEditar" id="idCasilleroEditar"></select>
+
                 <button type="button" onclick="editarPaquete()" class="guardarCliente">Actualizar</button>
               </div>
               <div class="imagen">
@@ -128,12 +132,58 @@
 </html>
 
 <script type="text/javascript">
+
   
   (function(){
     totalPaquetes();
     obtenerPaquetes();
     obtenerCasilleros();
   })();
+
+
+function registrarPaquete(){
+  var descripcion = document.getElementById("descripcion").value;
+  var peso = document.getElementById("peso").value;
+  var casillero = document.getElementById("casillero").value;
+
+  $.post(
+    "webservice/agregarPaquete.php",
+    {
+      'descripcion': descripcion,
+      'peso': peso,
+      'casillero':casillero
+    },
+      function(data){
+        alert(data);
+        $Resp = JSON.parse(data);
+        if($Resp.Ok==1){
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: $Resp.Data,
+            showConfirmButton: false,
+            timer: 1800
+          })
+          //limpiar();
+          //totalClientes();
+          //tablaClientes.innerHTML = "";
+          //obtenerClientes();
+          // window.location="dashboard.php";
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: $Resp.Data,
+            showConfirmButton: false,
+            timer: 1800
+          })
+        }
+      }
+    );
+
+}
+
+
 
   function totalPaquetes() {
     let totalPaquetes = document.getElementById('total');
