@@ -251,10 +251,10 @@ p{
   margin-right: 20px;
 }
 
-.nuevoCliente .form input{
+.nuevoCliente .form input, select{
   border-radius: 10px;
   font-size: 14px;
-  padding: 10px;
+  padding: 5px 10px;
   border: solid var(--third-color) 1px;
   font-family: "Poppins", sans-serif;
 }
@@ -290,12 +290,12 @@ p{
   justify-content: center;
 }
 
-table {
+.tablaClientes, .tablaPaquetes, .tablaEmpleados {
   border-collapse: collapse;
   width: 93%;
 }
 
-table th {
+.tablaClientes th, .tablaPaquetes th, .tablaEmpleados th {
   text-align: center;
   border: solid var(--third-color) 1px;
   padding: 5px;
@@ -303,7 +303,7 @@ table th {
   background-color: var(--main-color);
 }
 
-table td {
+.tablaClientes td, .tablaPaquetes td, .tablaEmpleados td {
   border: solid var(--third-color) 1px;
   text-align: center;
   padding: 2px;
@@ -326,4 +326,8 @@ table td {
 .btnEdit:hover, .btnDelete:hover {
   background: var(--main-color);
   color: var(--secondary-color);
+}
+
+select {
+  width: 100%;
 }
