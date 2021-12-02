@@ -83,13 +83,15 @@
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
                 <input type="text" placeholder="ID Paquete" disabled/>
-                <input type="text" placeholder="Ingrese la descripción"  id="descripcion"/>
-                <input type="number" placeholder="Ingrese el peso" id="peso" />
-                <input type="text" placeholder="Ingrese el casillero" id="casillero"/>
+
+                <input type="text" placeholder="Ingrese la descripcion"  id="descripcion"/>
+                <input type="text" placeholder="Ingrese el peso" id="peso" />
+                <select name="idCasillero" id="idCasillero"></select>
+
                 <button type="button" onclick="registrarPaquete()" class="guardarCliente">Guardar</button>
               </div>
               <div class="imagen">
-                <img src="img/nuevoCliente.svg" alt="ilustracion" />
+                <img src="img/nuevoPaquete.svg" alt="ilustracion" />
               </div>
             </form>
           </div>
@@ -102,20 +104,22 @@
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Editar Cliente</h2>
+            <h2>Editar Paquete</h2>
             <span class="close" id="close2">&times;</span>
           </div>
           <div class="modal-body">
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
-                <input type="text" placeholder="ID Cliente" id="idClienteEditar" disabled/>
-                <input type="text" placeholder="Ingrese el nombre"  id="nombreClienteEditar"/>
-                <input type="text" placeholder="Ingrese el teléfono" id="telefonoEditar" />
-                <input type="text" placeholder="Ingrese la dirección" id="direccionEditar"/>
+
+                <input type="text" placeholder="ID Paquete" id="idPaqueteEditar" disabled/>
+                <input type="text" placeholder="Ingrese la descripción"  id="descripciónEditar"/>
+                <input type="text" placeholder="Ingrese el peso" id="pesoEditar" />
+                <select name="idCasilleroEditar" id="idCasilleroEditar"></select>
+
                 <button type="button" onclick="editarPaquete()" class="guardarCliente">Actualizar</button>
               </div>
               <div class="imagen">
-                <img src="img/nuevoCliente.svg" alt="ilustracion" />
+                <img src="img/nuevoPaquete.svg" alt="ilustracion" />
               </div>
             </form>
           </div>
@@ -128,6 +132,14 @@
 </html>
 
 <script type="text/javascript">
+
+  
+  (function(){
+    totalPaquetes();
+    obtenerPaquetes();
+    obtenerCasilleros();
+  })();
+
 
 function registrarPaquete(){
   var descripcion = document.getElementById("descripcion").value;
@@ -171,5 +183,80 @@ function registrarPaquete(){
 
 }
 
+
+
+  function totalPaquetes() {
+    let totalPaquetes = document.getElementById('total');
+
+    $.post(
+      "webservice/totalPaquetes.php",
+      {},
+      function(Data) {
+        let total = JSON.parse(Data);
+        totalPaquetes.innerHTML = total['totalPaquetes'];
+      }
+    );
+  }
+
+  function mostrarEditar() {
+    let modal2 = document.getElementById('miModal2');
+    let flex2 = document.getElementById('flex2');
+    let abrir2 = document.getElementById('editarPaquete');
+    let cerrar2 = document.getElementById('close2');
+
+    modal2.style.display = 'block';
+
+    cerrar2.addEventListener('click', function(){
+        modal2.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(e){
+        console.log(e.target);
+        if(e.target == flex2){
+            modal.style.display = 'none';
+        }
+    });
+  }
+
+  function obtenerPaquetes() {
+    let tablaPaquetes = document.getElementById('tablaPaquetes');
+
+    $.post(
+      "webservice/mostrarPaquetes.php",
+      {},
+      function(Data) {
+        let paquetes = JSON.parse(Data);
+        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>ID Casillero</th><th>Acciones</th></tr>";
+        for(i in paquetes) {
+          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td>"+ paquetes[i].idCasillero +"</td><td><button id='editarPaquete' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Editar</button><button class='btnDelete' id='eliminarPaquete' onclick='obtenerIdEliminar(this);' value="+ paquetes[i].idPaquete +">Eliminar</button></td></tr>";
+          tablaPaquetes.innerHTML = html;
+        }
+      }
+    );
+  }
+
+  function obtenerCasilleros() {
+    let idCasillero = document.getElementById('idCasillero');
+    let idCasilleroEditar = document.getElementById('idCasilleroEditar');
+
+    $.post(
+      "webservice/mostrarCasilleros.php",
+      {},
+      function(Data) {
+        let casilleros = JSON.parse(Data);
+        html = "<option value='0'>Seleccione Casillero...</option>";
+        for(i in casilleros) {
+          html += "<option value="+ casilleros[i].idCasillero +">"+ casilleros[i].idCasillero +"</option>";
+          idCasillero.innerHTML = html;
+          idCasilleroEditar.innerHTML = html;
+        }
+      }
+    );
+  }
+
+  function obtenerId(elemento) {
+    let idPaquete = document.getElementById('idPaqueteEditar').value = elemento.value;
+    // buscarEmpleado(elemento.value);
+  }
 
 </script>
