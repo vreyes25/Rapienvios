@@ -54,7 +54,9 @@ class Paquete{
 
     public function editarPaquete($conexion)
     {
-        $consulta = "UPDATE paquete SET descripcion = '$this->Descripcion', peso = '$this->peso',
+        
+
+        $consulta = "UPDATE paquete SET descripcion = '$this->Descripcion', peso = '$this->Peso',
         idCasillero = '$this->IdCasillero' WHERE idPaquete = '$this->IdInventario'";
         $Respuesta = new Respuesta();
 
@@ -67,10 +69,10 @@ class Paquete{
         }
     }
 
-    public function eliminarPaquete($conexion)
+    public function eliminarPaquete($conexion, $idPaquete)
     {
         $Respuesta = new Respuesta();
-        $consulta = "DELETE FROM paquete WHERE idPaquete = '$this->IdPaquete'";
+        $consulta = "DELETE FROM paquete WHERE idPaquete = '$idPaquete'";
 
         if (mysqli_query($conexion, $consulta)) {
             $Respuesta->Succes("El Paquete se ha eliminado correctamente");

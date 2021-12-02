@@ -127,7 +127,7 @@
   })();
 
   function limpiar() {
-    var idCliente = document.getElementById("idCliente").value = "";
+    //var idCliente = document.getElementById("idCliente").value = "";
     var nombreCliente = document.getElementById("nombreCliente").value = "";
     var telefono = document.getElementById("telefono").value = "";
     var  direccion = document.getElementById("direccion").value = "";

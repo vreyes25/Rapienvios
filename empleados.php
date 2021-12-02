@@ -131,13 +131,13 @@
   })();
 
   function limpiar() {
-    var idCliente = document.getElementById("idCliente").value = "";
-    var nombreCliente = document.getElementById("nombreCliente").value = "";
-    var telefono = document.getElementById("telefono").value = "";
+    var idCliente = document.getElementById("idJornadaEditar").value = "";
+    var nombreCliente = document.getElementById("nombre").value = "";
+    var telefono = document.getElementById("idJornada").value = "";
     var  direccion = document.getElementById("direccion").value = "";
-    var idClienteEditar = document.getElementById("idClienteEditar").value = "";
-    var nombreClienteEditar = document.getElementById("nombreClienteEditar").value = "";
-    var telefonoEditar = document.getElementById("telefonoEditar").value = "";
+    var idClienteEditar = document.getElementById("idEmpleadoEditar").value = "";
+    //var nombreClienteEditar = document.getElementById("nombreClienteEditar").value = "";
+    var telefonoEditar = document.getElementById("idCargoEditar").value = "";
     var direccionEditar = document.getElementById("direccionEditar").value = "";
   }
 
