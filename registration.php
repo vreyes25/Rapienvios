@@ -14,7 +14,7 @@
   <body>
     <header>
       <nav class="nav-bar">
-        <a href="index.php"><img src="img/Logo2.png" alt="logo" id="logo" /></a>
+        <a href="login.php"><img src="img/Logo2.png" alt="logo" id="logo" /></a>
       </nav>
     </header>
     <section class="content-data">
