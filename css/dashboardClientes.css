@@ -118,7 +118,7 @@ strong {
   height: 5%;
   align-items: center;
   justify-content: space-between;
-  margin: 20px 40px 10px;
+  margin: 20px 50px;
 }
 
 .data .up-content{
@@ -144,11 +144,6 @@ strong {
   cursor: pointer;
   margin-bottom: 20px;
   transition: all 0.2s;
-}
-
-#nuevoCliente {
-  width: 120px;
-  height: 40px;
 }
 
 .startSession:hover{
@@ -283,47 +278,4 @@ p{
 
 .guardarCliente:hover{
   transform: scale(1.04);
-}
-
-.content-tables {
-  display: flex;
-  justify-content: center;
-}
-
-table {
-  border-collapse: collapse;
-  width: 93%;
-}
-
-table th {
-  text-align: center;
-  border: solid var(--third-color) 1px;
-  padding: 5px;
-  color: var(--secondary-color);
-  background-color: var(--main-color);
-}
-
-table td {
-  border: solid var(--third-color) 1px;
-  text-align: center;
-  padding: 2px;
-}
-
-.btnEdit, .btnDelete {
-  color: black;
-  cursor: pointer;
-  padding: 8px 20px;
-  border-radius: 5px;
-  font-weight: 500;
-  border: solid var(--main-color) 1px;
-  background: none;
-  color: var(--main-color);
-  transition: all .2s;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.btnEdit:hover, .btnDelete:hover {
-  background: var(--main-color);
-  color: var(--secondary-color);
 }

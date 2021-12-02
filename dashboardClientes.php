@@ -53,15 +53,12 @@
       </div>
       <div class="data">
         <div class="up-content">
-          <h3>Total de clientes: <strong id="total"></strong></h3>
+          <h3>Total de clientes: <strong>50</strong></h3>
           <button type="button" id="nuevoCliente" class="startSession">
             Nuevo
           </button>
         </div>
-        <div class="content-tables">
-          <table class="tablaClientes" id="tablaClientes">
-          </table>
-        </div>
+        <div class="content-tables"></div>
       </div>
     </div>
     <div id="miModal" class="modal">
@@ -103,8 +100,6 @@
       showConfirmButton: false,
       timer: 1500
     })
-    obtenerClientes();
-    totalClientes();
   })();
 
   function limpiar() {
@@ -118,6 +113,8 @@
     var telefono = document.getElementById("telefono").value;
     var  direccion = document.getElementById("direccion").value;
 
+    
+    //alert(nombreCliente+" "+telefono);
     $.post(
     "webservice/RegistrarCliente.php",
     {
@@ -152,34 +149,5 @@
     );
   }
 
-  function obtenerClientes() {
-    let tablaClientes = document.getElementById('tablaClientes');
-
-    $.post(
-      "webservice/mostrarClientes.php",
-      {},
-      function(Data) {
-        let clientes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Estado</th><th>Acciones</th></tr>";
-        for(i in clientes) {
-          html += "<tr><td>"+ clientes[i].idCliente +"</td><td>"+ clientes[i].nombre +"</td><td>"+ clientes[i].telefono +"</td><td>"+ clientes[i].direccion +"</td><td>"+ clientes[i].idEstado +"</td><td><td><button class='btnEdit'>Editar</button> <button class='btnDelete'>Eliminar</button></td></td></tr>";
-          tablaClientes.innerHTML = html;
-        }
-      }
-    );
-  }
-
-  function totalClientes() {
-    let totalClientes = document.getElementById('total');
-
-    $.post(
-      "webservice/totalClientes.php",
-      {},
-      function(Data) {
-        let total = JSON.parse(Data);
-        totalClientes.innerHTML = total['totalClientes'];
-      }
-    );
-  }
   
 </script>

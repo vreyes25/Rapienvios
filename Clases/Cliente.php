@@ -6,7 +6,8 @@ class Cliente {
     public $nombre;
     public $telefono;
     public $direccion;
-    public $estado;
+    public $idEstado;
+    public $total;
 
     public function _construct() {}
 
@@ -14,6 +15,18 @@ class Cliente {
         $this->nombre = $nombre;
         $this->telefono = $telefono;
         $this->direccion = $direccion;
+    }
+
+    public function constructorReporte($idCliente, $nombre, $telefono, $direccion, $idEstado) {
+        $this->idCliente = $idCliente;
+        $this->nombre = $nombre;
+        $this->telefono = $telefono;
+        $this->direccion = $direccion;
+        $this->idEstado = $idEstado;
+    }
+
+    public function constructorTotal($total) {
+        $this->total = $total;
     }
 
     public function registrarCliente($conexion) {
@@ -36,5 +49,26 @@ class Cliente {
             }
         }
         return $Res;
+    }
+
+    public function obtenerClientes($conexion) {
+        $consulta = "SELECT C.idCliente, C.nombre, C.telefono, C.direccion, E.estado
+        FROM cliente AS C
+        INNER JOIN estados AS E ON C.idEstado = E.idEstado";
+        $resultado = mysqli_query($conexion, $consulta);
+        $lista = array();
+        while ($fila = mysqli_fetch_array($resultado)) {
+            $Clientes = new Cliente();
+            $Clientes->constructorReporte($fila['idCliente'], $fila['nombre'], $fila['telefono'], $fila['direccion'], $fila['estado']);
+            $lista[] = $Clientes;
+        }
+        return $lista;
+    }
+
+    public function totalClientes($conexion) {
+        $consulta = "SELECT COUNT(*) AS totalClientes FROM cliente";
+        $resultado = mysqli_query($conexion, $consulta);
+        $total = mysqli_fetch_assoc($resultado);
+        return $total;
     }
 }
