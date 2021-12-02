@@ -1,18 +1,19 @@
 <?php
 include "Respuesta.php";
-class Paquete{
+class HistorialPrecioCasillero{
 //Codigo de Roger
-    public $IdInventario;
+    public $idHistorial;
     //public $FechaLlegada;
-    public $Descripcion;
-    public $Peso;
-    public $IdCasillero;
+    public $idCasillero;
+    public $fechaInicio;
+    public $fechaFinal;
+    public $precio;
 
     function __construct() {
 
     }
 
-    function constructorPaquete ($idInventario, /*$fechaLlegada,*/ $Descripcion, $peso, $idCasillero){
+    function constructorPaquete ($idHistorial, $idCasillero, $fechaInicio, $fechaFinal, $precio){
         $this->IdInventario = $idInventario;
         //$this->FechaLlegada = $fechaLlegada;
         $this->Descripcion = $Descripcion;

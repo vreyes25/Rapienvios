@@ -186,7 +186,7 @@
       "webservice/mostrarClientes.php",
       {},
       function(Data) {
-        alert(Data);
+        //alert(Data);
         let clientes = JSON.parse(Data);
         html = "<tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Estado</th><th>Acciones</th></tr>";
         for(i in clientes) {
