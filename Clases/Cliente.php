@@ -19,12 +19,6 @@ class Cliente
         $this->telefono = $telefono;
         $this->direccion = $direccion;
     }
-    public function constructorSobrecargadoListar($idCliente,$nombre, $telefono, $direccion) {
-        $this->idCliente = $idCliente;
-        $this->nombre = $nombre;
-        $this->telefono = $telefono;
-        $this->direccion = $direccion;
-    }
 
     public function constructorEditar($idCliente, $nombre, $telefono, $direccion)
     {

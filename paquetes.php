@@ -54,7 +54,7 @@
       <div class="data">
         <div class="up-content">
           <h3>Total de paquetes: <strong id="total"></strong></h3>
-          <button type="button" id="nuevoPaquete" class="startSession">
+          <button type="button" id="nuevoCliente" class="startSession">
             Nuevo
           </button>
         </div>
@@ -76,17 +76,17 @@
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Nuevo Cliente</h2>
+            <h2>Nuevo Paquete</h2>
             <span class="close" id="close">&times;</span>
           </div>
           <div class="modal-body">
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
-                <input type="text" placeholder="ID Cliente" disabled/>
-                <input type="text" placeholder="Ingrese el nombre"  id="nombreCliente"/>
-                <input type="text" placeholder="Ingrese el teléfono" id="telefono" />
-                <input type="text" placeholder="Ingrese la dirección" id="direccion"/>
-                <button type="button" onclick="registrarCliente()" class="guardarCliente">Guardar</button>
+                <input type="text" placeholder="ID Paquete" disabled/>
+                <input type="text" placeholder="Ingrese la descripción"  id="descripcion"/>
+                <input type="number" placeholder="Ingrese el peso" id="peso" />
+                <input type="text" placeholder="Ingrese el casillero" id="casillero"/>
+                <button type="button" onclick="registrarPaquete()" class="guardarCliente">Guardar</button>
               </div>
               <div class="imagen">
                 <img src="img/nuevoCliente.svg" alt="ilustracion" />
@@ -112,7 +112,7 @@
                 <input type="text" placeholder="Ingrese el nombre"  id="nombreClienteEditar"/>
                 <input type="text" placeholder="Ingrese el teléfono" id="telefonoEditar" />
                 <input type="text" placeholder="Ingrese la dirección" id="direccionEditar"/>
-                <button type="button" onclick="editarCliente()" class="guardarCliente">Actualizar</button>
+                <button type="button" onclick="editarPaquete()" class="guardarCliente">Actualizar</button>
               </div>
               <div class="imagen">
                 <img src="img/nuevoCliente.svg" alt="ilustracion" />
@@ -128,6 +128,48 @@
 </html>
 
 <script type="text/javascript">
-  
+
+function registrarPaquete(){
+  var descripcion = document.getElementById("descripcion").value;
+  var peso = document.getElementById("peso").value;
+  var casillero = document.getElementById("casillero").value;
+
+  $.post(
+    "webservice/agregarPaquete.php",
+    {
+      'descripcion': descripcion,
+      'peso': peso,
+      'casillero':casillero
+    },
+      function(data){
+        alert(data);
+        $Resp = JSON.parse(data);
+        if($Resp.Ok==1){
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: $Resp.Data,
+            showConfirmButton: false,
+            timer: 1800
+          })
+          //limpiar();
+          //totalClientes();
+          //tablaClientes.innerHTML = "";
+          //obtenerClientes();
+          // window.location="dashboard.php";
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: $Resp.Data,
+            showConfirmButton: false,
+            timer: 1800
+          })
+        }
+      }
+    );
+
+}
+
 
 </script>
