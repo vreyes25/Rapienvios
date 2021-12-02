@@ -15,6 +15,12 @@ class Cliente {
         $this->telefono = $telefono;
         $this->direccion = $direccion;
     }
+    public function constructorSobrecargadoListar($idCliente,$nombre, $telefono, $direccion) {
+        $this->idCliente = $idCliente;
+        $this->nombre = $nombre;
+        $this->telefono = $telefono;
+        $this->direccion = $direccion;
+    }
 
     public function registrarCliente($conexion) {
         $Res = new Respuesta();
@@ -37,4 +43,23 @@ class Cliente {
         }
         return $Res;
     }
+
+    public function listarCliente($conexion){
+
+        $query = "SELECT idCliente, nombre, telefono, direccion, estado from cliente";
+        $result = mysqli_query($conexion, $query);
+        $lista = array();
+            while ($row = mysqli_fetch_array($result))
+      {
+        $Categoria = new Cliente();
+        $Categoria->constructorSobrecargadoListar($row['idCliente'],$row['nombre'],$row['direccion'],$row['estado']);
+        $lista[]=$Categoria;
+    
+      }
+      return $lista;
+  
+  
+
+    }
+
 }
