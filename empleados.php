@@ -19,9 +19,9 @@
       <img src="img/Logo.png" alt="logo" id="logo" />
       <div class="decoration-line"></div>
       <ul class="dashboard-elements">
-        <li class="active">
+        <li>
           <i class="ri-folder-user-fill side-icons"></i>
-          <a href="#">Clientes</a>
+          <a href="dashboard.php">Clientes</a>
         </li>
         <li>
           <i class="ri-dropbox-fill side-icons"></i>
@@ -31,9 +31,9 @@
           <i class="ri-price-tag-3-fill side-icons"></i>
           <a href="precios.php">Precios</a>
         </li>
-        <li>
+        <li class="active">
           <i class="ri-user-fill side-icons"></i>
-          <a href="empleados.php">Empleados</a>
+          <a href="#">Empleados</a>
         </li>
         <li class="logout">
           <i class="ri-logout-box-r-line side-icons"></i>
@@ -53,13 +53,13 @@
       </div>
       <div class="data">
         <div class="up-content">
-          <h3>Total de clientes: <strong id="total"></strong></h3>
+          <h3>Total de empleados: <strong id="total"></strong></h3>
           <button type="button" id="nuevoCliente" class="startSession">
             Nuevo
           </button>
         </div>
         <div class="content-tables">
-          <table class="tablaClientes" id="tablaClientes">
+          <table class="tablaEmpleados" id="tablaEmpleados">
           </table>
         </div>
       </div>
@@ -69,20 +69,21 @@
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Nuevo Cliente</h2>
+            <h2>Nuevo Empleado</h2>
             <span class="close" id="close">&times;</span>
           </div>
           <div class="modal-body">
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
-                <input type="text" placeholder="ID Cliente" disabled/>
-                <input type="text" placeholder="Ingrese el nombre"  id="nombreCliente"/>
-                <input type="text" placeholder="Ingrese el teléfono" id="telefono" />
+                <input type="text" placeholder="ID Empleado" disabled/>
+                <input type="text" placeholder="Ingrese el nombre"  id="nombre"/>
                 <input type="text" placeholder="Ingrese la dirección" id="direccion"/>
-                <button type="button" onclick="registrarCliente()" class="guardarCliente">Guardar</button>
+                <select name="idJornada" id="idJornada"></select>
+                <select name="idCargo" id="idCargo"></select>
+                <button type="button" onclick="registrarEmpleados()" class="guardarCliente">Guardar</button>
               </div>
               <div class="imagen">
-                <img src="img/nuevoCliente.svg" alt="ilustracion" />
+                <img src="img/nuevoEmpleado.svg" alt="ilustracion" />
               </div>
             </form>
           </div>
@@ -95,20 +96,21 @@
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Editar Cliente</h2>
+            <h2>Editar Empleado</h2>
             <span class="close" id="close2">&times;</span>
           </div>
           <div class="modal-body">
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
-                <input type="text" placeholder="ID Cliente" id="idClienteEditar" disabled/>
-                <input type="text" placeholder="Ingrese el nombre"  id="nombreClienteEditar"/>
-                <input type="text" placeholder="Ingrese el teléfono" id="telefonoEditar" />
+                <input type="text" placeholder="ID Empleado" id="idEmpleadoEditar" disabled/>
+                <input type="text" placeholder="Ingrese el nombre"  id="nombreEditar"/>
                 <input type="text" placeholder="Ingrese la dirección" id="direccionEditar"/>
-                <button type="button" onclick="editarCliente()" class="guardarCliente">Actualizar</button>
+                <select name="idJornada" id="idJornadaEditar"></select>
+                <select name="idCargo" id="idCargoEditar"></select>
+                <button type="button" onclick="editarEmpleado()" class="guardarCliente">Actualizar</button>
               </div>
               <div class="imagen">
-                <img src="img/nuevoCliente.svg" alt="ilustracion" />
+                <img src="img/nuevoEmpleado.svg" alt="ilustracion" />
               </div>
             </form>
           </div>
@@ -122,8 +124,10 @@
 
 <script type="text/javascript">
   (function(){
-    obtenerClientes();
-    totalClientes();
+    obtenerEmpleados();
+    obtenerJornadas();
+    obtenerCargos();
+    totalEmpleados();
   })();
 
   function limpiar() {
@@ -137,18 +141,20 @@
     var direccionEditar = document.getElementById("direccionEditar").value = "";
   }
 
-  function registrarCliente(){
-    var nombreCliente = document.getElementById("nombreCliente").value;
-    var telefono = document.getElementById("telefono").value;
-    var  direccion = document.getElementById("direccion").value;
-    let tablaClientes = document.getElementById('tablaClientes');
+  function registrarEmpleados(){
+    var nombreCliente = document.getElementById("nombre").value;
+    var direccion = document.getElementById("direccion").value;
+    var idJornada = document.getElementById("idJornada").value;
+    var idCargo = document.getElementById("idCargo").value;
+    let tablaEmpleados = document.getElementById('tablaEmpleados');
 
     $.post(
-    "webservice/registrarCliente.php",
+    "webservice/registrarEmpleados.php",
     {
       'nombre': nombreCliente,
-      'telefono': telefono,
-      'direccion':direccion
+      'direccion':direccion,
+      "jornada": idJornada,
+      "cargo": idCargo
     },
       function(data){
         //alert(data);
@@ -162,9 +168,9 @@
             timer: 1800
           })
           limpiar();
-          totalClientes();
-          tablaClientes.innerHTML = "";
-          obtenerClientes();
+          totalEmpleados();
+          tablaEmpleados.innerHTML = "";
+          obtenerEmpleados();
           // window.location="dashboard.php";
         } else {
           Swal.fire({
@@ -179,40 +185,75 @@
     );
   }
 
-  function obtenerClientes() {
-    let tablaClientes = document.getElementById('tablaClientes');
+  function obtenerEmpleados() {
+    let tablaEmpleados = document.getElementById('tablaEmpleados');
 
     $.post(
-      "webservice/mostrarClientes.php",
+      "webservice/mostrarEmpleados.php",
       {},
       function(Data) {
-        let clientes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Estado</th><th>Acciones</th></tr>";
-        for(i in clientes) {
-          html += "<tr><td>"+ clientes[i].idCliente +"</td><td>"+ clientes[i].nombre +"</td><td>"+ clientes[i].telefono +"</td><td>"+ clientes[i].direccion +"</td><td>"+ clientes[i].idEstado +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idCliente +">Editar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idCliente +">Eliminar</button></td></tr>";
-          tablaClientes.innerHTML = html;
+        let empleados = JSON.parse(Data);
+        html = "<tr><th>ID</th><th>Nombre</th><th>Dirección</th><th>Jornada</th><th>Cargo</th><th>Acciones</th></tr>";
+        for(i in empleados) {
+          html += "<tr><td>"+ empleados[i].idEmpleado +"</td><td>"+ empleados[i].nombre +"</td><td>"+ empleados[i].direccion +"</td><td>"+ empleados[i].idJornada +"</td><td>"+ empleados[i].idCargo +"</td><td><button id='editarEmpleado' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ empleados[i].idEmpleado +">Editar</button><button class='btnDelete' id='eliminarEmpleado' onclick='obtenerIdEliminar(this);' value="+ empleados[i].idEmpleado +">Eliminar</button></td></tr>";
+          tablaEmpleados.innerHTML = html;
+        }
+      }
+    );
+  }
+
+  function obtenerJornadas() {
+    let idJornada = document.getElementById('idJornada');
+    let idJornadaEditar = document.getElementById('idJornadaEditar');
+
+    $.post(
+      "webservice/mostrarJornadas.php",
+      {},
+      function(Data) {
+        let jornadas = JSON.parse(Data);
+        html = "<option value='0'>Seleccione Jornada...</option>";
+        for(i in jornadas) {
+          html += "<option value="+ jornadas[i].idJornada +">"+ jornadas[i].descripcion +"</option>";
+          idJornada.innerHTML = html;
+          idJornadaEditar.innerHTML = html;
+        }
+      }
+    );
+  }
+
+  function obtenerCargos() {
+    let idCargo = document.getElementById('idCargo');
+    let idCargoEditar = document.getElementById('idCargoEditar');
+
+    $.post(
+      "webservice/mostrarCargos.php",
+      {},
+      function(Data) {
+        let cargos = JSON.parse(Data);
+        html = "<option value='0'>Seleccione Cargo...</option>";
+        for(i in cargos) {
+          html += "<option value="+ cargos[i].idCargo +">"+ cargos[i].descripcion +"</option>";
+          idCargo.innerHTML = html;
+          idCargoEditar.innerHTML = html;
         }
       }
     );
   }
 
   function obtenerId(elemento) {
-    let idCliente = document.getElementById('idClienteEditar').value = elemento.value;
-    buscarCliente(idCliente);
-    if(idCliente == 2){
-      mostrarEditar();
-    }
+    let idEmpleado = document.getElementById('idEmpleadoEditar').value = elemento.value;
+    buscarEmpleado(elemento.value);
   }
 
-  function totalClientes() {
-    let totalClientes = document.getElementById('total');
+  function totalEmpleados() {
+    let totalEmpleados = document.getElementById('total');
 
     $.post(
-      "webservice/totalClientes.php",
+      "webservice/totalEmpleados.php",
       {},
       function(Data) {
         let total = JSON.parse(Data);
-        totalClientes.innerHTML = total['totalClientes'];
+        totalEmpleados.innerHTML = total['totalEmpleados'];
       }
     );
   }
@@ -220,7 +261,7 @@
   function mostrarEditar() {
     let modal2 = document.getElementById('miModal2');
     let flex2 = document.getElementById('flex2');
-    let abrir2 = document.getElementById('editarCliente');
+    let abrir2 = document.getElementById('editarEmpleado');
     let cerrar2 = document.getElementById('close2');
 
     modal2.style.display = 'block';
@@ -237,35 +278,38 @@
     });
   }
 
-  function buscarCliente(idCliente) {
+  function buscarEmpleado(idEmpleado) {
     $.post(
-      "webservice/buscarCliente.php",
+      "webservice/buscarEmpleado.php",
       {
-        "idCliente": idCliente
+        "idEmpleado": idEmpleado
       },
       function(Data) {
-        let clientes = JSON.parse(Data);
-        var nombreCliente = document.getElementById("nombreClienteEditar").value = clientes['nombre'];
-        var telefono = document.getElementById("telefonoEditar").value = clientes['telefono'];
-        var  direccion = document.getElementById("direccionEditar").value = clientes['direccion'];
+        let empleado = JSON.parse(Data);
+        var nombreCliente = document.getElementById("nombreEditar").value = empleado['nombre'];
+        var direccion = document.getElementById("direccionEditar").value = empleado['direccion'];
+        var idJornada = document.getElementById("idJornadaEditar").value = empleado['idJornada'];
+        var idCargo = document.getElementById("idCargoEditar").value = empleado['idCargo'];
       }
     );
   }
 
-  function editarCliente() {
-    var idCliente = document.getElementById('idClienteEditar').value;
-    var nombreCliente = document.getElementById("nombreClienteEditar").value;
-    var telefono = document.getElementById("telefonoEditar").value;
+  function editarEmpleado() {
+    var idEmpleado = document.getElementById('idEmpleadoEditar').value;
+    var nombre = document.getElementById("nombreEditar").value;
     var direccion = document.getElementById("direccionEditar").value;
-    let tablaClientes = document.getElementById('tablaClientes');
+    var idJornada = document.getElementById("idJornadaEditar").value;
+    var idCargo = document.getElementById("idCargoEditar").value;
+    let tablaEmpleados = document.getElementById('tablaEmpleados');
     
     $.post(
-      "webservice/editarCliente.php",
+      "webservice/editarEmpleado.php",
       {
-        "idCliente": idCliente,
-        "nombre": nombreCliente,
-        "telefono": telefono,
-        "direccion": direccion
+        "idEmpleado": idEmpleado,
+        "nombre": nombre,
+        "direccion": direccion,
+        "idJornada": idJornada,
+        "idCargo": idCargo
       },
       function(Data) {
         let notificacion = JSON.parse(Data);
@@ -274,16 +318,16 @@
           title: '¡Listo!',
           text: notificacion.Data
         });
-        tablaClientes.innerHTML = "";
-        obtenerClientes();
-        limpiar();
+        tablaEmpleados.innerHTML = "";
+        obtenerEmpleados();
+        // limpiar();
       }
     );
   }
 
   function obtenerIdEliminar(elemento) {
-    var idCliente = document.getElementById('eliminarCliente').value = elemento.value;
-    let tablaClientes = document.getElementById('tablaClientes');
+    var idEmpleado = document.getElementById('eliminarEmpleado').value = elemento.value;
+    let tablaEmpleados = document.getElementById('tablaEmpleados');
 
     Swal.fire({
       title: '¿Estás seguro?',
@@ -297,9 +341,9 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.post(
-          "webservice/eliminarCliente.php",
+          "webservice/eliminarEmpleado.php",
           {
-            "idCliente": idCliente
+            "idEmpleado": idEmpleado
           }, 
           function(Data) {
             var notificacion = JSON.parse(Data);
@@ -308,9 +352,9 @@
               notificacion.Data,
               'success'
             )
-            tablaClientes.innerHTML = "";
-            obtenerClientes();
-            totalClientes();
+            tablaEmpleados.innerHTML = "";
+            obtenerEmpleados();
+            totalEmpleados();
           }
         );
       }

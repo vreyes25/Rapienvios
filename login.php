@@ -49,7 +49,7 @@ function iniciarSesion(){
         //alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
-          window.location="dashboard.php";
+          window.location="dashboardClientes.php";
         } else {
           Swal.fire({
             position: 'center',
