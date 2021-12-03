@@ -22,9 +22,9 @@
       <form action="" method="post">
           <h2>BIENVENIDO</h2>
           <i class="ri-user-line icons user"></i>
-          <input type="text" name="username" id="username" placeholder="Ingrese su usuario">
+          <input type="text" name="nombre" id="username" placeholder="Ingrese su usuario">
           <i class="ri-lock-2-line icons password"></i>
-          <input type="password" name="password" id="password" placeholder="Ingrese su contraseña">
+          <input type="password" name="contrasena" id="password" placeholder="Ingrese su contraseña">
           <a class="forgot" href="forgotPassword.php">¿Olvidaste tu contraseña?</a>
           <button type="button" onclick="iniciarSesion()" class="startSession" >Iniciar Sesión</button>
           <p>¿No tienes una cuenta? <a href="registration.php">Registrate</a></p>
