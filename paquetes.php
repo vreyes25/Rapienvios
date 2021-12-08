@@ -1,3 +1,11 @@
+<?php
+Session_start();
+
+if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
+  header('Location:loginAdmin.php');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -35,9 +43,13 @@
           <i class="ri-user-fill side-icons"></i>
           <a href="empleados.php">Empleados</a>
         </li>
+        <li>
+          <i class="ri-dropbox-fill side-icons"></i>
+          <a href="envios.php">Envios</a>
+        </li>
         <li class="logout">
           <i class="ri-logout-box-r-line side-icons"></i>
-          <a href="index.php">Cerrar Sesión</a>
+          <a href="cerrarSesion.php">Cerrar Sesión</a>
         </li>
       </ul>
     </div>
@@ -48,7 +60,7 @@
           <i class="ri-search-line searchButton"></i>
         </div>
         <div class="user-name">
-          <h3>Bienvenido, <strong>Victor Reyes</strong></h3>
+          <h3>Bienvenido, <strong><?php echo $_SESSION['usuario'];?></strong></h3>
         </div>
       </div>
       <div class="data">

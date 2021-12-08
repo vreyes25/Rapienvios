@@ -44,27 +44,27 @@ class precioCasillero{
         return $Res;
     }
 
-    public function editarPaquete($conexion)
+    public function editarPrecio($conexion)
     {
         
 
-        $consulta = "UPDATE paquete SET 
-        fechafinal = '$this->fechaFinal' WHERE idPaquete = '$this->IdInventario'";
+        $consulta = "UPDATE historialpreciocasillero SET 
+        fechafinal = '$this->fechaFinal' WHERE idHistorial = '$this->idHistorial'";
         $Respuesta = new Respuesta();
 
         if (mysqli_query($conexion, $consulta)) {
-            $Respuesta->Succes("El Paquete se ha actualizado correctamente");
+            $Respuesta->Succes("El Historial se ha actualizado correctamente");
             return $Respuesta;
         } else {
-            $Respuesta->NoSucces("Error al modificar" . $conexion->error);
+            $Respuesta->NoSucces("Error al Actualizar" . $conexion->error);
             return $Respuesta;
         }
     }
 
-    public function eliminarPaquete($conexion)
+    public function eliminarPaquete($conexion,$idHistorial)
     {
         $Respuesta = new Respuesta();
-        $consulta = "DELETE FROM paquete WHERE idPaquete = '$this->IdPaquete'";
+        $consulta = "DELETE FROM historialpreciocasillero WHERE idPaquete = '$idHistorial'";
 
         if (mysqli_query($conexion, $consulta)) {
             $Respuesta->Succes("El Paquete se ha eliminado correctamente");
@@ -75,7 +75,7 @@ class precioCasillero{
         }
     }
 
-    function obtenerPaquetesbyCasillero ($conexion){
+    /*function obtenerPaquetesbyCasillero ($conexion){
         $Res = new Respuesta();
         if (trim($this->idCasillero) == ""){
             $Res->NoSucces("ingrese un numero de casillero");
@@ -92,7 +92,7 @@ class precioCasillero{
             }
                
         }
-    }
+    }*/
     
     public function buscarPaquete($conexion)
     {

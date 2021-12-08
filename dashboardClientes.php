@@ -1,3 +1,11 @@
+<?php
+Session_start();
+
+if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
+  header('Location:loginAdmin.php');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -48,7 +56,7 @@
           <i class="ri-search-line searchButton"></i>
         </div>
         <div class="user-name">
-          <h3>Bienvenido, <strong>Cliente</strong></h3>
+          <h3>Bienvenido, <strong><?php echo $_SESSION['usuario'];?></strong></h3>
         </div>
       </div>
       <div class="data">

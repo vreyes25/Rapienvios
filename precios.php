@@ -6,7 +6,6 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -18,6 +17,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/dashboard.css" />
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/jquery.min.js"></script>
@@ -28,7 +28,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       <img src="img/Logo.png" alt="logo" id="logo" />
       <div class="decoration-line"></div>
       <ul class="dashboard-elements">
-        <li class="active">
+        <li >
           <i class="ri-folder-user-fill side-icons"></i>
           <a href="#">Clientes</a>
         </li>
@@ -36,9 +36,9 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           <i class="ri-dropbox-fill side-icons"></i>
           <a href="paquetes.php">Paquetes</a>
         </li>
-        <li>
+        <li class="active">
           <i class="ri-price-tag-3-fill side-icons"></i>
-          <a href="precios.php">Precios</a>
+          <a href="#">Precios</a>
         </li>
         <li>
           <i class="ri-user-fill side-icons"></i>
@@ -61,69 +61,30 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           <i class="ri-search-line searchButton"></i>
         </div>
         <div class="user-name">
-          <h3>Bienvenido, <strong><?php echo $_SESSION['usuario']; ?></strong></h3>
+          <h3>Bienvenido, <strong><?php echo $_SESSION['usuario'];?></strong></h3>
         </div>
       </div>
-      <div class="data">
-        <div class="up-content">
-          <h3>Total de clientes: <strong id="total"></strong></h3>
-          <button type="button" id="nuevoCliente" class="startSession">
-            Nuevo
-          </button>
-        </div>
-        <div class="content-tables">
-          <table class="tablaClientes" id="tablaClientes">
-          </table>
-        </div>
+      <div class="buttons">
+        <a class="card1" href="preciosCasillero.php">
+            <i class="ri-settings-3-fill admin-icon"></i>
+            <p class="small">
+              Precios del Casilleros
+            </p>
+            <div class="go-corner" href="#">
+              <div class="go-arrow"><i class="ri-arrow-right-line"></i></div>
+            </div>
+          </a>
+    
+          <a class="card1" href="preciosEnvios.php">
+            <i class="ri-user-fill admin-icon"></i>
+            <p class="small">
+              Precio del Envio
+            </p>
+            <div class="go-corner" href="#">
+              <div class="go-arrow"><i class="ri-arrow-right-line"></i></div>
+            </div>
+          </a>
       </div>
-    </div>
-    <div id="miModal" class="modal">
-      <div class="flex" id="flex">
-        <div class="contenido-modal">
-          <div class="modal-header flex">
-            <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Nuevo Cliente</h2>
-            <span class="close" id="close">&times;</span>
-          </div>
-          <div class="modal-body">
-            <form action="" method="post" class="nuevoCliente">
-              <div class="form">
-                <input type="text" placeholder="ID Cliente" disabled/>
-                <input type="text" placeholder="Ingrese el nombre"  id="nombreCliente"/>
-                <input type="text" placeholder="Ingrese el teléfono" id="telefono" />
-                <input type="text" placeholder="Ingrese la dirección" id="direccion"/>
-                <button type="button" onclick="registrarCliente()" class="guardarCliente">Guardar</button>
-              </div>
-              <div class="imagen">
-                <img src="img/nuevoCliente.svg" alt="ilustracion" />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="miModal2" class="modal">
-      <div class="flex" id="flex2">
-        <div class="contenido-modal">
-          <div class="modal-header flex">
-            <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Editar Cliente</h2>
-            <span class="close" id="close2">&times;</span>
-          </div>
-          <div class="modal-body">
-            <form action="" method="post" class="nuevoCliente">
-              <div class="form">
-                <input type="text" placeholder="ID Cliente" id="idClienteEditar" disabled/>
-                <input type="text" placeholder="Ingrese el nombre"  id="nombreClienteEditar"/>
-                <input type="text" placeholder="Ingrese el teléfono" id="telefonoEditar" />
-                <input type="text" placeholder="Ingrese la dirección" id="direccionEditar"/>
-                <button type="button" onclick="editarCliente()" class="guardarCliente">Actualizar</button>
-              </div>
-              <div class="imagen">
-                <img src="img/nuevoCliente.svg" alt="ilustracion" />
-              </div>
-            </form>
           </div>
         </div>
       </div>
@@ -134,7 +95,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 </html>
 
 <script type="text/javascript">
-  (function(){
+  /*(function(){
     obtenerClientes();
     totalClientes();
   })();
@@ -329,6 +290,6 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         );
       }
     })
-  }
+  }*/
 
 </script>
