@@ -53,12 +53,15 @@ session_start();
               , 'Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "Tu contraseña se ha modificado correctamente",
+                title: "¡Listo!",
+                text: "Tu contraseña se ha modificado correctamente",
                 showConfirmButton: false,
                 timer: 1800
               })'
               , '</script>'
             ;
+            sleep(5);
+            header("Location: login.php");
           } else {
             echo "Error modificando: " . $conexion->error;
           }

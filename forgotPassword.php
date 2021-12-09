@@ -52,7 +52,7 @@
               $to = $_POST['correo'];//"destinatario@email.com";
               $from = "From: " . "Rapienvios" ;
               $subject = "Recordar contraseña";
-              $message .= "http://localhost/Rapienvios/confirmPassword.php";
+              $message = "http://localhost/Rapienvios/confirmPassword.php";
   
               mail($to, $subject, $message, $from);
               echo '<script type="text/javascript">'
