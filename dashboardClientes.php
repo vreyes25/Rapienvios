@@ -2,7 +2,7 @@
 Session_start();
 
 if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
-  header('Location:loginAdmin.php');
+  header('Location:login.php');
 }
 
 ?>

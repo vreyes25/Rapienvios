@@ -149,21 +149,20 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     var direccionEditar = document.getElementById("direccionEditar").value = "";
   }
 
-  function registrarCliente(){
-    var nombreCliente = document.getElementById("nombreCliente").value;
-    var telefono = document.getElementById("telefono").value;
-    var  direccion = document.getElementById("direccion").value;
+  function registrarPrecio(){
+    var nombreCliente = document.getElementById("idTipoCasillero").value;
+    var telefono = document.getElementById("precio").value;
+    //var  direccion = document.getElementById("direccion").value;
     let tablaClientes = document.getElementById('tablaClientes');
 
     $.post(
-    "webservice/registrarCliente.php",
+    "webservice/agregarPrecioCasillero.php",
     {
-      'nombre': nombreCliente,
-      'telefono': telefono,
-      'direccion':direccion
+      'idTipoCasillero': nombreCliente,
+      'precio': telefono
     },
       function(data){
-        //alert(data);
+        alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           Swal.fire({
@@ -195,14 +194,16 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     let tablaClientes = document.getElementById('tablaClientes');
 
     $.post(
-      "webservice/mostrarClientes.php",
+      "webservice/mostrarPrecioCasillero.php",
       {},
       function(Data) {
         //alert(Data);
         let clientes = JSON.parse(Data);
         html = "<tr><th>ID</th><th>Tipo de Casillero</th><th>Fecha de Inicio</th><th>Fecha de Finalizacion</th><th>Precio</th></tr>";
         for(i in clientes) {
-          html += "<tr><td>"+ clientes[i].idCliente +"</td><td>"+ clientes[i].nombre +"</td><td>"+ clientes[i].telefono +"</td><td>"+ clientes[i].direccion +"</td><td>"+ clientes[i].idEstado +"</td></tr>";
+          var aux = clientes[i].fechaInicio.split('-');
+          //alert(aux);
+          html += "<tr><td>"+ clientes[i].idHistorial +"</td><td>"+ clientes[i].idCasillero +"</td><td>"+ aux[2]+'/'+aux[1]+'/'+aux[0] +"</td><td>"+ clientes[i].fechaFinal +"</td><td>"+ clientes[i].precio +"</td></tr>";
           tablaClientes.innerHTML = html;
         }
       }
