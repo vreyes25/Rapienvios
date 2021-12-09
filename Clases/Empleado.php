@@ -87,11 +87,11 @@ class Empleado {
         return $Res;
     }
 
-    public function obtenerEmpleados($conexion) {
+    public function obtenerEmpleados($conexion,$valor) {
         $consulta = "SELECT E.idEmpleado, E.nombre, E.direccion, J.descripcion AS jornada, C.descripcion AS cargo
         , correo FROM empleado AS E
         INNER JOIN jornadas AS J ON E.idJornada = J.idJornada
-        INNER JOIN cargo AS C ON E.idCargo = C.idCargo";
+        INNER JOIN cargo AS C ON E.idCargo = C.idCargo where E.nombre LIKE '%$valor%' OR J.descripcion LIKE '%$valor%' OR correo LIKE '%$valor%'";
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {

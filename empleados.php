@@ -239,12 +239,31 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   }
   }
 
-  function obtenerEmpleados() {
+  $(document).on('keyup','#search',function(){
+    var valor = $(this).val();
+    let tablaEmpleados = document.getElementById('tablaEmpleados');
+    if(valor != ""){
+      tablaEmpleados.innerHTML ="";
+      obtenerEmpleados(valor);
+
+
+    }
+    else{
+      tablaEmpleados.innerHTML = "";
+      obtenerEmpleados();
+    }
+
+    //Aqui va el codigo de busqueda
+  });
+
+  function obtenerEmpleados(valor) {
     let tablaEmpleados = document.getElementById('tablaEmpleados');
 
     $.post(
       "webservice/mostrarEmpleados.php",
-      {},
+      {
+        'valor':valor
+      },
       function(Data) {
         //alert(Data);
         let empleados = JSON.parse(Data);

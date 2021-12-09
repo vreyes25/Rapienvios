@@ -5,5 +5,5 @@ if (isset($_POST)) {
 
     $Empleados = new Empleado();
     //$Empleados->constructorEditar(@$_POST['idEmpleado'], @$_POST['nombre'], @$_POST['direccion'], @$_POST['jornada'], @$_POST['cargo'],@$_POST['correo']);
-    echo json_encode($Empleados->obtenerEmpleados($conexion));
+    echo json_encode($Empleados->obtenerEmpleados($conexion,@$_POST['valor']));
 }
