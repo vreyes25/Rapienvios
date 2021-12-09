@@ -27,30 +27,54 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       <img src="img/Logo.png" alt="logo" id="logo" />
       <div class="decoration-line"></div>
       <ul class="dashboard-elements">
-        <li>
-          <i class="ri-folder-user-fill side-icons"></i>
-          <a href="dashboard.php">Clientes</a>
-        </li>
-        <li>
-          <i class="ri-dropbox-fill side-icons"></i>
-          <a href="paquetes.php">Paquetes</a>
-        </li>
-        <li>
-          <i class="ri-price-tag-3-fill side-icons"></i>
-          <a href="precios.php">Precios</a>
-        </li>
-        <li class="active">
-          <i class="ri-user-fill side-icons"></i>
-          <a href="#">Empleados</a>
-        </li>
-        <li>
-          <i class="ri-dropbox-fill side-icons"></i>
-          <a href="envios.php">Envios</a>
-        </li>
-        <li class="logout">
-          <i class="ri-logout-box-r-line side-icons"></i>
-          <a href="cerrarSesion.php">Cerrar Sesión</a>
-        </li>
+      <a href="dashboard.php">
+          <li>
+            <i class="ri-folder-user-fill side-icons"></i>
+            Clientes
+          </li>
+        </a>
+
+        <a href="paquetes.php">
+          <li>
+            <i class="ri-dropbox-fill side-icons"></i>
+            Paquetes
+          </li>
+        </a>
+
+        <a href="precios.php">
+          <li>
+            <i class="ri-price-tag-3-fill side-icons"></i>
+            Precios
+          </li>
+        </a>
+
+        <a href="empleados.php">
+          <li class="active">
+            <i class="ri-user-fill side-icons"></i>
+            Empleados
+          </li>
+        </a>
+
+        <a href="envios.php">
+          <li>
+            <i class="ri-plane-fill side-icons"></i>
+            Envios
+          </li>
+        </a>
+
+        <a href="reportes.php">
+          <li>
+            <i class="ri-article-fill side-icons"></i>
+            Reportes
+          </li>
+        </a>
+
+        <a href="cerrarSesion.php">
+          <li class="logout">
+            <i class="ri-logout-box-r-line side-icons"></i>
+            Cerrar Sesión
+          </li>
+        </a>
       </ul>
     </div>
     <div class="content-data">

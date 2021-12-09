@@ -27,10 +27,10 @@ session_destroy();
       <img id="cover" src="img/Ilustracion2.png" alt="cover">
       <form action="" method="post">
           <h2>BIENVENIDO</h2>
-          <i class="ri-user-line icons user"></i>
-          <input type="text" name="nombre" id="username" placeholder="Ingrese su usuario">
+          <i class="ri-mail-line icons user"></i>
+          <input type="email" name="correo" id="correo" placeholder="Ingrese su correo">
           <i class="ri-lock-2-line icons password"></i>
-          <input type="password" name="contrasena" id="password" placeholder="Ingrese su contraseña">
+          <input type="password" name="contrasena" id="contrasena" placeholder="Ingrese su contraseña">
           <a class="forgot" href="forgotPassword.php">¿Olvidaste tu contraseña?</a>
           <button type="button" onclick="iniciarSesion()" class="startSession" >Iniciar Sesión</button>
           <p>¿No tienes una cuenta? <a href="registration.php">Registrate</a></p>
@@ -42,17 +42,17 @@ session_destroy();
   <script type="text/javascript">
 
 function iniciarSesion(){
-  var usuario = document.getElementById("username").value;
-  var contrasena = document.getElementById("password").value;
+  var correo = document.getElementById("correo").value;
+  var contrasena = document.getElementById("contrasena").value;
 
   $.post(
     "webservice/login.php",
     {
-      'usuario': usuario,
+      'correo': correo,
       'contrasena': contrasena
     },
       function(data){
-        //alert(data);
+        // alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           window.location="dashboardClientes.php";
