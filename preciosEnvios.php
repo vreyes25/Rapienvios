@@ -6,7 +6,6 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -28,7 +27,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       <img src="img/Logo.png" alt="logo" id="logo" />
       <div class="decoration-line"></div>
       <ul class="dashboard-elements">
-        <li >
+        <li>
           <i class="ri-folder-user-fill side-icons"></i>
           <a href="#">Clientes</a>
         </li>
@@ -66,9 +65,9 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       </div>
       <div class="data">
         <div class="up-content">
-          <h3>Total de clientes: <strong id="total"></strong></h3>
+          <h3>Total de Registros: <strong id="total"></strong></h3>
           <button type="button" id="nuevoCliente" class="startSession">
-            Nuevo
+            Actualizar P.
           </button>
         </div>
         <div class="content-tables">
@@ -82,15 +81,15 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Nuevo Precio</h2>
+            <h2>Nuevo Precio de Envio</h2>
             <span class="close" id="close">&times;</span>
           </div>
           <div class="modal-body">
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
                 <input type="text" placeholder="ID Historial" disabled/>
-                <input type="text" placeholder="Ingrese el casillero"  id="idCasillero"/>
-               
+                <!--<input type="text" placeholder="Ingrese el casillero"  id="idCasillero"/>-->
+                <!--<select name="idTipoCasillero" id="idTipoCasillero"></select>-->
                 <input type="text" placeholder="Ingrese el precio" id="precio"/>
                 <button type="button" onclick="registrarPrecio()" class="guardarCliente">Guardar</button>
               </div>
@@ -114,10 +113,10 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           <div class="modal-body">
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
-                <input type="text" placeholder="ID Cliente" id="idClienteEditar" disabled/>
-                <input type="text" placeholder="Ingrese el nombre"  id="nombreClienteEditar"/>
-                <input type="text" placeholder="Ingrese el teléfono" id="telefonoEditar" />
-                <input type="text" placeholder="Ingrese la dirección" id="direccionEditar"/>
+                <input type="text" placeholder="ID Historial" disabled/>
+                <!--<input type="text" placeholder="Ingrese el casillero"  id="idCasillero"/>-->
+                <select name="idTipoCasillero" id="idTipoCasillero"></select>
+                <input type="text" placeholder="Ingrese el precio" id="precio"/>
                 <button type="button" onclick="editarPrecio()" class="guardarCliente">Actualizar</button>
               </div>
               <div class="imagen">
@@ -201,9 +200,9 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       function(Data) {
         //alert(Data);
         let clientes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Estado</th><th>Acciones</th></tr>";
+        html = "<tr><th>ID</th><th>Fecha de Inicio</th><th>Fecha de Finalizacion</th><th>Precio</th></tr>";
         for(i in clientes) {
-          html += "<tr><td>"+ clientes[i].idCliente +"</td><td>"+ clientes[i].nombre +"</td><td>"+ clientes[i].telefono +"</td><td>"+ clientes[i].direccion +"</td><td>"+ clientes[i].idEstado +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idCliente +">Editar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idCliente +">Eliminar</button></td></tr>";
+          html += "<tr><td>"+ clientes[i].nombre +"</td><td>"+ clientes[i].telefono +"</td><td>"+ clientes[i].direccion +"</td><td>"+ clientes[i].idEstado +"</td></tr>";
           tablaClientes.innerHTML = html;
         }
       }
