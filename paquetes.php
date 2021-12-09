@@ -1,3 +1,11 @@
+<?php
+Session_start();
+
+if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
+  header('Location:loginAdmin.php');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -35,9 +43,13 @@
           <i class="ri-user-fill side-icons"></i>
           <a href="empleados.php">Empleados</a>
         </li>
+        <li>
+          <i class="ri-dropbox-fill side-icons"></i>
+          <a href="envios.php">Envios</a>
+        </li>
         <li class="logout">
           <i class="ri-logout-box-r-line side-icons"></i>
-          <a href="index.php">Cerrar Sesión</a>
+          <a href="cerrarSesion.php">Cerrar Sesión</a>
         </li>
       </ul>
     </div>
@@ -48,7 +60,7 @@
           <i class="ri-search-line searchButton"></i>
         </div>
         <div class="user-name">
-          <h3>Bienvenido, <strong>Victor Reyes</strong></h3>
+          <h3>Bienvenido, <strong><?php echo $_SESSION['usuario'];?></strong></h3>
         </div>
       </div>
       <div class="data">
@@ -141,20 +153,22 @@
   })();
 
 
-function registrarPaquete(){
-  var descripcion = document.getElementById("descripcion").value;
-  var peso = document.getElementById("peso").value;
-  var casillero = document.getElementById("casillero").value;
+function editarPaquete(){
+  var idPaquete = document.getElementById("idPaqueteEditar").value;
+  var descripcion = document.getElementById("descripciónEditar").value;
+  var peso = document.getElementById("pesoEditar").value;
+  var casillero = document.getElementById("idCasilleroEditar").value;
 
   $.post(
-    "webservice/agregarPaquete.php",
+    "webservice/editarPaquete.php",
     {
+      'idPaquete' : idPaquete,
       'descripcion': descripcion,
       'peso': peso,
       'casillero':casillero
     },
       function(data){
-        alert(data);
+        //alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           Swal.fire({
@@ -183,7 +197,47 @@ function registrarPaquete(){
 
 }
 
+function registrarPaquete(){
+  var descripcion = document.getElementById("descripcion").value;
+  var peso = document.getElementById("peso").value;
+  var casillero = document.getElementById("idCasillero").value;
 
+  $.post(
+    "webservice/agregarPaquete.php",
+    {
+      'descripcion': descripcion,
+      'peso': peso,
+      'casillero':casillero
+    },
+      function(data){
+        //alert(data);
+        $Resp = JSON.parse(data);
+        if($Resp.Ok==1){
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: $Resp.Data,
+            showConfirmButton: false,
+            timer: 1800
+          })
+          //limpiar();
+          //totalClientes();
+          //tablaClientes.innerHTML = "";
+          //obtenerClientes();
+          // window.location="dashboard.php";
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: $Resp.Data,
+            showConfirmButton: false,
+            timer: 1800
+          })
+        }
+      }
+    );
+
+}
 
   function totalPaquetes() {
     let totalPaquetes = document.getElementById('total');
@@ -197,6 +251,9 @@ function registrarPaquete(){
       }
     );
   }
+
+  
+
 
   function mostrarEditar() {
     let modal2 = document.getElementById('miModal2');
@@ -252,6 +309,42 @@ function registrarPaquete(){
         }
       }
     );
+  }
+
+  function obtenerIdEliminar(elemento) {
+    var idCliente = document.getElementById('eliminarPaquete').value = elemento.value;
+    let tablaClientes = document.getElementById('tablaPaquetes');
+
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "Una vez eliminado el registro no podrás recuperarlo",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#b0b0b0',
+      cancelButtonColor: '#a71d31',
+      confirmButtonText: 'Si, deseo eliminarlo',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.post(
+          "webservice/eliminarPaquete.php",
+          {
+            "idPaquete": idCliente
+          }, 
+          function(Data) {
+            var notificacion = JSON.parse(Data);
+            Swal.fire(
+              '¡Hecho!',
+              notificacion.Data,
+              'success'
+            )
+            tablaClientes.innerHTML = "";
+            //obtenerClientes();
+            //totalClientes();
+          }
+        );
+      }
+    })
   }
 
   function obtenerId(elemento) {

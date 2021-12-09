@@ -18,23 +18,49 @@ class Empleado {
         $this->contrasena = $contrasena;
     }
 
-    public function constructorSobrecargado($nombre, $direccion, $idJornada, $idCargo) {
+    public function constructorSobrecargado($nombre, $direccion, $idJornada, $idCargo,$correo,$contrasena) {
         $this->nombre = $nombre;
         $this->direccion = $direccion;
         $this->idJornada = $idJornada;
         $this->idCargo = $idCargo;
+        $this->correo = $correo;
+        $this->contrasena = $contrasena;
     }
 
-    public function constructorEditar($idEmpleado, $nombre, $direccion, $idJornada, $idCargo) {
+    public function constructorEditar($idEmpleado, $nombre, $direccion, $idJornada, $idCargo,$correo,$contrasena) {
         $this->idEmpleado = $idEmpleado;
         $this->nombre = $nombre;
         $this->direccion = $direccion;
         $this->idJornada = $idJornada;
         $this->idCargo = $idCargo;
+        $this->correo = $correo;
+        $this->contrasena = $contrasena;
     }
 
     public function constructorTotal($total) {
         $this->total = $total;
+    }
+
+    public function login($conexion) {
+        $Res = new Respuesta();
+        if (trim($this->correo) == "" || trim($this->contrasena) == "") {
+            $Res->NoSucces("Debes escribir un correo y una contraseña");
+        } else {
+            $query = "SELECT * FROM empleado WHERE correo='$this->correo'";
+            $result = mysqli_query($conexion, $query);
+            $nr  = mysqli_num_rows($result);
+
+            $row = mysqli_fetch_array($result);
+            if (($nr == 1) &&(password_verify($this->contrasena, $row['contrasena'])) ) {
+                Session_start();
+                $_SESSION['usuario'] = $row['nombre'];
+                $Res->Succes("");
+            } else {
+               
+                $Res->NoSucces("Correo o contraseña incorrecta");
+            }
+        }
+        return $Res;
     }
 
     public function registrarEmpleado($conexion) {
@@ -49,8 +75,8 @@ class Empleado {
             $Res->NoSucces("Debes seleccionar un cargo");
         } else {
             mysqli_query($conexion,
-                "INSERT INTO empleado(nombre, direccion, idJornada, idCargo)
-                 VALUES('$this->nombre','$this->direccion','$this->idJornada', '$this->idCargo')"
+                "INSERT INTO empleado(nombre, direccion, idJornada, idCargo,correo, contrasena)
+                 VALUES('$this->nombre','$this->direccion','$this->idJornada', '$this->idCargo','$this->correo','$this->contrasena')"
             );
             if (mysqli_error($conexion)) {
                 $Res->NoSucces("No se pudo guardar el empleado " . $conexion->error);
@@ -63,14 +89,14 @@ class Empleado {
 
     public function obtenerEmpleados($conexion) {
         $consulta = "SELECT E.idEmpleado, E.nombre, E.direccion, J.descripcion AS jornada, C.descripcion AS cargo
-        FROM empleado AS E
+        , correo FROM empleado AS E
         INNER JOIN jornadas AS J ON E.idJornada = J.idJornada
         INNER JOIN cargo AS C ON E.idCargo = C.idCargo";
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {
             $Empleados = new Empleado();
-            $Empleados->constructorEditar($fila['idEmpleado'], $fila['nombre'], $fila['direccion'], $fila['jornada'], $fila['cargo']);
+            $Empleados->constructorEditar($fila['idEmpleado'], $fila['nombre'], $fila['direccion'], $fila['jornada'], $fila['cargo'],$fila['correo'],null);
             $lista[] = $Empleados;
         }
         return $lista;
@@ -85,7 +111,7 @@ class Empleado {
 
     public function editarEmpleado($conexion) {
         $consulta = "UPDATE empleado SET nombre = '$this->nombre', direccion = '$this->direccion',
-        idJornada = '$this->idJornada', idCargo = '$this->idCargo' WHERE idEmpleado = '$this->idEmpleado'";
+        idJornada = '$this->idJornada', idCargo = '$this->idCargo',contrasena ='$this->contrasena' WHERE idEmpleado = '$this->idEmpleado'";
         $Respuesta = new Respuesta();
 
         if (mysqli_query($conexion, $consulta)) {
