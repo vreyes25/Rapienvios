@@ -126,8 +126,8 @@ class precioCasillero{
         }
     }
 
-    public function obtenerPrecios($conexion) {
-        $consulta = "SELECT idHistorial, tamanio.descripcion, fechaInicio, fechaFinal, precio from historialpreciocasillero, tamanio where historialpreciocasillero.idCasillero=tamanio.idTamanio";
+    public function obtenerPrecios($conexion,$valor) {
+        $consulta = "SELECT idHistorial, tamanio.descripcion, fechaInicio, fechaFinal, precio from historialpreciocasillero, tamanio where historialpreciocasillero.idCasillero=tamanio.idTamanio AND descripcion LIKE '%$valor%'";
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {

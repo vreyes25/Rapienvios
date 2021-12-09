@@ -209,7 +209,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       'correo' : correo
     },
       function(data){
-        alert(data);
+        //alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           Swal.fire({

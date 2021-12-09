@@ -217,18 +217,39 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     );
   }
 
-  function obtenerClientes() {
+
+  $(document).on('keyup','#search',function(){
+    var valor = $(this).val();
+    let tablaEmpleados = document.getElementById('tablaClientes');
+    if(valor != ""){
+      tablaEmpleados.innerHTML ="";
+      obtenerClientes(valor);
+
+
+    }
+    else{
+      tablaEmpleados.innerHTML = "";
+      obtenerClientes();
+    }
+
+    //Aqui va el codigo de busqueda
+  });
+
+
+  function obtenerClientes(valor) {
     let tablaClientes = document.getElementById('tablaClientes');
 
     $.post(
       "webservice/mostrarClientes.php",
-      {},
+      {
+        'valor':valor
+      },
       function(Data) {
         //alert(Data);
         let clientes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Estado</th><th>Acciones</th></tr>";
+        html = "<tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Estado</th><th>Correo</th><th>Acciones</th></tr>";
         for(i in clientes) {
-          html += "<tr><td>"+ clientes[i].idCliente +"</td><td>"+ clientes[i].nombre +"</td><td>"+ clientes[i].telefono +"</td><td>"+ clientes[i].direccion +"</td><td>"+ clientes[i].idEstado +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idCliente +">Editar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idCliente +">Eliminar</button></td></tr>";
+          html += "<tr><td>"+ clientes[i].idCliente +"</td><td>"+ clientes[i].nombre +"</td><td>"+ clientes[i].telefono +"</td><td>"+ clientes[i].direccion +"</td><td>"+ clientes[i].idEstado +"</td><td>"+ clientes[i].correo +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idCliente +">Editar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idCliente +">Eliminar</button></td></tr>";
           tablaClientes.innerHTML = html;
         }
       }

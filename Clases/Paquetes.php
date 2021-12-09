@@ -49,9 +49,9 @@ class Paquete {
         return $Res;
     }
 
-    public function obtenerPaquetes($conexion) {
+    public function obtenerPaquetes($conexion,$valor) {
         $consulta = "SELECT idPaquete, descripcion, peso, idCasillero
-        FROM paquete";
+        FROM paquete WHERE descripcion LIKE '%$valor%'";
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {

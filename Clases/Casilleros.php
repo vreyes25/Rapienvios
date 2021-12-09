@@ -16,6 +16,11 @@ class Casilleros {
         $this->idCliente = $idCliente;
     }
 
+    public function ConstructorParaPaquete($idCasillero){
+        $this->idCasillero = $idCasillero;
+        
+    }
+
     public function obtenerCasilleros($Conexion) {
         $consulta = "SELECT idCasillero, costoMensual, idTamanio, idCliente FROM casillero";
         $resultado = mysqli_query($Conexion, $consulta);
@@ -26,5 +31,20 @@ class Casilleros {
             $lista[] = $Casilleros;
         }
         return $lista;
+    }
+
+
+    public function obtenerCasillerosParaPaquetes($conexion){
+        $consulta = "SELECT idCasillero FROM casillero";
+        $resultado = mysqli_query($conexion, $consulta);
+        $lista = array();
+        while ($fila = mysqli_fetch_array($resultado)) {
+            $Casilleros = new Casilleros();
+            $Casilleros->ConstructorParaPaquete($fila['idCasillero']);
+            $lista[] = $Casilleros;
+        }
+        return $lista;
+
+        
     }
 }

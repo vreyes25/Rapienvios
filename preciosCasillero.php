@@ -218,12 +218,32 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     );
   }
 
-  function obtenerClientes() {
+  $(document).on('keyup','#search',function(){
+    var valor = $(this).val();
+    let tablaEmpleados = document.getElementById('tablaClientes');
+    if(valor != ""){
+      tablaEmpleados.innerHTML ="";
+      obtenerClientes(valor);
+
+
+    }
+    else{
+      tablaEmpleados.innerHTML = "";
+      obtenerClientes();
+    }
+
+    //Aqui va el codigo de busqueda
+  });
+
+
+  function obtenerClientes(valor) {
     let tablaClientes = document.getElementById('tablaClientes');
 
     $.post(
       "webservice/mostrarPrecioCasillero.php",
-      {},
+      {
+        'valor':valor
+      },
       function(Data) {
         //alert(Data);
         let clientes = JSON.parse(Data);
@@ -231,8 +251,17 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         for(i in clientes) {
           var aux = clientes[i].fechaInicio.split('-');
           //alert(aux);
-          html += "<tr><td>"+ clientes[i].idHistorial +"</td><td>"+ clientes[i].idCasillero +"</td><td>"+ aux[2]+'/'+aux[1]+'/'+aux[0] +"</td><td>"+ clientes[i].fechaFinal +"</td><td>"+ clientes[i].precio +"</td></tr>";
+          if(clientes[i].fechaFinal==null){
+           
+          html += "<tr><td>"+ clientes[i].idHistorial +"</td><td>"+ clientes[i].idCasillero +"</td><td>"+ aux[2]+'/'+aux[1]+'/'+aux[0] +"</td><td>"+ " " +"</td><td>"+ clientes[i].precio +"</td></tr>";
           tablaClientes.innerHTML = html;
+          }
+          else{
+            var aux2 = clientes[i].fechaFinal.split('-');
+            html += "<tr><td>"+ clientes[i].idHistorial +"</td><td>"+ clientes[i].idCasillero +"</td><td>"+ aux[2]+'/'+aux[1]+'/'+aux[0] +"</td><td>"+ aux2[2]+'/'+aux2[1]+'/'+aux2[0] +"</td><td>"+ clientes[i].precio +"</td></tr>";
+          tablaClientes.innerHTML = html;
+
+          }
         }
       }
     );

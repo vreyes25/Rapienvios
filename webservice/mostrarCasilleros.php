@@ -4,5 +4,5 @@ if (isset($_POST)) {
     include "../Clases/Casilleros.php";
     $Casilleros = new Casilleros();
     $Casilleros->ConstructorPorDefecto(@$_POST['idCasillero'], @$_POST['costoMensual'], @$_POST['idTamanio'], @$_POST['idCliente']);
-    echo json_encode($Casilleros->obtenerCasilleros($conexion));
+    echo json_encode($Casilleros->obtenerCasillerosParaPaquetes($conexion));
 }
