@@ -13,11 +13,25 @@ class precioCasillero{
 
     }
 
-    function constructorRegistrar($idCasillero,$fechaInicio,$fechaFinal,$precio){
+    function constructorRegistrar($idCasillero,$fechaInicio,/*$fechaFinal,*/$precio){
+        $this->idCasillero=$idCasillero;
+        $this->fechaInicio=$fechaInicio;
+        //$this->fechaFinal=$fechaFinal;
+        $this->precio=$precio;
+    }
+
+    function constructorListar($idHistorial,$idCasillero,$fechaInicio,$fechaFinal,$precio){
+        $this->idHistorial = $idHistorial;
         $this->idCasillero=$idCasillero;
         $this->fechaInicio=$fechaInicio;
         $this->fechaFinal=$fechaFinal;
         $this->precio=$precio;
+    }
+
+    function constructorEditar($idHistorial,$fechaFinal){
+        $this->idHistorial = $idHistorial;
+        $this->fechaFinal=$fechaFinal;
+        
     }
 
     function registrarPrecio($conexion){
@@ -26,14 +40,14 @@ class precioCasillero{
             //$Res->NoSucces("Debes ingresar la fecha de llegada");
         } else */if (trim($this->idCasillero) == "") {
             $Res->NoSucces("Debes ingresar tamaño");
-        } else if (trim($this->fechaInicio) == "") {
+        } /*else if (trim($this->fechaInicio) == "") {
             $Res->NoSucces("Debes ingresar la fecha en la que iniciará");
-        }else if (trim($this->precio) == "") {
+        }*/else if (trim($this->precio) == "") {
             $Res->NoSucces("Debes ingresar el precio");
         } else {
             mysqli_query($conexion,
-                "INSERT into historialpreciocasillero(idCasillero, fechaInicio,fechaFinal,precio)
-                 values('$this->idCasillero','$this->fechaInicio','$this->fechaFinal','$this->precio')"
+                "INSERT into historialpreciocasillero(idCasillero, fechaInicio,precio)
+                 values('$this->idCasillero','$this->fechaInicio','$this->precio')"
             );
             if (mysqli_error($conexion)) {
                 $Res->NoSucces("No se pudo Registrar el Precio " . $conexion->error);
@@ -93,18 +107,18 @@ class precioCasillero{
                
         }
     }*/
-    
-    public function buscarPaquete($conexion)
+    //Modificar
+    public function buscarPrecio($conexion)
     {
-        $consulta = "SELECT C.idPaquete, C.descripcion, C.peso, C.idCasillero
-        FROM paquete AS C WHERE C.idPaquete = '$this->IdInventario'";
+        $consulta = "SELECT C.idHistorial, C.idCasillero, C.precio, C.fechaInicio, C.fechaFinal
+        FROM historialpreciocasillero AS C WHERE C.idHistorial = '$this->idHistorial'";
         $Respuesta = new Respuesta();
-        $Paquete = new Paquete();
+        $Paquete = new precioCasillero();
         $ClienteEncontrado = mysqli_query($conexion, $consulta);
         $data = $ClienteEncontrado->fetch_assoc();
 
         if ($data != null) {
-            $Paquete->constructorReporte($data['idPaquete'], $data['descripcion'], $data['peso'], $data['idCasillero']);
+            $Paquete->ConstructorListar($data['idHistorial'], $data['idCasillero'], $data['precio'], $data['fechaInicio'],$data['fechaFinal']);
             return $Paquete;
         } else {
             $Respuesta->Error("Debe ingresar un ID");
@@ -112,13 +126,13 @@ class precioCasillero{
         }
     }
 
-    public function obtenerPaquetes($conexion) {
-        $consulta = "SELECT idPaquete, descripcion, peso, idCasillero from paquete";
+    public function obtenerPrecios($conexion) {
+        $consulta = "SELECT idHistorial, idCasillero, fechaInicio, fechaFinal, precio from historialpreciocasillero";
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {
-            $Empleados = new Empleado();
-            $Empleados->constructorEditar($fila['idEmpleado'], $fila['nombre'], $fila['direccion'], $fila['jornada'], $fila['cargo']);
+            $Empleados = new precioCasillero();
+            $Empleados->constructorListar($fila['idHistorial'], $fila['idCasillero'], $fila['fechaInicio'], $fila['fechaFinal'], $fila['precio']);
             $lista[] = $Empleados;
         }
         return $lista;

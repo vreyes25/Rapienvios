@@ -97,7 +97,7 @@
           <div class="content">
             <h2>03</h2>
             <h3>PRECIOS</h3>
-            <a href="#">Generar Reporte</a>
+            <a href="reporte/ReportePrecioCasillero.php">Generar Reporte</a>
           </div>
         </div>
       </div>
@@ -107,7 +107,7 @@
           <div class="content">
             <h2>04</h2>
             <h3>EMPLEADOS</h3>
-            <a href="#">Generar Reporte</a>
+            <a href="reporte/ReporteEmpleados.php">Generar Reporte</a>
           </div>
         </div>
       </div>

@@ -180,6 +180,9 @@ class Cliente {
 
             $row = mysqli_fetch_array($result);
             if (($nr == 1) &&(password_verify($this->contrasena, $row['contrasena'])) ) {
+                Session_start();
+                $_SESSION['usuario'] = $row['nombre'];
+                
                 $Res->Succes("");
             } else {
                 $Res->NoSucces("Correo o contraseña incorrecta");
