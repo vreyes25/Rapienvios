@@ -2,16 +2,20 @@
 
 require "../php/conexion.php";
 require "PlantillaEmpleado.php";
+Session_start();
+if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
+    header('Location:loginAdmin.php');
+  }
 
-
-    $sql = "SELECT idEmpleado, nombre, direccion, jornadas.descripcion as jornada, cargo.descripcion as cargo 
-    FROM empleado, jornadas, cargo 
-    where cargo.idCargo = empleado.idCargo and jornadas.idJornada = empleado.idJornada";
+    $sql = "SELECT E.idEmpleado, E.nombre, E.direccion, J.descripcion AS jornada, C.descripcion AS cargo
+    , correo FROM empleado AS E
+    INNER JOIN jornadas AS J ON E.idJornada = J.idJornada
+    INNER JOIN cargo AS C ON E.idCargo = C.idCargo";
     
     $resultado = mysqli_query($conexion,$sql);
     //$conexion->query($sql);
 
-    $pdf = new PDF("P", "mm", "letter");
+    $pdf = new PDF("L", "mm", "letter");
     //$pdf->setFillColor(128,0,0);
     $pdf->AliasNbPages();
     $pdf->SetMargins(10, 10, 10);
@@ -27,9 +31,9 @@ require "PlantillaEmpleado.php";
 
     $pdf->Cell(60, 5,  utf8_decode("Dirección"), 1, 0, "C");
     $pdf->Cell(22, 5,  utf8_decode("Jornada"), 1, 0, "C");
-    $pdf->Cell(30, 5,  utf8_decode("Cargo"), 1, 1, "C");
+    $pdf->Cell(30, 5,  utf8_decode("Cargo"), 1, 0, "C");
     $pdf->SetFont("Arial", "B", 9);
-    //$pdf->Cell(24, 5,  utf8_decode("Usuario"), 1, 1, "C");
+    $pdf->Cell(45, 5,  utf8_decode("Correo"), 1, 1, "C");
     
     $pdf->SetFont("Arial", "", 9);
    
@@ -40,8 +44,8 @@ require "PlantillaEmpleado.php";
         $pdf->Cell(35, 5, utf8_decode($fila['nombre']), 1, 0, "C"); 
         $pdf->Cell(60, 5, utf8_decode($fila['direccion']), 1, 0, "C"); 
         $pdf->Cell(22, 5, $fila['jornada'], 1, 0, "C"); 
-        $pdf->Cell(30, 5, $fila['cargo'], 1, 1, "C");  
-       // $pdf->Cell(24, 5, $fila['total'], 1, 1, "C"); 
+        $pdf->Cell(30, 5, $fila['cargo'], 1, 0, "C");  
+        $pdf->Cell(45, 5, $fila['correo'], 1, 1, "C"); 
 }
 
 

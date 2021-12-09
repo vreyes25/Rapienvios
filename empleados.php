@@ -92,6 +92,10 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
                 <input type="text" placeholder="Ingrese la dirección" id="direccion"/>
                 <select name="idJornada" id="idJornada"></select>
                 <select name="idCargo" id="idCargo"></select>
+                <input type="text" placeholder="Ingrese el correo"  id="correo"/>
+                <input type="password" placeholder="Ingrese la contraseña" id="contrasena"/>
+                <input type="password" placeholder="Confirme la Contraseña"  id="confirmnacion"/>
+                
                 <button type="button" onclick="registrarEmpleados()" class="guardarCliente">Guardar</button>
               </div>
               <div class="imagen">
@@ -119,6 +123,9 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
                 <input type="text" placeholder="Ingrese la dirección" id="direccionEditar"/>
                 <select name="idJornada" id="idJornadaEditar"></select>
                 <select name="idCargo" id="idCargoEditar"></select>
+                <input type="text" placeholder="Ingrese el correo"  id="correoEditar"/>
+                <input type="password" placeholder="Ingrese la contraseña" id="contrasenaEditar"/>
+                <input type="password" placeholder="Confirme la Contraseña"  id="confirmacionEditar"/>
                 <button type="button" onclick="editarEmpleado()" class="guardarCliente">Actualizar</button>
               </div>
               <div class="imagen">
@@ -158,18 +165,27 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     var direccion = document.getElementById("direccion").value;
     var idJornada = document.getElementById("idJornada").value;
     var idCargo = document.getElementById("idCargo").value;
+    var correo = document.getElementById("correo").value;
+    var contrasena = document.getElementById("contrasena").value;
+    var confirmacion = document.getElementById("confirmnacion").value;
     let tablaEmpleados = document.getElementById('tablaEmpleados');
-
+    alert(contrasena);
+    if(contrasena.trim() != confirmacion.trim()){
+      alert("Contraseña no coincide con la confirmación");
+    }
+    else{
     $.post(
     "webservice/registrarEmpleados.php",
     {
       'nombre': nombreCliente,
       'direccion':direccion,
-      "jornada": idJornada,
-      "cargo": idCargo
+      'jornada': idJornada,
+      'cargo': idCargo,
+      'contrasena' : contrasena,
+      'correo' : correo
     },
       function(data){
-        //alert(data);
+        alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           Swal.fire({
@@ -195,6 +211,8 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         }
       }
     );
+
+  }
   }
 
   function obtenerEmpleados() {
@@ -204,10 +222,11 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       "webservice/mostrarEmpleados.php",
       {},
       function(Data) {
+        //alert(Data);
         let empleados = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Nombre</th><th>Dirección</th><th>Jornada</th><th>Cargo</th><th>Acciones</th></tr>";
+        html = "<tr><th>ID</th><th>Nombre</th><th>Dirección</th><th>Jornada</th><th>Cargo</th><th>Correo</th><th>Acciones</th></tr>";
         for(i in empleados) {
-          html += "<tr><td>"+ empleados[i].idEmpleado +"</td><td>"+ empleados[i].nombre +"</td><td>"+ empleados[i].direccion +"</td><td>"+ empleados[i].idJornada +"</td><td>"+ empleados[i].idCargo +"</td><td><button id='editarEmpleado' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ empleados[i].idEmpleado +">Editar</button><button class='btnDelete' id='eliminarEmpleado' onclick='obtenerIdEliminar(this);' value="+ empleados[i].idEmpleado +">Eliminar</button></td></tr>";
+          html += "<tr><td>"+ empleados[i].idEmpleado +"</td><td>"+ empleados[i].nombre +"</td><td>"+ empleados[i].direccion +"</td><td>"+ empleados[i].idJornada +"</td><td>"+ empleados[i].idCargo+"</td><td>"+ empleados[i].correo +"</td><td><button id='editarEmpleado' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ empleados[i].idEmpleado +">Editar</button><button class='btnDelete' id='eliminarEmpleado' onclick='obtenerIdEliminar(this);' value="+ empleados[i].idEmpleado +">Eliminar</button></td></tr>";
           tablaEmpleados.innerHTML = html;
         }
       }
@@ -312,6 +331,8 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     var direccion = document.getElementById("direccionEditar").value;
     var idJornada = document.getElementById("idJornadaEditar").value;
     var idCargo = document.getElementById("idCargoEditar").value;
+    var contrasena = document.getElementById("contrasenaEditar").value;
+    var confirmacion = document.getElementById('confirmacionEditar').value;
     let tablaEmpleados = document.getElementById('tablaEmpleados');
     
     $.post(
@@ -321,7 +342,9 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         "nombre": nombre,
         "direccion": direccion,
         "idJornada": idJornada,
-        "idCargo": idCargo
+        "idCargo": idCargo,
+        'contrasena' : contrasena,
+        'correo' : correo
       },
       function(Data) {
         let notificacion = JSON.parse(Data);
