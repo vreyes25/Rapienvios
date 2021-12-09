@@ -1,3 +1,7 @@
+<?php 
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -25,11 +29,46 @@
           <input type="password" name="contrasena" id="contrasena" placeholder="Ingrese su contraseña">
           <i class="ri-lock-password-line icons cpassword"></i>
           <input type="password" name="confirmarContrasena" id="confirmarContrasena" placeholder="Confirmar contraseña">
-          <button type="button" onclick="cambiarContraseña()" class="startSession" >Guardar</button>
+          <button type="submit" class="startSession" >Guardar</button>
       </form>
     </section>
   </body>
   
+  <?php 
+    try {
+      if (isset($_POST['contrasena'])) {
+        $correo = $_SESSION['correo']; 
+        $contraseña = $_POST['contrasena'];
+        $confirmar = $_POST['confirmarContrasena'];
+        $server = "localhost";
+        $userbd = "root";
+        $passbd = "";
+        $db = "rapienvio";
+        $conexion = mysqli_connect($server,$userbd,$passbd,$db);
+        if($contraseña == $confirmar) {
+          $encriptar = password_hash($contraseña, PASSWORD_DEFAULT);
+          $sql = "UPDATE usuario SET contrasena='$encriptar' WHERE correo='$correo'";
+          if ($conexion->query($sql) === TRUE) {
+            echo '<script type="text/javascript">'
+              , 'Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Tu contraseña se ha modificado correctamente",
+                showConfirmButton: false,
+                timer: 1800
+              })'
+              , '</script>'
+            ;
+          } else {
+            echo "Error modificando: " . $conexion->error;
+          }
+        }
+      }
+    } catch (\Throwable $th) {
+      //throw $th;
+    }
+    
+  ?>
 
   <script type="text/javascript">
 
