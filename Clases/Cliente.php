@@ -1,35 +1,37 @@
 <?php
 include "Respuesta.php";
 
-class Cliente
-{
+class Cliente {
     public $idCliente;
     public $nombre;
     public $telefono;
     public $direccion;
     public $idEstado;
+    public $correo;
+    public $contrasena;
     public $total;
 
-    public function _construct()
-    {}
+    public function _construct() {}
 
-    public function constructorSobrecargado($nombre, $telefono, $direccion)
-    {
+    public function ConstructorLogin($correo, $contrasena){
+        $this->correo = $correo;
+        $this->contrasena = $contrasena;
+    }
+
+    public function constructorSobrecargado($nombre, $telefono, $direccion) {
         $this->nombre = $nombre;
         $this->telefono = $telefono;
         $this->direccion = $direccion;
     }
 
-    public function constructorEditar($idCliente, $nombre, $telefono, $direccion)
-    {
+    public function constructorEditar($idCliente, $nombre, $telefono, $direccion) {
         $this->idCliente = $idCliente;
         $this->nombre = $nombre;
         $this->telefono = $telefono;
         $this->direccion = $direccion;
     }
 
-    public function constructorReporte($idCliente, $nombre, $telefono, $direccion, $idEstado)
-    {
+    public function constructorReporte($idCliente, $nombre, $telefono, $direccion, $idEstado) {
         $this->idCliente = $idCliente;
         $this->nombre = $nombre;
         $this->telefono = $telefono;
@@ -37,13 +39,19 @@ class Cliente
         $this->idEstado = $idEstado;
     }
 
-    public function constructorTotal($total)
-    {
+    public function constructorTotal($total) {
         $this->total = $total;
     }
 
-    public function registrarCliente($conexion)
-    {
+    public function ConstructorRegistro($nombre, $telefono, $direccion, $correo, $contrasena) {
+        $this->nombre = $nombre;
+        $this->telefono = $telefono;
+        $this->direccion = $direccion;
+        $this->correo = $correo;
+        $this->contrasena = $contrasena;
+    }
+
+    public function registrarCliente($conexion) {
         $Res = new Respuesta();
         if (trim($this->nombre) == "") {
             $Res->NoSucces("Debes ingresar el nombre");
@@ -135,5 +143,48 @@ class Cliente
             $Respuesta->Error("Debe ingresar un ID");
             return $Respuesta;
         }
+    }
+
+    public function registro($conexion) {
+        $Res = new Respuesta();
+        if(trim($this->nombre) == "") {
+            $Res->NoSucces("Debes llenar el campo nombre");
+        } else if(trim($this->telefono) == "") {
+            $Res->NoSucces("Debes llenar el campo teléfono");
+        } else if(trim($this->direccion) == "") {
+            $Res->NoSucces("Debes llenar el campo direccion");
+        } else if(trim($this->correo) == "") {
+            $Res->NoSucces("Debes llenar el campo correo");
+        } else if(trim($this->contrasena) == "") {
+            $Res->NoSucces("Debes llenar el campo contraseña");
+        } else {
+            mysqli_query($conexion, "INSERT INTO cliente(nombre, telefono, direccion, correo, contrasena) 
+            VALUES ('$this->nombre', '$this->telefono', '$this->direccion', '$this->correo', '$this->contrasena')");
+            if (mysqli_error($conexion)) {
+                $Res->NoSucces("No se pudo registrar el cliente" . $resultado.error);
+            } else {
+                $Res->Succes("El cliente fue registrado correctamente");
+            }
+        }
+        return $Res;
+    }
+
+    public function login($conexion) {
+        $Res = new Respuesta();
+        if (trim($this->correo) == "" || trim($this->contrasena) == "") {
+            $Res->NoSucces("Debes escribir un correo y una contraseña");
+        } else {
+            $query = "SELECT * FROM cliente WHERE correo='$this->correo'";
+            $result = mysqli_query($conexion, $query);
+            $nr  = mysqli_num_rows($result);
+
+            $row = mysqli_fetch_array($result);
+            if (($nr == 1) &&(password_verify($this->contrasena, $row['contrasena'])) ) {
+                $Res->Succes("");
+            } else {
+                $Res->NoSucces("Correo o contraseña incorrecta");
+            }
+        }
+        return $Res;
     }
 }
