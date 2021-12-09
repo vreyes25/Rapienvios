@@ -1,50 +1,3 @@
-<?php
-use PHPMailer\PHPMailer\PHPMailer;
-
-require 'vendor/autoload.php';  
-class email{
-    
-    public $email;
-    public $nombre;
-    
-    public function __construct($email, $nombre){
-        $this->email = $email;
-        $this->nombre = $nombre;
-    }
-
-    public function enviar(){
-
-        $mail = new PHPMailer();
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPSecure = 'ssl';
-        $mail->SMTPAuth = true;
-        $mail->Port = 587;
-
-        $mail->setFrom('cuentas@novasystem.com');
-        $mail->addAddress("cuentas@novasystem.com", "NovaSystem.com");
-        $mail->Subject = 'Confirma tu cuenta';
-
-        $mail->isHTML(TRUE);
-        $mail->CharSet = 'UTF-8';
-
-        $contenido = "<html>";
-        $contenido .= "<p><strong>Hola " . $this->nombre . "</strong> Has creado tu cuenta en Nova
-        System, para confirmarla haz click el siguiente enlace</p>";
-        $contenido .= "<p>Presiona aquí: <a href='http://localhost:8080/sistema_ventas/index.php"
-        . "'>Confirmar Cuenta</a> </p>";
-        $contenido .= "<p>Si tu no solicitaste esta cuenta, puedes ignorar el mensaje</p>";
-        $contenido .= "</html>";
-        $mail->Body = $contenido;
-
-        // Enviar email
-        $mail->send();
-    }
-    
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -69,10 +22,12 @@ class email{
           <h2>REGISTRATE</h2>
           <i class="ri-emotion-line icons name"></i>
           <input type="text" name="nombre" id="nombre" placeholder="Ingrese su nombre">
+          <i class="ri-phone-line icons phone"></i>
+          <input type="text" name="telefono" id="telefono" placeholder="Ingrese su teléfono">
+          <i class="ri-route-line icons direction"></i>
+          <input type="text" name="direccion" id="direccion" placeholder="Ingrese su dirección">
           <i class="ri-mail-line icons mail"></i>
           <input type="email" name="correo" id="correo" placeholder="Ingrese su correo">
-          <i class="ri-user-line icons user"></i>
-          <input type="text" name="usuario" id="usuario" placeholder="Ingrese su usuario">
           <i class="ri-lock-2-line icons password"></i>
           <input type="password" name="contrasena" id="contrasena" placeholder="Ingrese su contraseña">
           <button type="button" class="startSession" onclick="registrar();">Registrarse</button>
@@ -86,15 +41,17 @@ class email{
 <script type="text/javascript">
   function registrar() {
     let nombre = document.getElementById('nombre').value;
+    let telefono = document.getElementById('telefono').value;
+    let direccion = document.getElementById('direccion').value;
     let correo = document.getElementById('correo').value;
-    let usuario = document.getElementById('usuario').value;
     let contrasena = document.getElementById('contrasena').value;
     $.post(
-      "webservice/registrarse.php",
+      "webservice/registrarClientes.php",
       {
         "nombre": nombre,
+        "telefono": telefono,
+        "direccion": direccion,
         "correo": correo,
-        "usuario": usuario,
         "contrasena": contrasena
       },
       function(Data){

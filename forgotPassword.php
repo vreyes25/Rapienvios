@@ -44,7 +44,7 @@
             //Conecto
             $conexion = mysqli_connect($server,$userbd,$passbd,$db);
           
-            $sql = "SELECT * FROM usuario WHERE correo='$mail'";
+            $sql = "SELECT * FROM cliente WHERE correo='$mail'";
             $resultado = $conexion->query($sql);
             $row = $resultado->fetch_assoc();
             if ($row != null) {

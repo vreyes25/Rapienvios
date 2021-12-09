@@ -7,9 +7,16 @@ class Empleado {
     public $direccion;
     public $idJornada;
     public $idCargo;
+    public $correo;
+    public $contrasena;
     public $total;
 
     public function _construct() {}
+
+    public function ConstructorLogin($correo, $contrasena){
+        $this->correo = $correo;
+        $this->contrasena = $contrasena;
+    }
 
     public function constructorSobrecargado($nombre, $direccion, $idJornada, $idCargo) {
         $this->nombre = $nombre;
@@ -119,5 +126,24 @@ class Empleado {
             $Respuesta->NoSucces("Debe ingresar un ID");
             return $Respuesta;
         }
+    }
+
+    public function login($conexion) {
+        $Res = new Respuesta();
+        if (trim($this->correo) == "" || trim($this->contrasena) == "") {
+            $Res->NoSucces("Debes escribir un correo y una contraseña");
+        } else {
+            $query = "SELECT * FROM empleado WHERE correo='$this->correo'";
+            $result = mysqli_query($conexion, $query);
+            $nr  = mysqli_num_rows($result);
+
+            $row = mysqli_fetch_array($result);
+            if (($nr == 1) &&(password_verify($this->contrasena, $row['contrasena'])) ) {
+                $Res->Succes("");
+            } else {
+                $Res->NoSucces("Correo o contraseña incorrecta");
+            }
+        }
+        return $Res;
     }
 }

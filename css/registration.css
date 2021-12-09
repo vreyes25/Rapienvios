@@ -20,7 +20,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 12vh;
+    height: 11vh;
 }
 
 #logo{
@@ -44,7 +44,7 @@ body{
 }
 
 #cover{
-    width: 400px;
+    width: 380px;
     margin: 10px 20px 0px 70px;
 }
 
@@ -69,7 +69,7 @@ h2, a{
 
 h2{
     font-size: 32px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 a:hover{
@@ -87,7 +87,7 @@ input{
     padding: 5px 0px 5px 45px;
     font-weight: 400;
     font-family: 'Poppins', sans-serif;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
     font-size: 17px;
 }
 
@@ -97,32 +97,36 @@ input{
     color: var(--letter-color);
 }
 
-.name, .mail, .user, .password{
+.name, .mail, .phone, .password, .direction{
     left: -5px;
 }
 
 .name{
-    top: 70px;
+    top: 65px;
+}
+
+.phone {
+    top: 138px;
 }
 
 .mail{
-    top: 148px;
+    top: 280px;
 }
 
-.user{
-    top: 222px;
+.direction{
+    top: 210px;
 }
 
 .password{
-    top: 300px;
+    top: 352px;
 }
 
 .startSession{
     background: var(--main-color);
     text-decoration: none;
-    width: 220px;
+    width: 200px;
     font-size: 18px;
-    height: 50px;
+    height: 45px;
     border: none;
     padding: 10px 20px;
     border-radius: 40px;

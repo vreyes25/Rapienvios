@@ -47,7 +47,7 @@ session_start();
         $conexion = mysqli_connect($server,$userbd,$passbd,$db);
         if($contraseña == $confirmar) {
           $encriptar = password_hash($contraseña, PASSWORD_DEFAULT);
-          $sql = "UPDATE usuario SET contrasena='$encriptar' WHERE correo='$correo'";
+          $sql = "UPDATE cliente SET contrasena='$encriptar' WHERE correo='$correo'";
           if ($conexion->query($sql) === TRUE) {
             echo '<script type="text/javascript">'
               , 'Swal.fire({

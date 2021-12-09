@@ -21,10 +21,10 @@
       <img id="cover" src="img/IlustracionAdmin.png" alt="cover">
       <form action="" method="post">
           <h2>BIENVENIDO AL SISTEMA</h2>
-          <i class="ri-user-line icons user"></i>
-          <input type="text" name="username" id="username" placeholder="Ingrese su usuario">
+          <i class="ri-mail-line icons user"></i>
+          <input type="email" name="correo" id="correo" placeholder="Ingrese su correo">
           <i class="ri-lock-2-line icons password"></i>
-          <input type="password" name="password" id="password" placeholder="Ingrese su contraseña">
+          <input type="password" name="contrasena" id="contrasena" placeholder="Ingrese su contraseña">
           <button type="button" onclick="iniciarSesion()" class="startSession" >Iniciar Sesión</button>
       </form>
     </section>
@@ -34,13 +34,13 @@
   <script type="text/javascript">
 
 function iniciarSesion(){
-  var usuario = document.getElementById("username").value;
-  var contrasena = document.getElementById("password").value;
+  var correo = document.getElementById("correo").value;
+  var contrasena = document.getElementById("contrasena").value;
 
   $.post(
-    "webservice/login.php",
+    "webservice/loginAdmin.php",
     {
-      'usuario': usuario,
+      'correo': correo,
       'contrasena': contrasena
     },
       function(data){
