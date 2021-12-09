@@ -1,20 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>CodePen - Nuemorphism-card-design</title>
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css">
-
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<!-- partial -->
-  
-</body>
-</html>
-
-<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
