@@ -1,3 +1,6 @@
+<?php session_start(); 
+?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -14,7 +17,7 @@
   <body>
     <header>
       <nav class="nav-bar">
-        <a href="index.php"><img src="img/Logo2.png" alt="logo" id="logo" /></a>
+        <a href="login.php"><img src="img/Logo2.png" alt="logo" id="logo" /></a>
       </nav>
     </header>
     <section class="content-data">
@@ -30,40 +33,71 @@
   <?php
 
 		try{
-			if(isset($_POST['correo']) && !empty($_POST['correo'])){
-                $pass = substr((microtime()), 1, 10);
-                $mail = $_POST['correo'];
-                
-                $server = "localhost";
-                $userbd = "root";
-                $passbd = "";
-                $db = "rapienvio";
-                //Conecto
-                $conexion = mysqli_connect($server,$userbd,$passbd,$db);
-                
-                $sql = "UPDATE usuario SET contrasena='$pass' WHERE correo='$mail'";
+			if(isset($_POST['correo'])){
+          $mail = $_POST['correo'];
+          $server = "localhost";
+          $userbd = "root";
+          $passbd = "";
+          $db = "rapienvio";
 
-                if ($conexion->query($sql) === TRUE) {
- 
-                } else {
-                    echo "Error modificando: " . $conexion->error;
-                }
-                
-                $to = $_POST['correo'];//"destinatario@email.com";
-                $from = "From: " . "Rapienvios" ;
-                $subject = "Recordar contraseña";
-                $message = "El sistema le asigno la siguiente clave incluyendo el punto (.): " . $pass;
-
-                mail($to, $subject, $message, $from);
-                echo 'Contraseña modificada satisfactoriamente revisa tu correo: ' . $_POST['correo'];
+          if (!empty($mail)) {
+            //Conecto
+            $conexion = mysqli_connect($server,$userbd,$passbd,$db);
+          
+            $sql = "SELECT * FROM usuario WHERE correo='$mail'";
+            $resultado = $conexion->query($sql);
+            $row = $resultado->fetch_assoc();
+            if ($row != null) {
+              $_SESSION['correo'] = $mail;
+              $to = $_POST['correo'];//"destinatario@email.com";
+              $from = "From: " . "Rapienvios" ;
+              $subject = "Recordar contraseña";
+              $message .= "http://localhost/Rapienvios/confirmPassword.php";
+  
+              mail($to, $subject, $message, $from);
+              echo '<script type="text/javascript">'
+                  , 'Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Revisa tu correo",
+                    text: "Hemos enviado un enlace para que puedas recuperar tu contraseña",
+                    showConfirmButton: true
+                  })'
+                  , '</script>'
+                ;
+            } else if ($row == null) {
+              echo '<script type="text/javascript">'
+              , 'Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Error",
+                text: "Asegurate de utilizar un correo válido",
+                showConfirmButton: true
+              })'
+              , '</script>'
+            ;
             }
+          } else {
+            echo '<script type="text/javascript">'
+              , 'Swal.fire({
+                position: "center",
+                icon: "warning",
+                title: "Advertencia",
+                text: "El campo contraseña no puede estar vacío",
+                showConfirmButton: true
+              })'
+              , '</script>'
+            ;
+          }
+          
+      }
 
 		}
 		catch (Exception $e) {
 			echo 'Excepción capturada: ',  $e->getMessage(), "\n";
 		}
             
-        ?>
+  ?>
 
   <script type="text/javascript">
 
