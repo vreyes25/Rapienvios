@@ -42,7 +42,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           </li>
         </a>
 
-        <a href="precios.php">
+        <a href="preciosCasillero.php">
           <li>
             <i class="ri-price-tag-3-fill side-icons"></i>
             Precios

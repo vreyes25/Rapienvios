@@ -127,15 +127,21 @@ class precioCasillero{
     }
 
     public function obtenerPrecios($conexion) {
-        $consulta = "SELECT idHistorial, idCasillero, fechaInicio, fechaFinal, precio from historialpreciocasillero";
+        $consulta = "SELECT idHistorial, tamanio.descripcion, fechaInicio, fechaFinal, precio from historialpreciocasillero, tamanio where historialpreciocasillero.idCasillero=tamanio.idTamanio";
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {
             $Empleados = new precioCasillero();
-            $Empleados->constructorListar($fila['idHistorial'], $fila['idCasillero'], $fila['fechaInicio'], $fila['fechaFinal'], $fila['precio']);
+            $Empleados->constructorListar($fila['idHistorial'], $fila['descripcion'], $fila['fechaInicio'], $fila['fechaFinal'], $fila['precio']);
             $lista[] = $Empleados;
         }
         return $lista;
+    }
+    public function totalPrecios($conexion) {
+        $consulta = "SELECT COUNT(*) AS total FROM historialpreciocasillero";
+        $resultado = mysqli_query($conexion, $consulta);
+        $total = mysqli_fetch_assoc($resultado);
+        return $total;
     }
     
 

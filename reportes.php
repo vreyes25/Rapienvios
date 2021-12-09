@@ -33,7 +33,7 @@
           </li>
         </a>
 
-        <a href="precios.php">
+        <a href="preciosCasillero.php">
           <li>
             <i class="ri-price-tag-3-fill side-icons"></i>
             Precios
@@ -77,7 +77,7 @@
           <div class="content">
             <h2>01</h2>
             <h3>CLIENTES</h3>
-            <a href="#">Generar Reporte</a>
+            <a href="reporte/ReporteCliente.php">Generar Reporte</a>
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@
           <div class="content">
             <h2>02</h2>
             <h3>PAQUETES</h3>
-            <a href="#">Generar Reporte</a>
+            <a href="reporte/ReportePaquete.php">Generar Reporte</a>
           </div>
         </div>
       </div>

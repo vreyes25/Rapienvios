@@ -29,7 +29,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       <ul class="dashboard-elements">
         <li>
           <i class="ri-folder-user-fill side-icons"></i>
-          <a href="#">Clientes</a>
+          <a href="dashboard.php">Clientes</a>
         </li>
         <li>
           <i class="ri-dropbox-fill side-icons"></i>
@@ -37,16 +37,22 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         </li>
         <li class="active">
           <i class="ri-price-tag-3-fill side-icons"></i>
-          <a href="precios.php">Precios</a>
+          <a href="#">Precios</a>
         </li>
         <li>
           <i class="ri-user-fill side-icons"></i>
           <a href="empleados.php">Empleados</a>
         </li>
         <li>
-          <i class="ri-dropbox-fill side-icons"></i>
+          <i class="ri-plane-fill side-icons"></i>
           <a href="envios.php">Envios</a>
         </li>
+        <a href="reportes.php">
+          <li class="">
+            <i class="ri-article-fill side-icons"></i>
+            Reportes
+          </li>
+        </a>
         <li class="logout">
           <i class="ri-logout-box-r-line side-icons"></i>
           <a href="cerrarSesion.php">Cerrar Sesión</a>
@@ -136,6 +142,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   (function(){
     obtenerClientes();
     totalClientes();
+    obtenerTipoCasilleros();
   })();
 
   function limpiar() {
@@ -147,6 +154,27 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     var nombreClienteEditar = document.getElementById("nombreClienteEditar").value = "";
     var telefonoEditar = document.getElementById("telefonoEditar").value = "";
     var direccionEditar = document.getElementById("direccionEditar").value = "";
+  }
+
+  function obtenerTipoCasilleros(){
+    var casillero = document.getElementById("idTipoCasillero");
+
+    $.post(
+      "webservice/mostrarTamanios.php",
+      {},
+      function(Data) {
+        //alert(Data);
+        let cargos = JSON.parse(Data);
+        html = "<option value='0'>Seleccione Casillero...</option>";
+        for(i in cargos) {
+          html += "<option value="+ cargos[i].idTamanio +">"+ cargos[i].descripcion +"</option>";
+          casillero.innerHTML = html;
+          //idCargoEditar.innerHTML = html;
+        }
+      }
+    );
+
+
   }
 
   function registrarPrecio(){
@@ -162,7 +190,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       'precio': telefono
     },
       function(data){
-        alert(data);
+        //alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           Swal.fire({
@@ -222,11 +250,12 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     let totalClientes = document.getElementById('total');
 
     $.post(
-      "webservice/totalClientes.php",
+      "webservice/totalPrecioCasillero.php",
       {},
       function(Data) {
+        //alert(Data);
         let total = JSON.parse(Data);
-        totalClientes.innerHTML = total['totalClientes'];
+        totalClientes.innerHTML = total['total'];
       }
     );
   }

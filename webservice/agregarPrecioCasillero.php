@@ -1,7 +1,7 @@
 <?php
 if(isset($_POST)){
     include("../php/conexion.php");
-    include("../Clases/PrecioCasilero.php");
+    include("../Clases/PrecioCasillero.php");
     $Empleado = new precioCasillero();
 
     date_default_timezone_set('America/Tegucigalpa');
@@ -9,8 +9,8 @@ if(isset($_POST)){
     $fechainicio = date('Y-m-d');
     $idCasillero = @$_POST['idTipoCasillero'];
 
-    $consulta="SELECT `idHistorial`, `idCasillero`, `precio`,`fechaInicio`, IF(historialpreciocasillero.fechaFinal=NULL,' ',fechaFinal) as 'fechaFinal' FROM `historialpreciocasillero` 
-    WHERE idCasillero='$idCasillero' and fechaFinal = NULL;";
+    $consulta="SELECT `idHistorial`, `idCasillero`, `precio`,`fechaInicio`, fechaFinal FROM `historialpreciocasillero` 
+    WHERE idCasillero=$idCasillero and fechaFinal IS null";
 
     $result = mysqli_query($conexion, $consulta);
 
@@ -34,7 +34,5 @@ if(isset($_POST)){
     }
 
 
-    $Empleado->constructorPaqueteRegistrar($idCasillero,$fechainicio, @$_POST['precio']); 
-    echo json_encode($Empleado->registrarPaquete($conexion)); 
 }
 ?>
