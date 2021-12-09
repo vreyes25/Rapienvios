@@ -4,7 +4,7 @@ if(isset($_POST)){
     include("../Clases/Paquete.php");
     $Empleado = new Paquete();
 
-    $Empleado->constructorPaqueteRegistrar(@$_POST['descripcion'], @$_POST['peso'], @$_POST['casillero']);
-    echo json_encode($Empleado->eliminarPaquete($conexion)); 
+    
+    echo json_encode($Empleado->eliminarPaquete($conexion,@$_POST['idPaquete'])); 
 }
 ?>

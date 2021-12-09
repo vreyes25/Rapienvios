@@ -1,3 +1,11 @@
+<?php
+Session_start();
+
+if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
+  header('Location:loginAdmin.php');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -35,9 +43,13 @@
           <i class="ri-user-fill side-icons"></i>
           <a href="#">Empleados</a>
         </li>
+        <li>
+          <i class="ri-dropbox-fill side-icons"></i>
+          <a href="envios.php">Envios</a>
+        </li>
         <li class="logout">
           <i class="ri-logout-box-r-line side-icons"></i>
-          <a href="index.php">Cerrar Sesión</a>
+          <a href="cerrarSesion.php">Cerrar Sesión</a>
         </li>
       </ul>
     </div>
@@ -48,7 +60,7 @@
           <i class="ri-search-line searchButton"></i>
         </div>
         <div class="user-name">
-          <h3>Bienvenido, <strong>Victor Reyes</strong></h3>
+          <h3>Bienvenido, <strong><?php echo $_SESSION['usuario'];?></strong></h3>
         </div>
       </div>
       <div class="data">
@@ -80,6 +92,10 @@
                 <input type="text" placeholder="Ingrese la dirección" id="direccion"/>
                 <select name="idJornada" id="idJornada"></select>
                 <select name="idCargo" id="idCargo"></select>
+                <input type="text" placeholder="Ingrese el correo"  id="correo"/>
+                <input type="password" placeholder="Ingrese la contraseña" id="contrasena"/>
+                <input type="password" placeholder="Confirme la Contraseña"  id="confirmnacion"/>
+                
                 <button type="button" onclick="registrarEmpleados()" class="guardarCliente">Guardar</button>
               </div>
               <div class="imagen">
@@ -107,6 +123,9 @@
                 <input type="text" placeholder="Ingrese la dirección" id="direccionEditar"/>
                 <select name="idJornada" id="idJornadaEditar"></select>
                 <select name="idCargo" id="idCargoEditar"></select>
+                <input type="text" placeholder="Ingrese el correo"  id="correoEditar"/>
+                <input type="password" placeholder="Ingrese la contraseña" id="contrasenaEditar"/>
+                <input type="password" placeholder="Confirme la Contraseña"  id="confirmacionEditar"/>
                 <button type="button" onclick="editarEmpleado()" class="guardarCliente">Actualizar</button>
               </div>
               <div class="imagen">
@@ -131,13 +150,13 @@
   })();
 
   function limpiar() {
-    var idCliente = document.getElementById("idCliente").value = "";
-    var nombreCliente = document.getElementById("nombreCliente").value = "";
-    var telefono = document.getElementById("telefono").value = "";
+    var idCliente = document.getElementById("idJornadaEditar").value = "";
+    var nombreCliente = document.getElementById("nombre").value = "";
+    var telefono = document.getElementById("idJornada").value = "";
     var  direccion = document.getElementById("direccion").value = "";
-    var idClienteEditar = document.getElementById("idClienteEditar").value = "";
-    var nombreClienteEditar = document.getElementById("nombreClienteEditar").value = "";
-    var telefonoEditar = document.getElementById("telefonoEditar").value = "";
+    var idClienteEditar = document.getElementById("idEmpleadoEditar").value = "";
+    //var nombreClienteEditar = document.getElementById("nombreClienteEditar").value = "";
+    var telefonoEditar = document.getElementById("idCargoEditar").value = "";
     var direccionEditar = document.getElementById("direccionEditar").value = "";
   }
 
@@ -146,18 +165,27 @@
     var direccion = document.getElementById("direccion").value;
     var idJornada = document.getElementById("idJornada").value;
     var idCargo = document.getElementById("idCargo").value;
+    var correo = document.getElementById("correo").value;
+    var contrasena = document.getElementById("contrasena").value;
+    var confirmacion = document.getElementById("confirmnacion").value;
     let tablaEmpleados = document.getElementById('tablaEmpleados');
-
+    alert(contrasena);
+    if(contrasena.trim() != confirmacion.trim()){
+      alert("Contraseña no coincide con la confirmación");
+    }
+    else{
     $.post(
     "webservice/registrarEmpleados.php",
     {
       'nombre': nombreCliente,
       'direccion':direccion,
-      "jornada": idJornada,
-      "cargo": idCargo
+      'jornada': idJornada,
+      'cargo': idCargo,
+      'contrasena' : contrasena,
+      'correo' : correo
     },
       function(data){
-        //alert(data);
+        alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           Swal.fire({
@@ -183,6 +211,8 @@
         }
       }
     );
+
+  }
   }
 
   function obtenerEmpleados() {
@@ -192,10 +222,11 @@
       "webservice/mostrarEmpleados.php",
       {},
       function(Data) {
+        //alert(Data);
         let empleados = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Nombre</th><th>Dirección</th><th>Jornada</th><th>Cargo</th><th>Acciones</th></tr>";
+        html = "<tr><th>ID</th><th>Nombre</th><th>Dirección</th><th>Jornada</th><th>Cargo</th><th>Correo</th><th>Acciones</th></tr>";
         for(i in empleados) {
-          html += "<tr><td>"+ empleados[i].idEmpleado +"</td><td>"+ empleados[i].nombre +"</td><td>"+ empleados[i].direccion +"</td><td>"+ empleados[i].idJornada +"</td><td>"+ empleados[i].idCargo +"</td><td><button id='editarEmpleado' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ empleados[i].idEmpleado +">Editar</button><button class='btnDelete' id='eliminarEmpleado' onclick='obtenerIdEliminar(this);' value="+ empleados[i].idEmpleado +">Eliminar</button></td></tr>";
+          html += "<tr><td>"+ empleados[i].idEmpleado +"</td><td>"+ empleados[i].nombre +"</td><td>"+ empleados[i].direccion +"</td><td>"+ empleados[i].idJornada +"</td><td>"+ empleados[i].idCargo+"</td><td>"+ empleados[i].correo +"</td><td><button id='editarEmpleado' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ empleados[i].idEmpleado +">Editar</button><button class='btnDelete' id='eliminarEmpleado' onclick='obtenerIdEliminar(this);' value="+ empleados[i].idEmpleado +">Eliminar</button></td></tr>";
           tablaEmpleados.innerHTML = html;
         }
       }
@@ -300,6 +331,8 @@
     var direccion = document.getElementById("direccionEditar").value;
     var idJornada = document.getElementById("idJornadaEditar").value;
     var idCargo = document.getElementById("idCargoEditar").value;
+    var contrasena = document.getElementById("contrasenaEditar").value;
+    var confirmacion = document.getElementById('confirmacionEditar').value;
     let tablaEmpleados = document.getElementById('tablaEmpleados');
     
     $.post(
@@ -309,7 +342,9 @@
         "nombre": nombre,
         "direccion": direccion,
         "idJornada": idJornada,
-        "idCargo": idCargo
+        "idCargo": idCargo,
+        'contrasena' : contrasena,
+        'correo' : correo
       },
       function(Data) {
         let notificacion = JSON.parse(Data);

@@ -4,6 +4,6 @@ if (isset($_POST)) {
     include "../Clases/Empleado.php";
 
     $Empleados = new Empleado();
-    $Empleados->constructorEditar(@$_POST['idEmpleado'], @$_POST['nombre'], @$_POST['direccion'], @$_POST['jornada'], @$_POST['cargo']);
+    //$Empleados->constructorEditar(@$_POST['idEmpleado'], @$_POST['nombre'], @$_POST['direccion'], @$_POST['jornada'], @$_POST['cargo'],@$_POST['correo']);
     echo json_encode($Empleados->obtenerEmpleados($conexion));
 }
