@@ -75,7 +75,7 @@
       <div class="flex" id="flex">
         <div class="contenido-modal">
           <div class="modal-header flex">
-            <i class="ri-folder-user-fill side-icons"></i>
+            <i class="ri-dropbox-fill side-icons"></i>
             <h2>Nuevo Paquete</h2>
             <span class="close" id="close">&times;</span>
           </div>
@@ -103,7 +103,7 @@
       <div class="flex" id="flex2">
         <div class="contenido-modal">
           <div class="modal-header flex">
-            <i class="ri-folder-user-fill side-icons"></i>
+            <i class="ri-dropbox-fill side-icons"></i>
             <h2>Editar Paquete</h2>
             <span class="close" id="close2">&times;</span>
           </div>
