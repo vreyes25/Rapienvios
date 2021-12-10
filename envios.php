@@ -217,18 +217,38 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     );
   }
 
-  function obtenerClientes() {
+  $(document).on('keyup','#search',function(){
+    var valor = $(this).val();
+    let tablaEmpleados = document.getElementById('tablaClientes');
+    if(valor != ""){
+      tablaEmpleados.innerHTML ="";
+      obtenerClientes(valor);
+
+
+    }
+    else{
+      tablaEmpleados.innerHTML = "";
+      obtenerClientes();
+    }
+
+    //Aqui va el codigo de busqueda
+  });
+
+
+  function obtenerClientes(valor) {
     let tablaClientes = document.getElementById('tablaClientes');
 
     $.post(
-      "webservice/mostrarClientes.php",
-      {},
+      "webservice/mostrarEnviosActivos.php",
+      {
+        'valor':valor
+      },
       function(Data) {
         //alert(Data);
         let clientes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Estado</th><th>Acciones</th></tr>";
+        html = "<tr><th>ID</th><th>ID Paquete</th><th>ID de Empleado</th><th>Fecha Recibido</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
         for(i in clientes) {
-          html += "<tr><td>"+ clientes[i].idCliente +"</td><td>"+ clientes[i].nombre +"</td><td>"+ clientes[i].telefono +"</td><td>"+ clientes[i].direccion +"</td><td>"+ clientes[i].idEstado +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idCliente +">Editar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idCliente +">Eliminar</button></td></tr>";
+          html += "<tr><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].idPaquete +"</td><td>"+ clientes[i].idEmpleado +"</td><td>"+ clientes[i].fechaRecibido +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idCliente +">Actualizar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idEnvio +">Recibido</button></td></tr>";
           tablaClientes.innerHTML = html;
         }
       }
@@ -323,22 +343,22 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   function obtenerIdEliminar(elemento) {
     var idCliente = document.getElementById('eliminarCliente').value = elemento.value;
     let tablaClientes = document.getElementById('tablaClientes');
-
+    //alert(idCliente);
     Swal.fire({
       title: '¿Estás seguro?',
-      text: "Una vez eliminado el registro no podrás recuperarlo",
+      text: "Una vez Marcado como Entregado el envio no podrás Desmarcarlo",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#b0b0b0',
       cancelButtonColor: '#a71d31',
-      confirmButtonText: 'Si, deseo eliminarlo',
+      confirmButtonText: 'Si, deseo Marcar como Entregado',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
         $.post(
-          "webservice/eliminarCliente.php",
+          "webservice/entregarEnvio.php",
           {
-            "idCliente": idCliente
+            "idEnvio": idCliente
           }, 
           function(Data) {
             var notificacion = JSON.parse(Data);
