@@ -8,6 +8,7 @@ class Cliente {
     public $direccion;
     public $idEstado;
     public $correo;
+    public $idCasillero;
     public $contrasena;
     public $total;
 
@@ -15,6 +16,11 @@ class Cliente {
 
     public function ConstructorLogin($correo, $contrasena){
         $this->correo = $correo;
+        $this->contrasena = $contrasena;
+    }
+
+    public function ConstructorCambiarContrasena($nombre, $contrasena){
+        $this->nombre = $nombre;
         $this->contrasena = $contrasena;
     }
 
@@ -31,6 +37,14 @@ class Cliente {
         $this->direccion = $direccion;
     }
 
+    public function constructorEditarData($correo, $nombre, $telefono, $direccion, $idCasillero) {
+        $this->correo = $correo;
+        $this->nombre = $nombre;
+        $this->telefono = $telefono;
+        $this->direccion = $direccion;
+        $this->idCasillero = $idCasillero;
+    }
+
     public function constructorReporte($idCliente, $nombre, $telefono, $direccion, $idEstado) {
         $this->idCliente = $idCliente;
         $this->nombre = $nombre;
@@ -42,6 +56,15 @@ class Cliente {
     public function constructorTotal($total) {
         $this->total = $total;
     }
+
+    public function constructorData($nombre, $telefono, $direccion, $correo, $idCasillero) {
+        $this->nombre = $nombre;
+        $this->telefono = $telefono;
+        $this->direccion = $direccion;
+        $this->correo = $correo;
+        $this->idCasillero = $idCasillero;
+    }
+    
 
     public function ConstructorRegistro($nombre, $telefono, $direccion, $correo, $contrasena) {
         $this->nombre = $nombre;
@@ -73,8 +96,7 @@ class Cliente {
         return $Res;
     }
 
-    public function obtenerClientes($conexion)
-    {
+    public function obtenerClientes($conexion) {
         $consulta = "SELECT C.idCliente, C.nombre, C.telefono, C.direccion, E.estado
         FROM cliente AS C
         INNER JOIN estados AS E ON C.idEstado = E.idEstado";
@@ -96,8 +118,7 @@ class Cliente {
         return $total;
     }
 
-    public function editarCliente($conexion)
-    {
+    public function editarCliente($conexion) {
         $consulta = "UPDATE cliente SET nombre = '$this->nombre', telefono = '$this->telefono',
         direccion = '$this->direccion' WHERE idCliente = '$this->idCliente'";
         $Respuesta = new Respuesta();
@@ -125,8 +146,7 @@ class Cliente {
         }
     }
 
-    public function buscarCliente($conexion)
-    {
+    public function buscarCliente($conexion) {
         $consulta = "SELECT C.idCliente, C.nombre, C.telefono, C.direccion, E.estado
         FROM cliente AS C
         INNER JOIN estados AS E ON C.idEstado = E.idEstado
@@ -189,5 +209,51 @@ class Cliente {
             }
         }
         return $Res;
+    }
+
+    public function cambiarContrasena($conexion) {
+        $consulta = "UPDATE cliente SET contrasena = '$this->contrasena' WHERE nombre = '$this->nombre'";
+        $Respuesta = new Respuesta();
+
+        if (mysqli_query($conexion, $consulta)) {
+            $Respuesta->Succes("La contraseña se fue actualizada correctamente");
+            return $Respuesta;
+        } else {
+            $Respuesta->NoSucces("Error al modificar" . $conexion->error);
+            return $Respuesta;
+        }
+    }
+
+    public function buscarClienteInfo($conexion) {
+        $consulta = "SELECT nombre, telefono, direccion, correo, idCasillero
+        FROM cliente
+        WHERE nombre = '$this->nombre'";
+        $Respuesta = new Respuesta();
+        $Cliente = new Cliente();
+        $ClienteEncontrado = mysqli_query($conexion, $consulta);
+        $data = $ClienteEncontrado->fetch_assoc();
+
+        if ($data != null) {
+            $Cliente->constructorData($data['nombre'], $data['telefono'], $data['direccion'], $data['correo'], $data['idCasillero']);
+            return $Cliente;
+        } else {
+            $Respuesta->Error("Debe ingresar un nombre");
+            return $Respuesta;
+        }
+    }
+
+    public function editarClienteData($conexion) {
+        $consulta = "UPDATE cliente SET nombre = '$this->nombre', telefono = '$this->telefono',
+        direccion = '$this->direccion', idCasillero = '$this->idCasillero' 
+        WHERE correo = '$this->correo'";
+        $Respuesta = new Respuesta();
+
+        if (mysqli_query($conexion, $consulta)) {
+            $Respuesta->Succes("El cliente se ha actualizado correctamente");
+            return $Respuesta;
+        } else {
+            $Respuesta->NoSucces("Error al modificar" . $conexion->error);
+            return $Respuesta;
+        }
     }
 }
