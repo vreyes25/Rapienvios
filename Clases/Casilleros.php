@@ -16,9 +16,15 @@ class Casilleros {
         $this->idCliente = $idCliente;
     }
 
+
+    public function ConstructorDetalle($idCasillero, $idTamanio){
+        $this->idCasillero = $idCasillero;
+        $this->idTamanio = $idTamanio;
+
     public function ConstructorParaPaquete($idCasillero){
         $this->idCasillero = $idCasillero;
         
+
     }
 
     public function obtenerCasilleros($Conexion) {
@@ -34,6 +40,20 @@ class Casilleros {
     }
 
 
+    public function obtenerCasilleroDetalle($Conexion) {
+        $consulta = "SELECT C.idCasillero, T.descripcion  
+        FROM casillero AS C
+        INNER JOIN tamanio AS T ON C.idTamanio = T.idTamanio";
+        $resultado = mysqli_query($Conexion, $consulta);
+        $lista = array();
+        while ($fila = mysqli_fetch_array($resultado)) {
+            $Casilleros = new Casilleros();
+            $Casilleros->ConstructorDetalle($fila['idCasillero'], $fila['descripcion']);
+            $lista[] = $Casilleros;
+        }
+        return $lista;
+
+
     public function obtenerCasillerosParaPaquetes($conexion){
         $consulta = "SELECT idCasillero FROM casillero";
         $resultado = mysqli_query($conexion, $consulta);
@@ -46,5 +66,6 @@ class Casilleros {
         return $lista;
 
         
+
     }
 }

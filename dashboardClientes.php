@@ -27,26 +27,41 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       <img src="img/Logo.png" alt="logo" id="logo" />
       <div class="decoration-line"></div>
       <ul class="dashboard-elements">
-        <li class="active">
-          <i class="ri-archive-fill side-icons"></i>
-          <a href="#">Mis Paquetes</a>
-        </li>
-        <li>
-          <i class="ri-truck-fill side-icons"></i>
-          <a href="#">Tracking</a>
-        </li>
-        <li>
-          <i class="ri-price-tag-3-fill side-icons"></i>
-          <a href="#">Consultar Precios</a>
-        </li>
-        <li>
-          <i class="ri-settings-3-fill side-icons"></i>
-          <a href="#">Mi cuenta</a>
-        </li>
+
+        <a href="dashboardClientes.php">
+          <li class="active">
+            <i class="ri-archive-fill side-icons"></i>
+            Mis Paquetes
+          </li>
+        </a>
+
+        <a href="tracking.php">
+          <li>
+            <i class="ri-truck-fill side-icons"></i>
+            Tracking
+          </li>
+        </a>
+
+
+        <a href="preciosClientes.php">
+          <li>
+            <i class="ri-price-tag-3-fill side-icons"></i>
+            Consultar Precios
+          </li>
+        </a>
+
+        <a href="cuentaCliente.php">
+          <li>
+            <i class="ri-settings-3-fill side-icons"></i>
+            Mi Cuenta
+          </li>
+        </a>
+
         <li class="logout">
           <i class="ri-logout-box-r-line side-icons"></i>
-          <a href="login.php">Cerrar Sesión</a>
+          <a href="cerrarSesion2.php">Cerrar Sesión</a>
         </li>
+
       </ul>
     </div>
     <div class="content-data">
@@ -101,13 +116,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 
 <script type="text/javascript">
   (function(){
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'Bienvenido',
-      showConfirmButton: false,
-      timer: 1500
-    })
+    
   })();
 
   function limpiar() {
