@@ -41,7 +41,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           </li>
         </a>
 
-        <a href="precios.php">
+        <a href="preciosCasillero.php">
           <li>
             <i class="ri-price-tag-3-fill side-icons"></i>
             Precios
@@ -299,12 +299,30 @@ function registrarPaquete(){
     });
   }
 
-  function obtenerPaquetes() {
+
+  $(document).on('keyup','#search',function(){
+    var valor = $(this).val();
+    let tablaEmpleados = document.getElementById('tablaPaquetes');
+    if(valor != ""){
+      tablaEmpleados.innerHTML ="";
+      obtenerPaquetes(valor);
+
+
+    }
+    else{
+      tablaEmpleados.innerHTML = "";
+      obtenerPaquetes();
+    }
+
+    //Aqui va el codigo de busqueda
+  });
+
+  function obtenerPaquetes(valor) {
     let tablaPaquetes = document.getElementById('tablaPaquetes');
 
     $.post(
       "webservice/mostrarPaquetes.php",
-      {},
+      {'valor':valor},
       function(Data) {
         let paquetes = JSON.parse(Data);
         html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>ID Casillero</th><th>Acciones</th></tr>";
@@ -324,6 +342,7 @@ function registrarPaquete(){
       "webservice/mostrarCasilleros.php",
       {},
       function(Data) {
+        //alert(Data);
         let casilleros = JSON.parse(Data);
         html = "<option value='0'>Seleccione Casillero...</option>";
         for(i in casilleros) {

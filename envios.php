@@ -6,6 +6,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -27,36 +28,55 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       <img src="img/Logo.png" alt="logo" id="logo" />
       <div class="decoration-line"></div>
       <ul class="dashboard-elements">
-        <li>
-          <i class="ri-folder-user-fill side-icons"></i>
-          <a href="dashboard.php">Clientes</a>
-        </li>
-        <li>
-          <i class="ri-dropbox-fill side-icons"></i>
-          <a href="paquetes.php">Paquetes</a>
-        </li>
-        <li class="active">
-          <i class="ri-price-tag-3-fill side-icons"></i>
-          <a href="#">Precios</a>
-        </li>
-        <li>
-          <i class="ri-user-fill side-icons"></i>
-          <a href="empleados.php">Empleados</a>
-        </li>
-        <li>
-          <i class="ri-plane-fill side-icons"></i>
-          <a href="envios.php">Envios</a>
-        </li>
+        <a href="dashboard.php">
+          <li>
+            <i class="ri-folder-user-fill side-icons"></i>
+            Clientes
+          </li>
+        </a>
+
+        <a href="paquetes.php">
+          <li>
+            <i class="ri-dropbox-fill side-icons"></i>
+            Paquetes
+          </li>
+        </a>
+
+        <a href="preciosCasillero.php">
+          <li>
+            <i class="ri-price-tag-3-fill side-icons"></i>
+            Precios
+          </li>
+        </a>
+
+        <a href="empleados.php">
+          <li>
+            <i class="ri-user-fill side-icons"></i>
+            Empleados
+          </li>
+        </a>
+
+        <a href="#">
+          <li class="active">
+            <i class="ri-plane-fill side-icons"></i>
+            Envios
+          </li>
+        </a>
+
         <a href="reportes.php">
-          <li class="">
+          <li>
             <i class="ri-article-fill side-icons"></i>
             Reportes
           </li>
         </a>
-        <li class="logout">
-          <i class="ri-logout-box-r-line side-icons"></i>
-          <a href="cerrarSesion.php">Cerrar Sesión</a>
-        </li>
+
+        <a href="cerrarSesion.php">
+          <li class="logout">
+            <i class="ri-logout-box-r-line side-icons"></i>
+            Cerrar Sesión
+          </li>
+        </a>
+
       </ul>
     </div>
     <div class="content-data">
@@ -66,14 +86,14 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           <i class="ri-search-line searchButton"></i>
         </div>
         <div class="user-name">
-          <h3>Bienvenido, <strong><?php echo $_SESSION['usuario'] ; ?></strong></h3>
+          <h3>Bienvenido, <strong><?php echo $_SESSION['usuario']; ?></strong></h3>
         </div>
       </div>
       <div class="data">
         <div class="up-content">
-          <h3>Total de Registros: <strong id="total"></strong></h3>
+          <h3>Total de Envios Pendientes: <strong id="total"></strong></h3>
           <button type="button" id="nuevoCliente" class="startSession">
-            Actualizar P.
+            Nuevo
           </button>
         </div>
         <div class="content-tables">
@@ -87,17 +107,17 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Nuevo Precio de Casillero</h2>
+            <h2>Nuevo Cliente</h2>
             <span class="close" id="close">&times;</span>
           </div>
           <div class="modal-body">
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
-                <input type="text" placeholder="ID Historial" disabled/>
-                <!--<input type="text" placeholder="Ingrese el casillero"  id="idCasillero"/>-->
-                <select name="idTipoCasillero" id="idTipoCasillero"></select>
-                <input type="text" placeholder="Ingrese el precio" id="precio"/>
-                <button type="button" onclick="registrarPrecio()" class="guardarCliente">Guardar</button>
+                <input type="text" placeholder="ID Cliente" disabled/>
+                <input type="text" placeholder="Ingrese el nombre"  id="nombreCliente"/>
+                <input type="text" placeholder="Ingrese el teléfono" id="telefono" />
+                <input type="text" placeholder="Ingrese la dirección" id="direccion"/>
+                <button type="button" onclick="registrarCliente()" class="guardarCliente">Guardar</button>
               </div>
               <div class="imagen">
                 <img src="img/nuevoCliente.svg" alt="ilustracion" />
@@ -113,17 +133,17 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Editar Precio</h2>
+            <h2>Editar Cliente</h2>
             <span class="close" id="close2">&times;</span>
           </div>
           <div class="modal-body">
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
-                <input type="text" placeholder="ID Historial" disabled/>
-                <!--<input type="text" placeholder="Ingrese el casillero"  id="idCasillero"/>-->
-                <select name="idTipoCasillero" id="idTipoCasillero"></select>
-                <input type="text" placeholder="Ingrese el precio" id="precio"/>
-                <button type="button" onclick="editarPrecio()" class="guardarCliente">Actualizar</button>
+                <input type="text" placeholder="ID Cliente" id="idClienteEditar" disabled/>
+                <input type="text" placeholder="Ingrese el nombre"  id="nombreClienteEditar"/>
+                <input type="text" placeholder="Ingrese el teléfono" id="telefonoEditar" />
+                <input type="text" placeholder="Ingrese la dirección" id="direccionEditar"/>
+                <button type="button" onclick="editarCliente()" class="guardarCliente">Actualizar</button>
               </div>
               <div class="imagen">
                 <img src="img/nuevoCliente.svg" alt="ilustracion" />
@@ -142,7 +162,6 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   (function(){
     obtenerClientes();
     totalClientes();
-    obtenerTipoCasilleros();
   })();
 
   function limpiar() {
@@ -156,38 +175,18 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     var direccionEditar = document.getElementById("direccionEditar").value = "";
   }
 
-  function obtenerTipoCasilleros(){
-    var casillero = document.getElementById("idTipoCasillero");
-
-    $.post(
-      "webservice/mostrarTamanios.php",
-      {},
-      function(Data) {
-        //alert(Data);
-        let cargos = JSON.parse(Data);
-        html = "<option value='0'>Seleccione Casillero...</option>";
-        for(i in cargos) {
-          html += "<option value="+ cargos[i].idTamanio +">"+ cargos[i].descripcion +"</option>";
-          casillero.innerHTML = html;
-          //idCargoEditar.innerHTML = html;
-        }
-      }
-    );
-
-
-  }
-
-  function registrarPrecio(){
-    var nombreCliente = document.getElementById("idTipoCasillero").value;
-    var telefono = document.getElementById("precio").value;
-    //var  direccion = document.getElementById("direccion").value;
+  function registrarCliente(){
+    var nombreCliente = document.getElementById("nombreCliente").value;
+    var telefono = document.getElementById("telefono").value;
+    var  direccion = document.getElementById("direccion").value;
     let tablaClientes = document.getElementById('tablaClientes');
 
     $.post(
-    "webservice/agregarPrecioCasillero.php",
+    "webservice/registrarCliente.php",
     {
-      'idTipoCasillero': nombreCliente,
-      'precio': telefono
+      'nombre': nombreCliente,
+      'telefono': telefono,
+      'direccion':direccion
     },
       function(data){
         //alert(data);
@@ -240,28 +239,17 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     let tablaClientes = document.getElementById('tablaClientes');
 
     $.post(
-      "webservice/mostrarPrecioCasillero.php",
+      "webservice/mostrarEnviosActivos.php",
       {
         'valor':valor
       },
       function(Data) {
         //alert(Data);
         let clientes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Tipo de Casillero</th><th>Fecha de Inicio</th><th>Fecha de Finalizacion</th><th>Precio</th></tr>";
+        html = "<tr><th>ID</th><th>ID Paquete</th><th>ID de Empleado</th><th>Fecha Recibido</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
         for(i in clientes) {
-          var aux = clientes[i].fechaInicio.split('-');
-          //alert(aux);
-          if(clientes[i].fechaFinal==null){
-           
-          html += "<tr><td>"+ clientes[i].idHistorial +"</td><td>"+ clientes[i].idCasillero +"</td><td>"+ aux[2]+'/'+aux[1]+'/'+aux[0] +"</td><td>"+ " " +"</td><td>"+ clientes[i].precio +"</td></tr>";
+          html += "<tr><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].idPaquete +"</td><td>"+ clientes[i].idEmpleado +"</td><td>"+ clientes[i].fechaRecibido +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idCliente +">Actualizar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idEnvio +">Recibido</button></td></tr>";
           tablaClientes.innerHTML = html;
-          }
-          else{
-            var aux2 = clientes[i].fechaFinal.split('-');
-            html += "<tr><td>"+ clientes[i].idHistorial +"</td><td>"+ clientes[i].idCasillero +"</td><td>"+ aux[2]+'/'+aux[1]+'/'+aux[0] +"</td><td>"+ aux2[2]+'/'+aux2[1]+'/'+aux2[0] +"</td><td>"+ clientes[i].precio +"</td></tr>";
-          tablaClientes.innerHTML = html;
-
-          }
         }
       }
     );
@@ -279,12 +267,11 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     let totalClientes = document.getElementById('total');
 
     $.post(
-      "webservice/totalPrecioCasillero.php",
+      "webservice/totalClientes.php",
       {},
       function(Data) {
-        //alert(Data);
         let total = JSON.parse(Data);
-        totalClientes.innerHTML = total['total'];
+        totalClientes.innerHTML = total['totalClientes'];
       }
     );
   }
@@ -356,22 +343,22 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   function obtenerIdEliminar(elemento) {
     var idCliente = document.getElementById('eliminarCliente').value = elemento.value;
     let tablaClientes = document.getElementById('tablaClientes');
-
+    //alert(idCliente);
     Swal.fire({
       title: '¿Estás seguro?',
-      text: "Una vez eliminado el registro no podrás recuperarlo",
+      text: "Una vez Marcado como Entregado el envio no podrás Desmarcarlo",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#b0b0b0',
       cancelButtonColor: '#a71d31',
-      confirmButtonText: 'Si, deseo eliminarlo',
+      confirmButtonText: 'Si, deseo Marcar como Entregado',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
         $.post(
-          "webservice/eliminarCliente.php",
+          "webservice/entregarEnvio.php",
           {
-            "idCliente": idCliente
+            "idEnvio": idCliente
           }, 
           function(Data) {
             var notificacion = JSON.parse(Data);

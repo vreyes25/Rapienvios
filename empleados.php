@@ -41,7 +41,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           </li>
         </a>
 
-        <a href="precios.php">
+        <a href="preciosCasillero.php">
           <li>
             <i class="ri-price-tag-3-fill side-icons"></i>
             Precios
@@ -209,7 +209,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       'correo' : correo
     },
       function(data){
-        alert(data);
+        //alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           Swal.fire({
@@ -239,12 +239,31 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   }
   }
 
-  function obtenerEmpleados() {
+  $(document).on('keyup','#search',function(){
+    var valor = $(this).val();
+    let tablaEmpleados = document.getElementById('tablaEmpleados');
+    if(valor != ""){
+      tablaEmpleados.innerHTML ="";
+      obtenerEmpleados(valor);
+
+
+    }
+    else{
+      tablaEmpleados.innerHTML = "";
+      obtenerEmpleados();
+    }
+
+    //Aqui va el codigo de busqueda
+  });
+
+  function obtenerEmpleados(valor) {
     let tablaEmpleados = document.getElementById('tablaEmpleados');
 
     $.post(
       "webservice/mostrarEmpleados.php",
-      {},
+      {
+        'valor':valor
+      },
       function(Data) {
         //alert(Data);
         let empleados = JSON.parse(Data);

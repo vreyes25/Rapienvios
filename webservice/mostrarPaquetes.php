@@ -5,6 +5,6 @@ if (isset($_POST)) {
 
     $Paquete = new Paquete();
     $Paquete->constructorEditar(@$_POST['idPaquete'], @$_POST['descripcion'], @$_POST['peso'], @$_POST['idCasillero']);
-    echo json_encode($Paquete->obtenerPaquetes($conexion));
+    echo json_encode($Paquete->obtenerPaquetes($conexion,@$_POST['valor']));
 }
 ?>

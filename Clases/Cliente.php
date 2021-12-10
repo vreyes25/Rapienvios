@@ -37,6 +37,7 @@ class Cliente {
         $this->direccion = $direccion;
     }
 
+
     public function constructorEditarData($correo, $nombre, $telefono, $direccion, $idCasillero) {
         $this->correo = $correo;
         $this->nombre = $nombre;
@@ -45,12 +46,15 @@ class Cliente {
         $this->idCasillero = $idCasillero;
     }
 
-    public function constructorReporte($idCliente, $nombre, $telefono, $direccion, $idEstado) {
+
+    public function constructorReporte($idCliente, $nombre, $telefono, $direccion, $idEstado,$correo) {
+
         $this->idCliente = $idCliente;
         $this->nombre = $nombre;
         $this->telefono = $telefono;
         $this->direccion = $direccion;
         $this->idEstado = $idEstado;
+        $this->correo = $correo;
     }
 
     public function constructorTotal($total) {
@@ -96,15 +100,17 @@ class Cliente {
         return $Res;
     }
 
-    public function obtenerClientes($conexion) {
-        $consulta = "SELECT C.idCliente, C.nombre, C.telefono, C.direccion, E.estado
+
+    public function obtenerClientes($conexion, $valor)
+    {
+        $consulta = "SELECT C.idCliente, C.nombre, C.telefono, C.direccion, E.estado, C.correo
         FROM cliente AS C
-        INNER JOIN estados AS E ON C.idEstado = E.idEstado";
+        INNER JOIN estados AS E ON C.idEstado = E.idEstado WHERE C.nombre LIKE '%$valor%' OR C.correo LIKE '%$valor%'";
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {
             $Clientes = new Cliente();
-            $Clientes->constructorReporte($fila['idCliente'], $fila['nombre'], $fila['telefono'], $fila['direccion'], $fila['estado']);
+            $Clientes->constructorReporte($fila['idCliente'], $fila['nombre'], $fila['telefono'], $fila['direccion'], $fila['estado'],$fila['correo']);
             $lista[] = $Clientes;
         }
         return $lista;

@@ -5,6 +5,6 @@ if (isset($_POST)) {
 
     $Clientes = new precioCasillero();
     //$Clientes->constructorListar(@$_POST['idCliente'], @$_POST['nombre'], @$_POST['telefono'], @$_POST['direccion'], @$_POST['estado']);
-    echo json_encode($Clientes->obtenerPrecios($conexion));
+    echo json_encode($Clientes->obtenerPrecios($conexion,@$_POST['valor']));
 }
 ?>
