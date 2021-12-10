@@ -81,6 +81,10 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
             Nuevo
           </button> -->
         </div>
+
+        <div class="tabla-paquetes">
+          <table class="tablaPaquetes" id="tablaPaquetes">
+        </div>
         <div class="content-tables"></div>
       </div>
     </div>
@@ -161,6 +165,26 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
             showConfirmButton: false,
             timer: 1800
           })
+        }
+      }
+    );
+  }
+
+  function obtenerClientes(valor) {
+    let tablaPaquetes = document.getElementById('tablaPaquetes');
+
+    $.post(
+      "webservice/mostrarPaquete.php",
+      {
+        'valor':valor
+      },
+      function(Data) {
+        //alert(Data);
+        let clientes = JSON.parse(Data);
+        html = "<tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Estado</th><th>Correo</th><th>Acciones</th></tr>";
+        for(i in clientes) {
+          html += "<tr><td>"+ clientes[i].idCliente +"</td><td>"+ clientes[i].nombre +"</td><td>"+ clientes[i].telefono +"</td><td>"+ clientes[i].direccion +"</td><td>"+ clientes[i].idEstado +"</td><td>"+ clientes[i].correo +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idCliente +">Editar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idCliente +">Eliminar</button></td></tr>";
+          tablaClientes.innerHTML = html;
         }
       }
     );
