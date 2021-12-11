@@ -35,12 +35,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           </li>
         </a>
 
-        <a href="tracking.php">
-          <li>
-            <i class="ri-truck-fill side-icons"></i>
-            Tracking
-          </li>
-        </a>
+      
 
 
         <a href="preciosClientes.php">
@@ -77,16 +72,24 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       <div class="data">
         <div class="up-content">
           <h3>Total de paquetes: <strong>0</strong></h3>
-          <!-- <button type="button" id="nuevoCliente" class="startSession">
-            Nuevo
-          </button> -->
         </div>
 
         <div class="tabla-paquetes">
           <table class="tablaPaquetes" id="tablaPaquetes">
         </div>
+
+        <div class="up-content">
+          <h3>Total de envios: <strong>0</strong></h3>
+        </div>
+        
+        <div class="tabla-envios">
+          <table class="tablaEnvios" id="tablaEnvios">
+        </div>
+
+
         <div class="content-tables"></div>
       </div>
+      
     </div>
     <div id="miModal" class="modal">
       <div class="flex" id="flex">
@@ -122,6 +125,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
    (function(){
     totalPaquetes();
     obtenerPaquetes();
+    obtenerEnvios();
     obtenerCasilleros();
   })();
 
@@ -185,26 +189,24 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     );
   }
 
-  function mostrarEditar() {
-    let modal2 = document.getElementById('miModal2');
-    let flex2 = document.getElementById('flex2');
-    let abrir2 = document.getElementById('editarCliente');
-    let cerrar2 = document.getElementById('close2');
+  /*
+  function obtenerPaquetes(valor) {
+    let tablaPaquetes = document.getElementById('tablaPaquetes');
 
-    modal2.style.display = 'block';
-
-    cerrar2.addEventListener('click', function(){
-        modal2.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(e){
-        console.log(e.target);
-        if(e.target == flex2){
-            modal.style.display = 'none';
+    $.post(
+      "webservice/mostrarPaquetesCliente.php",
+      {'valor':valor},
+      function(Data) {
+        let paquetes = JSON.parse(Data);
+        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>Acciones</th></tr>";
+        for(i in paquetes) {
+          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Mostrar Tracking</button></td></tr>";
+          tablaPaquetes.innerHTML = html;
         }
-    });
-  }
-
+      }
+    );
+  }*/
+  
   function obtenerPaquetes(valor) {
     let tablaPaquetes = document.getElementById('tablaPaquetes');
 
@@ -215,8 +217,28 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         let paquetes = JSON.parse(Data);
         html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>Acciones</th></tr>";
         for(i in paquetes) {
-          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Mostrar Tracking</button></td></tr>";
+          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Enviar paquete</button></td></tr>";
           tablaPaquetes.innerHTML = html;
+        }
+      }
+    );
+  }
+
+  function obtenerEnvios(valor) {
+    let tablaClientes = document.getElementById('tablaEnvios');
+
+    $.post(
+      "webservice/mostrarEnviosActivos.php",
+      {
+        'valor':valor
+      },
+      function(Data) {
+        //alert(Data);
+        let clientes = JSON.parse(Data);
+        html = "<tr><th>ID</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
+        for(i in clientes) {
+          html += "<tr><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idEnvio +">Mostrar Tracking</button></td></tr>";
+          tablaClientes.innerHTML = html;
         }
       }
     );
