@@ -119,8 +119,10 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 </html>
 
 <script type="text/javascript">
-  (function(){
-    
+   (function(){
+    totalPaquetes();
+    obtenerPaquetes();
+    obtenerCasilleros();
   })();
 
   function limpiar() {
@@ -170,21 +172,51 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     );
   }
 
-  function obtenerClientes(valor) {
+  function totalPaquetes() {
+    let totalPaquetes = document.getElementById('total');
+
+    $.post(
+      "webservice/totalPaquetes.php",
+      {},
+      function(Data) {
+        let total = JSON.parse(Data);
+        totalPaquetes.innerHTML = total['totalPaquetes'];
+      }
+    );
+  }
+
+  function mostrarEditar() {
+    let modal2 = document.getElementById('miModal2');
+    let flex2 = document.getElementById('flex2');
+    let abrir2 = document.getElementById('editarCliente');
+    let cerrar2 = document.getElementById('close2');
+
+    modal2.style.display = 'block';
+
+    cerrar2.addEventListener('click', function(){
+        modal2.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(e){
+        console.log(e.target);
+        if(e.target == flex2){
+            modal.style.display = 'none';
+        }
+    });
+  }
+
+  function obtenerPaquetes(valor) {
     let tablaPaquetes = document.getElementById('tablaPaquetes');
 
     $.post(
-      "webservice/mostrarPaquete.php",
-      {
-        'valor':valor
-      },
+      "webservice/mostrarPaquetes.php",
+      {'valor':valor},
       function(Data) {
-        //alert(Data);
-        let clientes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Estado</th><th>Correo</th><th>Acciones</th></tr>";
-        for(i in clientes) {
-          html += "<tr><td>"+ clientes[i].idCliente +"</td><td>"+ clientes[i].nombre +"</td><td>"+ clientes[i].telefono +"</td><td>"+ clientes[i].direccion +"</td><td>"+ clientes[i].idEstado +"</td><td>"+ clientes[i].correo +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idCliente +">Editar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idCliente +">Eliminar</button></td></tr>";
-          tablaClientes.innerHTML = html;
+        let paquetes = JSON.parse(Data);
+        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>Acciones</th></tr>";
+        for(i in paquetes) {
+          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Mostrar Tracking</button></td></tr>";
+          tablaPaquetes.innerHTML = html;
         }
       }
     );
