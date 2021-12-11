@@ -49,6 +49,20 @@ class Paquete {
         return $Res;
     }
 
+    public function obtenerPaquetesByCasillero($conexion) {
+        $consulta = "SELECT idPaquete, descripcion, peso, idCasillero
+        FROM paquete WHERE idCasillero ='$this->idCasillero'";
+        $resultado = mysqli_query($conexion, $consulta);
+        $lista = array();
+        while ($fila = mysqli_fetch_array($resultado)) {
+            $Paquetes = new Paquete();
+            $Paquetes->constructorEditar($fila['idPaquete'], $fila['descripcion'], $fila['peso'], $fila['idCasillero']);
+            $lista[] = $Paquetes;
+        }
+        return $lista;
+    }
+
+
     public function obtenerPaquetes($conexion,$valor) {
         $consulta = "SELECT idPaquete, descripcion, peso, idCasillero
         FROM paquete WHERE descripcion LIKE '%$valor%'";
