@@ -1,5 +1,5 @@
 <?php
-include "Respuesta.php";
+include_once("Respuesta.php");
 class Paquete{
 //Codigo de Roger
     public $IdInventario;

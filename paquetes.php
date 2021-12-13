@@ -123,7 +123,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
                 <input type="text" placeholder="Ingrese la descripcion"  id="descripcion"/>
                 <input type="text" placeholder="Ingrese el peso" id="peso" />
                 <select name="idCasillero" id="idCasillero"></select>
-
+                <input type="text" placeholder="Ingrese el TrackingId" id="Tracking" />
                 <button type="button" onclick="registrarPaquete()" class="guardarCliente">Guardar</button>
               </div>
               <div class="imagen">
@@ -225,16 +225,18 @@ function registrarPaquete(){
   var descripcion = document.getElementById("descripcion").value;
   var peso = document.getElementById("peso").value;
   var casillero = document.getElementById("idCasillero").value;
+  var tracking = document.getElementById("Tracking").value;
 
   $.post(
     "webservice/agregarPaquete.php",
     {
       'descripcion': descripcion,
       'peso': peso,
-      'casillero':casillero
+      'casillero':casillero,
+      'tracking':tracking
     },
       function(data){
-        //alert(data);
+        alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           Swal.fire({

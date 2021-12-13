@@ -145,7 +145,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
                 <input type="text" placeholder="Tracking Id" id="idClienteEditar" disabled/>
-                <input type="text" placeholder="ID Paquete"  id="nombreClienteEditar"/>
+                <input type="text" placeholder="ID Paquete"  id="nombreClienteEditar" disabled/>
                 <input type="text" placeholder="Ubicacion Actual" id="telefonoEditar" />
                 <!--<input type="text" placeholder="Ingrese la dirección" id="direccionEditar"/>-->
                 <button type="button" onclick="editarCliente()" class="guardarCliente">Actualizar</button>
@@ -330,35 +330,38 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 
   function buscarCliente(idCliente) {
     $.post(
-      "webservice/buscarCliente.php",
+      "webservice/buscarTrackingEnvio.php",
       {
         "idCliente": idCliente
       },
       function(Data) {
+        //alert(Data);
         let clientes = JSON.parse(Data);
-        var nombreCliente = document.getElementById("nombreClienteEditar").value = clientes['nombre'];
-        var telefono = document.getElementById("telefonoEditar").value = clientes['telefono'];
-        var  direccion = document.getElementById("direccionEditar").value = clientes['direccion'];
+        var nombreCliente = document.getElementById("nombreClienteEditar").value = clientes['TrackingId'];
+        var telefono = document.getElementById("telefonoEditar").value = clientes['idInventario'];
+        var  direccion = document.getElementById("telefonoEditar").value = "";
       }
     );
   }
 
   function editarCliente() {
-    var idCliente = document.getElementById('idClienteEditar').value;
-    var nombreCliente = document.getElementById("nombreClienteEditar").value;
+    var idCliente = document.getElementById('idClienteEditar').value; //idPaquete
+    var nombreCliente = document.getElementById("nombreClienteEditar").value;//idTracking
     var telefono = document.getElementById("telefonoEditar").value;
-    var direccion = document.getElementById("direccionEditar").value;
+    //var direccion = document.getElementById("direccionEditar").value;
     let tablaClientes = document.getElementById('tablaClientes');
-    
+    //alert(nombreCliente);
+
     $.post(
-      "webservice/editarCliente.php",
+      "webservice/ActualizarUbicacionPorEnvio.php",
       {
-        "idCliente": idCliente,
-        "nombre": nombreCliente,
-        "telefono": telefono,
-        "direccion": direccion
+        "trackingId": nombreCliente,
+        "idPaquete": idCliente,
+        "Ubicacion": telefono
+        
       },
       function(Data) {
+        //alert(Data);
         let notificacion = JSON.parse(Data);
         Swal.fire({
           icon: 'success',
