@@ -234,11 +234,11 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         'casillero':casillero
       },
       function(Data) {
-        alert(Data);
+       // alert(Data);
         let envios = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Descripcion</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
+        html = "<tr><th>ID</th><th>Descripcion</th><th>fecha Envio</th><th>Acciones</th></tr>";
         for(i in envios) {
-          html += "<tr><td>"+ envios[i].idEnvio +"</td><td>"+ envios[i].descripcion +"</td><td>"+ envios[i].fechaEnvio +"</td><td>"+ envios[i].estado +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ envios[i].idEnvio +">Mostrar Tracking</button></td></tr>";
+          html += "<tr><td>"+ envios[i].idEnvio +"</td><td>"+ envios[i].descripcion +"</td><td>"+ envios[i].fechaEnvio +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ envios[i].idEnvio +">Mostrar Tracking</button></td></tr>";
           tablaEnvios.innerHTML = html;
         }
       }

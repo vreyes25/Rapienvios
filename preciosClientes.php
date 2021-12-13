@@ -29,7 +29,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       <ul class="dashboard-elements">
 
         <a href="dashboardClientes.php">
-          <li class="active">
+          <li>
             <i class="ri-archive-fill side-icons"></i>
             Mis Paquetes
           </li>
@@ -39,7 +39,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 
 
         <a href="preciosClientes.php">
-          <li>
+          <li class="active">
             <i class="ri-price-tag-3-fill side-icons"></i>
             Consultar Precios
           </li>
@@ -167,13 +167,13 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     let tablaPaquetes = document.getElementById('tablaPaquetes');
     
     $.post(
-      "webservice/mostrarPaquetes.php",
+      "webservice/mostrarTamanios.php",
       {'valor':valor},
       function(Data) {
         let paquetes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>Acciones</th></tr>";
+        html = "<tr><th>Tamaño</th><th>Precio</th></tr>";
         for(i in paquetes) {
-          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Enviar paquete</button></td></tr>";
+          html += "<tr><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].precio +"</td></tr>";
           tablaPaquetes.innerHTML = html;
         }
       }
