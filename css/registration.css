@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root{
+    --main-color: #a71d31; 
+    --secondary-color : #fff;
+    --letter-color: #B0B0B0;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+.nav-bar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 11vh;
+}
+
+#logo{
+    width: 160px;
+    margin: 15px 0px 0px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--main-color);
+}
+
+#logo:hover{
+    transform: scale(1.06);
+}
+
+.content-data{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 10px 30px;
+    color: var(--secondary-color);
+}
+
+#cover{
+    width: 380px;
+    margin: 10px 20px 0px 70px;
+}
+
+form{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    margin-left: 150px;
+    align-items: center;
+}
+
+a{
+    text-decoration: none;
+}
+
+h2, a{
+    color: var(--main-color);
+    font-weight: 700;
+    text-align: center;
+}
+
+h2{
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+p{
+    color: var(--letter-color);
+    font-size: 16px;
+}
+
+input{
+    border: none;
+    border-bottom: 1px solid var(--letter-color);
+    padding: 5px 0px 5px 45px;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 35px;
+    font-size: 17px;
+}
+
+.icons{
+    position: absolute;
+    font-size: 25px;
+    color: var(--letter-color);
+}
+
+.name, .mail, .phone, .password, .direction{
+    left: -5px;
+}
+
+.name{
+    top: 65px;
+}
+
+.phone {
+    top: 138px;
+}
+
+.mail{
+    top: 280px;
+}
+
+.direction{
+    top: 210px;
+}
+
+.password{
+    top: 352px;
+}
+
+.startSession{
+    background: var(--main-color);
+    text-decoration: none;
+    width: 200px;
+    font-size: 18px;
+    height: 45px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 40px;
+    color: var(--secondary-color);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    margin: 0px 20px 20px 0px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.startSession:hover{
+    transform: scale(1.04);
+}
