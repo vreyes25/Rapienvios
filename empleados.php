@@ -193,7 +193,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     var contrasena = document.getElementById("contrasena").value;
     var confirmacion = document.getElementById("confirmnacion").value;
     let tablaEmpleados = document.getElementById('tablaEmpleados');
-    alert(contrasena);
+    //alert(contrasena);
     if(contrasena.trim() != confirmacion.trim()){
       alert("Contraseña no coincide con la confirmación");
     }
@@ -359,11 +359,13 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         "idEmpleado": idEmpleado
       },
       function(Data) {
+        //aalert(Data);
         let empleado = JSON.parse(Data);
         var nombreCliente = document.getElementById("nombreEditar").value = empleado['nombre'];
         var direccion = document.getElementById("direccionEditar").value = empleado['direccion'];
         var idJornada = document.getElementById("idJornadaEditar").value = empleado['idJornada'];
         var idCargo = document.getElementById("idCargoEditar").value = empleado['idCargo'];
+        document.getElementById("correoEditar").value = empleado['correo'];
       }
     );
   }

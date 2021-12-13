@@ -1,5 +1,5 @@
 <?php
-include "Respuesta.php";
+//include "Respuesta.php";
 
 class Envio {
     public $idEnvio;
@@ -43,7 +43,7 @@ class Envio {
 
     public function EntregarEnvio($conexion){
 
-        $consulta = "UPDATE envio SET estado = 0, fechaRecibido = $this->fechaRecibido WHERE idEnvio = '$this->idEnvio'";
+        $consulta = "UPDATE envio SET estado = 0, fechaRecibido = '$this->fechaRecibido' WHERE idEnvio = '$this->idEnvio'";
         $Respuesta = new Respuesta();
 
         if (mysqli_query($conexion, $consulta)) {

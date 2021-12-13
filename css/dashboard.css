@@ -331,3 +331,8 @@ p{
 select {
   width: 100%;
 }
+
+label {
+  display: inline-block;
+  width: 80px;
+}
