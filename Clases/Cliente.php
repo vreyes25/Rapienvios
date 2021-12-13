@@ -208,6 +208,7 @@ class Cliente {
             if (($nr == 1) &&(password_verify($this->contrasena, $row['contrasena'])) ) {
                 Session_start();
                 $_SESSION['usuario'] = $row['nombre'];
+                $_SESSION['casillero'] = $row['idCasillero'];
                 
                 $Res->Succes("");
             } else {

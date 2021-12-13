@@ -62,7 +62,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     <div class="content-data">
       <div class="up-content">
         <div class="searchBar">
-        <h3 id="casillero">casillero no: <strong><?php echo $_SESSION['casillero'];?></strong></h3>
+          
         </div>
         <div class="user-name">
           <h3>Bienvenido, <strong><?php echo $_SESSION['usuario'];?></strong></h3>
@@ -70,21 +70,12 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       </div>
       <div class="data">
         <div class="up-content">
-          <h3>Total de paquetes: <strong>0</strong></h3>
+          <h3>Precios de los casilleros</h3>
         </div>
 
         <div class="tabla-paquetes">
           <table class="tablaPaquetes" id="tablaPaquetes">
         </div>
-
-        <div class="up-content">
-          <h3>Total de envios: <strong>0</strong></h3>
-        </div>
-        
-        <div class="tabla-envios">
-          <table class="tablaEnvios" id="tablaEnvios">
-        </div>
-
 
         <div class="content-tables"></div>
       </div>
@@ -121,13 +112,10 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 </html>
 
 <script type="text/javascript">
-  
    (function(){
-    totalPaquetes();
     obtenerPaquetes();
-    obtenerEnvios();
   })();
-  
+
   function limpiar() {
     var nombreCliente = document.getElementById("nombreCliente").value = "";
     var telefono = document.getElementById("telefono").value = "";
@@ -174,72 +162,19 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       }
     );
   }
-
-  function totalPaquetes() {
-    let totalPaquetes = document.getElementById('total');
-
-    $.post(
-      "webservice/totalPaquetes.php",
-      {},
-      function(Data) {
-        let total = JSON.parse(Data);
-        totalPaquetes.innerHTML = total['totalPaquetes'];
-      }
-    );
-  }
-
-  /*
+  
   function obtenerPaquetes(valor) {
     let tablaPaquetes = document.getElementById('tablaPaquetes');
-
+    
     $.post(
-      "webservice/mostrarPaquetesCliente.php",
+      "webservice/mostrarPaquetes.php",
       {'valor':valor},
       function(Data) {
         let paquetes = JSON.parse(Data);
         html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>Acciones</th></tr>";
         for(i in paquetes) {
-          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Mostrar Tracking</button></td></tr>";
+          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Enviar paquete</button></td></tr>";
           tablaPaquetes.innerHTML = html;
-        }
-      }
-    );
-  }*/
- 
-  function obtenerPaquetes(valor) {
-    let tablaPaquetes = document.getElementById('tablaPaquetes');
-    
-    var casillero = <?php echo $_SESSION['casillero'] ?>;
-    $.post(
-      "webservice/mostrarPaquetesCliente.php",
-      {'casillero':casillero},
-      function(Data) {
-        let paquetes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>Acciones</th></tr>";
-        for(i in paquetes) {
-          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Mostrar Tracking</button></td></tr>";
-          tablaPaquetes.innerHTML = html;
-        }
-      }
-    );
-  }
-
-  function obtenerEnvios(valor) {
-    let tablaEnvios = document.getElementById('tablaEnvios');
-
-    var casillero = <?php echo $_SESSION['casillero'] ?>;
-    $.post(
-      "webservice/mostrarEnviosActivos.php",
-      {
-        'casillero':casillero
-      },
-      function(Data) {
-        alert(Data);
-        let envios = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Descripcion</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
-        for(i in envios) {
-          html += "<tr><td>"+ envios[i].idEnvio +"</td><td>"+ envios[i].descripcion +"</td><td>"+ envios[i].fechaEnvio +"</td><td>"+ envios[i].estado +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ envios[i].idEnvio +">Mostrar Tracking</button></td></tr>";
-          tablaEnvios.innerHTML = html;
         }
       }
     );
