@@ -62,8 +62,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     <div class="content-data">
       <div class="up-content">
         <div class="searchBar">
-          <input type="text" id="search" placeholder="Buscar paquete" />
-          <i class="ri-search-line searchButton"></i>
+          
         </div>
         <div class="user-name">
           <h3>Bienvenido, <strong><?php echo $_SESSION['usuario'];?></strong></h3>
@@ -209,7 +208,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   
   function obtenerPaquetes(valor) {
     let tablaPaquetes = document.getElementById('tablaPaquetes');
-
+    
     $.post(
       "webservice/mostrarPaquetes.php",
       {'valor':valor},
