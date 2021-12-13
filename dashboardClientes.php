@@ -25,7 +25,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   <body>
     <div class="side-panel">
       <img src="img/Logo.png" alt="logo" id="logo" />
-      <div class="decoration-line"></div>
+      <hr class="side-nav-hr">
       <ul class="dashboard-elements">
 
         <a href="dashboardClientes.php">
@@ -51,12 +51,16 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
             Mi Cuenta
           </li>
         </a>
+      </ul>
 
-        <li class="logout">
-          <i class="ri-logout-box-r-line side-icons"></i>
-          <a href="cerrarSesion2.php">Cerrar Sesión</a>
-        </li>
 
+      <ul class="logout-container">
+        <a href="cerrarSesion2.php">
+            <li class="logout">
+              <i class="ri-logout-box-r-line side-icons"></i>
+              Cerrar Sesión
+            </li>
+          </a>
       </ul>
     </div>
     <div class="content-data">
@@ -69,21 +73,27 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           <h3>Bienvenido, <strong><?php echo $_SESSION['usuario'];?></strong></h3>
         </div>
       </div>
+
       <div class="data">
-        <div class="up-content">
-          <h3>Total de paquetes: <strong>0</strong></h3>
+
+        <div class="data-container-paquetes">
+          <div class="up-content" style="margin-left:0;">
+            <h3>Total de paquetes: <strong>0</strong></h3>
+          </div>
+
+          <div class="up-content" style="margin-right:0;">
+            <h3>Total de envios: <strong>0</strong></h3>
+          </div>
         </div>
+
 
         <div class="tabla-paquetes">
-          <table class="tablaPaquetes" id="tablaPaquetes">
+          <table class="tablaPaquetes" id="tablaPaquetes"></table>
         </div>
 
-        <div class="up-content">
-          <h3>Total de envios: <strong>0</strong></h3>
-        </div>
         
         <div class="tabla-envios">
-          <table class="tablaEnvios" id="tablaEnvios">
+          <table class="tablaEnvios" id="tablaEnvios"></table>
         </div>
 
 
@@ -115,7 +125,9 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           </div>
         </div>
       </div>
-    </div>
+
+
+
 
     <script src="js/main.js"></script>
   </body>
