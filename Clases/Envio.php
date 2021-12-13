@@ -4,21 +4,20 @@ include "Respuesta.php";
 class Envio {
     public $idEnvio;
     public $idPaquete;
+    public $descripcion;
     public $idEmpleado;
     public $fechaRecibido;
     public $fechaEnvio;
     public $estado;
-    public $idCasillero;
 
 
     public function __construct(){}
 
-    public function constructorEnviosCliente($idEnvio, $idPaquete, $fechaRecibido, $fechaEnvio, $idCasillero){
+    public function constructorEnviosCliente($idEnvio, $descripcion, $fechaRecibido, $fechaEnvio){
         $this->idEnvio = $idEnvio;
-        $this->idPaquete = $idPaquete;
+        $this->descripcion = $descripcion;
         $this->fechaRecibido = $fechaRecibido;
         $this->fechaEnvio = $fechaEnvio;
-        $this->$idCasillero= $idCasillero;
     }
 
     public function ConstructorListarEnvios($idEnvio,$idPaquete,$idEmpleado,$fechaRecibido,$fechaEnvio,$estado){
@@ -30,28 +29,26 @@ class Envio {
         $this->estado = $estado;
     }
 
-    public function obtenerEnviosByCasillero($conexion) {
+    public function obtenerEnviosByCasillero($conexion,$idCasillero) {
 
         $consulta = 
         "SELECT E.idEnvio, P.descripcion, IF( E.fechaRecibido IS NULL,'', fechaRecibido) as 'fechaRecibido', E.fechaEnvio FROM envio AS E
         INNER JOIN paquete AS P
             ON E.idPaquete = P.idPaquete
-        INNER JOIN casillero AS C
-            ON P.idCasillero = C.idCasillero
-        WHERE P.idCasillero = '$this->idCasillero' AND E.estado = 1;";
+        WHERE P.idCasillero = '$idCasillero' AND E.estado = 1;";
 
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {
             $envio = new Envio();
-            $envio->constructorEnviosCliente($fila['idPaquete'], $fila['descripcion'], $fila['fechaRecibido'], $fila['fechaEnvio'], $fila['idCasillero']);
+            $envio->constructorEnviosCliente($fila['idEnvio'], $fila['descripcion'], $fila['fechaRecibido'], $fila['fechaEnvio']);
             $lista[] = $envio;
         }
         return $lista;
     }
 
     public function obtenerEnviosPendientes($Conexion,$valor) {
-        $consulta = "SELECT `idEnvio`, envio.idPaquete,cliente.nombre ,envio.idEmpleado, IF(fechaRecibido is null,'', fechaRecibido) as 'fechaRecibido', fechaEnvio, IF(envio.estado=1,'Activo','Entregado') as Estado 
+        $consulta = "SELECT `idEnvio`, envio.idPaquete,cliente.nombre ,envio.idEmpleado, IF(fechaRecibido is null,'-', fechaRecibido) as 'fechaRecibido', fechaEnvio, IF(envio.estado=1,'Activo','Entregado') as Estado 
         FROM `envio`, empleado,paquete,cliente,casillero 
         WHERE envio.idEmpleado = empleado.idEmpleado AND envio.idPaquete = paquete.idPaquete AND paquete.idCasillero =  cliente.idCasillero 
         AND envio.estado =1 AND envio.idPaquete LIKE '%$valor%'";

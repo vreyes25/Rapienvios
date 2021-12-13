@@ -229,7 +229,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 
     var casillero = <?php echo $_SESSION['casillero'] ?>;
     $.post(
-      "webservice/mostrarEnviosActivos.php",
+      "webservice/mostrarEnviosActivosCliente.php",
       {
         'casillero':casillero
       },
