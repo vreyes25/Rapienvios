@@ -114,7 +114,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
                 
-              <label for="">ID Envio:    </label> <input type="text" placeholder="ID Envio" disabled/> 
+              <label for="">ID Envio:    </label> <input type="text" placeholder="ID Envio" id="abcd" disabled/> 
                 <label for="nombreCliente">ID Paquete:</label><input type="text" placeholder="ID Paquete"  id="nombreCliente" disabled/> 
                 <label for="paquete">Descripción:</label>  <input type="text" placeholder="Descripcion " id="paquete" disabled/>
                 <label for="cliente">Cliente:</label> <input type="text" placeholder="Cliente" id="cliente" disabled/>
@@ -254,7 +254,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         let clientes = JSON.parse(Data);
         html = "<tr><th>Inf</th><th>ID</th><th>ID Paquete</th><th>ID de Empleado</th><th>Fecha Recibido</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
         for(i in clientes) {
-          html += "<tr></td><td><button id='inf' class='btnEdit' onclick='mostrarInfo()' value="+ clientes[i].idEnvio +">Inf.</button><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].idPaquete +"</td><td>"+ clientes[i].idEmpleado +"</td><td>"+ clientes[i].fechaRecibido +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idPaquete +">Actualizar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idEnvio+'-'+clientes[i].idPaquete +">Recibido</button></td></tr>";
+          html += "<tr></td><td><button id='inf' class='btnEdit' onclick='mostrarInfo(this)' value="+ clientes[i].idPaquete +">Inf.</button><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].idPaquete +"</td><td>"+ clientes[i].idEmpleado +"</td><td>"+ clientes[i].fechaRecibido +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idPaquete +">Actualizar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idEnvio+'-'+clientes[i].idPaquete +">Recibido</button></td></tr>";
           tablaClientes.innerHTML = html;
         }
       }
@@ -302,7 +302,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     });
   }
 
-  function mostrarInfo(){
+  function mostrarInfo(elemento){
     let modal = document.getElementById('miModal');
     let flex = document.getElementById('flex');
     let abrir = document.getElementById('inf');
@@ -323,6 +323,27 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         }
     });
 
+
+    //alert(elemento.value);
+
+    $.post(
+      "webservice/mostrarInformacionEnvio.php",
+      {
+        "idPaquete":elemento.value
+      },
+      function(Data){
+        //alert(Data);
+        let cliente = JSON.parse(Data);
+        document.getElementById("abcd").value = cliente['idEnvio'];
+        document.getElementById("nombreCliente").value = cliente['idPaquete'];
+        document.getElementById("paquete").value = cliente['descripcion'];
+        document.getElementById("cliente").value = cliente['cliente'];
+        document.getElementById("Residencia").value = cliente['direccion'];
+        document.getElementById("Telefono").value = cliente['telefono'];
+        document.getElementById("Ubicacion").value = cliente['ubicacion'];
+      }
+
+    );
     //Post con la adquisicion de datos
 
 
