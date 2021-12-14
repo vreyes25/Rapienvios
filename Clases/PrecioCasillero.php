@@ -155,7 +155,7 @@ class precioCasillero{
     {
         $consulta= "SELECT T.descripcion, H.precio FROM historialpreciocasillero AS H
                     INNER JOIN tamanio AS T ON H.idCasillero = T.idTamanio 
-                    WHERE H.fechaFinal is NULL";
+                    WHERE H.fechaFinal is NULL ORDER BY H.idCasillero";
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {
