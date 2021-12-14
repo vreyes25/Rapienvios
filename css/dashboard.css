@@ -360,3 +360,8 @@ select {
 .side-nav-hr{
   margin: 2rem 0;
 }
+
+.modal-tracking {
+  height: auto;
+  display:block;
+}

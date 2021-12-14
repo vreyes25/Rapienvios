@@ -88,7 +88,8 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 
 
         <div class="tabla-paquetes">
-          <table class="tablaPaquetes" id="tablaPaquetes"></table>
+          <table class="tablaPaquetes" id="tablaPaquetes">
+          </table>
         </div>
 
         
@@ -101,22 +102,34 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       </div>
       
     </div>
-    <div id="miModal" class="modal">
+
+    <div id="modalTracking" class="modal">
       <div class="flex" id="flex">
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Nuevo Cliente</h2>
-            <span class="close" id="close">&times;</span>
+            <h2>Tracking</h2>
+            <span class="close" id="closer">&times;</span>
           </div>
-          <div class="modal-body">
+          <div class="modal-body modal-tracking">
             <form action="" method="post" class="nuevoCliente">
-              <div class="form">
-                <input type="text" placeholder="ID Cliente" disabled/>
-                <input type="text" placeholder="Ingrese el nombre"  id="nombreCliente"/>
-                <input type="text" placeholder="Ingrese el teléfono" id="telefono" />
-                <input type="text" placeholder="Ingrese la dirección" id="direccion"/>
-                <button type="button" onclick="registrarCliente()" class="guardarCliente">Guardar</button>
+              <div class="form" style="display:grid; gap:2rem;">
+                <h4 style="grid-column:1/1">
+                  ID Tracking:
+                </h4>
+                <p style="grid-column:2/2">3496846346134</p>
+                <h4 style="grid-column:1/1">
+                  Fecha Llegada:
+                </h4>
+                <p style="grid-column:2/2">16/12/22</p>
+                <h4 style="grid-column:1/1">
+                  Fecha Salida:
+                </h4>
+                <p style="grid-column:2/2">28/12/22</p>
+                <h4 style="grid-column:1/1">
+                  Ubicación:
+                </h4>
+                <p style="grid-column:2/2">Tangamandapio</p>
               </div>
               <div class="imagen">
                 <img src="img/nuevoCliente.svg" alt="ilustracion" />
@@ -125,7 +138,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           </div>
         </div>
       </div>
-
+    </div>
 
 
 
@@ -134,90 +147,12 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 </html>
 
 <script type="text/javascript">
-   (function(){
-    totalPaquetes();
+
+  (function(){
     obtenerPaquetes();
     obtenerEnvios();
-    obtenerCasilleros();
+    EstadoEdit();
   })();
-
-  function limpiar() {
-    var nombreCliente = document.getElementById("nombreCliente").value = "";
-    var telefono = document.getElementById("telefono").value = "";
-    var  direccion = document.getElementById("direccion").value = "";
-  }
-
-  function registrarCliente(){
-    var nombreCliente = document.getElementById("nombreCliente").value;
-    var telefono = document.getElementById("telefono").value;
-    var  direccion = document.getElementById("direccion").value;
-
-    
-    //alert(nombreCliente+" "+telefono);
-    $.post(
-    "webservice/RegistrarCliente.php",
-    {
-      'nombre': nombreCliente,
-      'telefono': telefono,
-      'direccion':direccion
-    },
-      function(data){
-        //alert(data);
-        $Resp = JSON.parse(data);
-        if($Resp.Ok==1){
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: $Resp.Data,
-            showConfirmButton: false,
-            timer: 1800
-          })
-          limpiar();
-          //sleep(4);
-          //window.location="dashboard.php";
-        } else {
-          Swal.fire({
-            position: 'center',
-            icon: 'warning',
-            title: $Resp.Data,
-            showConfirmButton: false,
-            timer: 1800
-          })
-        }
-      }
-    );
-  }
-
-  function totalPaquetes() {
-    let totalPaquetes = document.getElementById('total');
-
-    $.post(
-      "webservice/totalPaquetes.php",
-      {},
-      function(Data) {
-        let total = JSON.parse(Data);
-        totalPaquetes.innerHTML = total['totalPaquetes'];
-      }
-    );
-  }
-
-  /*
-  function obtenerPaquetes(valor) {
-    let tablaPaquetes = document.getElementById('tablaPaquetes');
-
-    $.post(
-      "webservice/mostrarPaquetesCliente.php",
-      {'valor':valor},
-      function(Data) {
-        let paquetes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>Acciones</th></tr>";
-        for(i in paquetes) {
-          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Mostrar Tracking</button></td></tr>";
-          tablaPaquetes.innerHTML = html;
-        }
-      }
-    );
-  }*/
   
   function obtenerPaquetes(valor) {
     let tablaPaquetes = document.getElementById('tablaPaquetes');
@@ -227,9 +162,9 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       {'valor':valor},
       function(Data) {
         let paquetes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>Acciones</th></tr>";
+        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th></tr>";
         for(i in paquetes) {
-          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Enviar paquete</button></td></tr>";
+          html += "<tr id='idTr'><td id='idPaquete"+i+"'>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso;
           tablaPaquetes.innerHTML = html;
         }
       }
@@ -249,12 +184,34 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         let clientes = JSON.parse(Data);
         html = "<tr><th>ID</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
         for(i in clientes) {
-          html += "<tr><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idEnvio +">Mostrar Tracking</button></td></tr>";
+          html += "<tr><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='mostrarTracking();' value="+ clientes[i].idEnvio +">Mostrar Tracking</button></td></tr>";
           tablaClientes.innerHTML = html;
         }
       }
     );
   }
-
   
+  function EstadoEdit() {
+    var id = document.getElementById("idTr");
+    console.log(id);
+  }
+  function mostrarTracking() {
+    let modal2 = document.getElementById('modalTracking');
+    let flex2 = document.getElementById('flex');
+    let abrir2 = document.getElementById('eliminarCliente');
+    let cerrar2 = document.getElementById('closer');
+
+    modal2.style.display = 'block';
+
+    cerrar2.addEventListener('click', function(){
+        modal2.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(e){
+        console.log(e.target);
+        if(e.target == flex2){
+            modal.style.display = 'none';
+        }
+    });
+  }
 </script>
