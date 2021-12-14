@@ -32,7 +32,7 @@ class Envio {
     public function obtenerEnviosByCasillero($conexion,$idCasillero) {
 
         $consulta = 
-        "SELECT E.idEnvio, P.descripcion, IF( E.fechaRecibido IS NULL,'', fechaRecibido) as 'fechaRecibido', E.fechaEnvio FROM envio AS E
+        "SELECT E.idEnvio, P.descripcion,IF(fechaRecibido is null or fechaEnvio = '0000-00-00','-', fechaRecibido) as 'fechaRecibido', if (fechaEnvio is null or fechaEnvio = '' ,'-', fechaEnvio) as fechaEnvio, E.fechaEnvio FROM envio AS E
         INNER JOIN paquete AS P
             ON E.idPaquete = P.idPaquete
         WHERE P.idCasillero = '$idCasillero' AND E.estado = 1;";
