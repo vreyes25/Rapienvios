@@ -18,7 +18,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/dashboardEnvio.css" />
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/jquery.min.js"></script>
     <title>Rapienvios | Dashboard</title>
@@ -92,8 +92,8 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       <div class="data">
         <div class="up-content">
           <h3>Total de Envios Pendientes: <strong id="total"></strong></h3>
-          <button type="button" id="nuevoCliente" class="startSession">
-            Envios Totales
+          <button type="button" id="" class="">
+            
           </button>
         </div>
         <div class="content-tables">
@@ -107,13 +107,12 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Nuevo Cliente</h2>
+            <h2>Información del Envio</h2>
             <span class="close" id="close">&times;</span>
           </div>
-          <div class="modal-body">
+          <div class="modal-body2">
             <form action="" method="post" class="nuevoCliente">
-              <div class="form">
-                
+              <div class="form">          
               <label for="">ID Envio:    </label> <input type="text" placeholder="ID Envio" id="abcd" disabled/> 
                 <label for="nombreCliente">ID Paquete:</label><input type="text" placeholder="ID Paquete"  id="nombreCliente" disabled/> 
                 <label for="paquete">Descripción:</label>  <input type="text" placeholder="Descripcion " id="paquete" disabled/>
@@ -168,6 +167,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   (function(){
     obtenerClientes();
     totalClientes();
+    //mostrarInfo();
   })();
 
   function limpiar() {
@@ -273,11 +273,12 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     let totalClientes = document.getElementById('total');
 
     $.post(
-      "webservice/totalClientes.php",
+      "webservice/totalEnviosPendiente.php",
       {},
       function(Data) {
+        //alert(Data);
         let total = JSON.parse(Data);
-        totalClientes.innerHTML = total['totalClientes'];
+        totalClientes.innerHTML = total;
       }
     );
   }
@@ -308,9 +309,9 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     let abrir = document.getElementById('inf');
     let cerrar = document.getElementById('close');
 
-    abrir.addEventListener('click', function(){
+    
         modal.style.display = 'block';
-    });
+    
 
     cerrar.addEventListener('click', function(){
         modal.style.display = 'none';
