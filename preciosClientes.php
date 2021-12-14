@@ -167,7 +167,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     let tablaPaquetes = document.getElementById('tablaPaquetes');
     
     $.post(
-      "webservice/mostrarTamanios.php",
+      "webservice/mostrarPrecioCasilleroCliente.php",
       {'valor':valor},
       function(Data) {
         let paquetes = JSON.parse(Data);
