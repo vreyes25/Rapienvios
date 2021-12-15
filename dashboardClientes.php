@@ -70,7 +70,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       </div>
       <div class="data">
         <div class="up-content">
-          <h3>Paquetes en bodega</h3>
+          <h3>Paquetes en bodega: <strong id="totalPaquetes"></strong></h3>
         </div>
 
         <div class="tabla-paquetes">
@@ -82,7 +82,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 
       <div class="data">
       <div class="up-content">
-          <h3>Paquetes enviados</h3>
+          <h3>Paquetes enviados: <strong id="totalEnvios"> </strong></h3>
         </div>
         <div class="tabla-envios">
           <table class="tablaEnvios" id="tablaEnvios">
@@ -126,6 +126,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   
    (function(){
     totalPaquetes();
+    totalEnvios();
     obtenerPaquetes();
     obtenerEnvios();
   })();
@@ -178,11 +179,11 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   }
 
   function totalPaquetes() {
-    let totalPaquetes = document.getElementById('total');
-
+    let totalPaquetes = document.getElementById('totalPaquetes');
+    var casillero = <?php echo $_SESSION['casillero'] ?>;
     $.post(
-      "webservice/totalPaquetes.php",
-      {},
+      "webservice/totalPaquetesCliente.php",
+      {'casillero':casillero},
       function(Data) {
         let total = JSON.parse(Data);
         totalPaquetes.innerHTML = total['totalPaquetes'];
@@ -190,6 +191,19 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     );
   }
 
+  function totalEnvios() {
+    let totalPaquetes = document.getElementById('totalEnvios');
+    var casillero = <?php echo $_SESSION['casillero'] ?>;
+    $.post(
+      "webservice/totalEnviosCliente.php",
+      {'casillero':casillero},
+      function(Data) {
+        alert (Data);
+        let total = JSON.parse(Data);
+        totalPaquetes.innerHTML = total['totalEnvios'];
+      }
+    );
+  }
   /*
   function obtenerPaquetes(valor) {
     let tablaPaquetes = document.getElementById('tablaPaquetes');
@@ -235,10 +249,13 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         'casillero':casillero
       },
       function(Data) {
-        //alert(Data);
+
         let envios = JSON.parse(Data);
         html = "<tr><th>ID</th><th>Descripcion</th><th>fecha Envio</th><th>Acciones</th></tr>";
         for(i in envios) {
+          if (i in envios <1)
+            html =+ "<h3>No hay envios disponibles</h3>"
+          else
           html += "<tr><td>"+ envios[i].idEnvio +"</td><td>"+ envios[i].descripcion +"</td><td>"+ envios[i].fechaEnvio +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ envios[i].idEnvio +">Mostrar Tracking</button></td></tr>";
           tablaEnvios.innerHTML = html;
         }

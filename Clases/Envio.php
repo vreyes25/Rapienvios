@@ -9,9 +9,14 @@ class Envio {
     public $fechaRecibido;
     public $fechaEnvio;
     public $estado;
+    public $total;
 
 
     public function __construct(){}
+
+    public function constructorTotal($total) {
+        $this->total = $total;
+    }
 
     public function constructorEnviosCliente($idEnvio, $descripcion, $fechaRecibido, $fechaEnvio){
         $this->idEnvio = $idEnvio;
@@ -27,6 +32,16 @@ class Envio {
         $this->fechaRecibido = $fechaRecibido;
         $this->fechaEnvio = $fechaEnvio;
         $this->estado = $estado;
+    }
+
+    public function totalEnviosCliente($conexion, $casillero) {
+        $consulta = "SELECT COUNT(E.idEnvio) AS totalEnvios from envio as E
+                    INNER JOIN paquete as P on E.idPaquete = P.idPaquete
+                    WHERE P.idCasillero = '$casillero' AND E.estado = 1";
+
+        $resultado = mysqli_query($conexion, $consulta);
+        $total = mysqli_fetch_assoc($resultado);
+        return $total;
     }
 
     public function obtenerEnviosByCasillero($conexion,$idCasillero) {

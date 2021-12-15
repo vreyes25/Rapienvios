@@ -27,6 +27,11 @@ class Paquete {
         $this->total = $total;
     }
 
+    public function constructorTotalClientes($total, $idCasillero) {
+        $this->total = $total;
+        $this->idCasillero = $idCasillero;
+    }
+
     public function registrarPaquete($conexion) {
         $Res = new Respuesta();
         if (trim($this->descripcion) == "") {
@@ -74,6 +79,14 @@ class Paquete {
             $lista[] = $Paquetes;
         }
         return $lista;
+    }
+
+    public function totalPaquetesCliente($conexion) {
+        $consulta = "SELECT COUNT(idPaquete) AS totalPaquetes FROM paquete
+                    WHERE idCasillero = '$this->idCasillero' AND estado = 1";
+        $resultado = mysqli_query($conexion, $consulta);
+        $total = mysqli_fetch_assoc($resultado);
+        return $total;
     }
 
     public function totalPaquetes($conexion) {
