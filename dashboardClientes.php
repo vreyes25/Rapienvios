@@ -198,7 +198,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       "webservice/totalEnviosCliente.php",
       {'casillero':casillero},
       function(Data) {
-        alert (Data);
+        
         let total = JSON.parse(Data);
         totalPaquetes.innerHTML = total['totalEnvios'];
       }
