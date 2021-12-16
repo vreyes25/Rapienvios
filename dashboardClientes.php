@@ -178,6 +178,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     );
   }
 
+
   function totalPaquetes() {
     let totalPaquetes = document.getElementById('totalPaquetes');
     var casillero = <?php echo $_SESSION['casillero'] ?>;
@@ -191,36 +192,27 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     );
   }
 
-  function totalEnvios() {
-    let totalPaquetes = document.getElementById('totalEnvios');
-    var casillero = <?php echo $_SESSION['casillero'] ?>;
+  function enviarPaquete(elemento){
+    var idPaquete = document.getElementById('enviarPaquete').value = elemento.value;
     $.post(
-      "webservice/totalEnviosCliente.php",
-      {'casillero':casillero},
-      function(Data) {
-        
-        let total = JSON.parse(Data);
-        totalPaquetes.innerHTML = total['totalEnvios'];
+      "webservice/enviarPaqueteCliente.php",
+      {'idPaquete':idPaquete},
+      function(Data){
+        //alert(Data);
+        obtenerPaquetes();
       }
     );
+    
+    $.post(
+      "webservice/crearEnvioCliente.php",
+      {'idPaquete':idPaquete},
+      function(Data){
+        //alert(Data);
+        obtenerEnvios();
+      }
+    );
+    
   }
-  /*
-  function obtenerPaquetes(valor) {
-    let tablaPaquetes = document.getElementById('tablaPaquetes');
-
-    $.post(
-      "webservice/mostrarPaquetesCliente.php",
-      {'valor':valor},
-      function(Data) {
-        let paquetes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>Acciones</th></tr>";
-        for(i in paquetes) {
-          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Mostrar Tracking</button></td></tr>";
-          tablaPaquetes.innerHTML = html;
-        }
-      }
-    );
-  }*/
  
   function obtenerPaquetes(valor) {
     let tablaPaquetes = document.getElementById('tablaPaquetes');
@@ -233,9 +225,24 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         let paquetes = JSON.parse(Data);
         html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>Acciones</th></tr>";
         for(i in paquetes) {
-          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='mostrarTracking' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ paquetes[i].idPaquete +">Enviar paquete</button></td></tr>";
+          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='enviarPaquete' class='btnEdit' onclick='enviarPaquete(this);' value="+ paquetes[i].idPaquete +">Enviar paquete</button></td></tr>";
           tablaPaquetes.innerHTML = html;
         }
+      }
+    );
+  }
+
+  
+  function totalEnvios() {
+    let totalPaquetes = document.getElementById('totalEnvios');
+    var casillero = <?php echo $_SESSION['casillero'] ?>;
+    $.post(
+      "webservice/totalEnviosCliente.php",
+      {'casillero':casillero},
+      function(Data) {
+        
+        let total = JSON.parse(Data);
+        totalPaquetes.innerHTML = total['totalEnvios'];
       }
     );
   }

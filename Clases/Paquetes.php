@@ -23,6 +23,10 @@ class Paquete {
         $this->idCasillero = $idCasillero;
     }
 
+    public function constructorIdPaquete($idPaquete){
+        $this->idPaquete = $idPaquete;
+    }
+
     public function constructorTotal($total) {
         $this->total = $total;
     }
@@ -54,6 +58,19 @@ class Paquete {
         return $Res;
     }
 
+    public function enviarPaqueteCliente($conexion){ //cambia el estado del paquete a 2
+        $consulta = "UPDATE paquete SET estado = 2 WHERE idPaquete = $this->idPaquete";
+        $Respuesta = new Respuesta();
+
+        if (mysqli_query($conexion, $consulta)) {
+            $Respuesta->Succes("El paquete sera preparado para su Envio");
+            return $Respuesta;
+        } else {
+            $Respuesta->NoSucces("Error al modificar" . $conexion->error);
+            return $Respuesta;
+        }
+    }
+
     public function obtenerPaquetesByCasillero($conexion) {
         $consulta = "SELECT *
         FROM paquete WHERE idCasillero = '$this->idCasillero' AND estado = 1";
@@ -80,6 +97,8 @@ class Paquete {
         }
         return $lista;
     }
+
+    
 
     public function totalPaquetesCliente($conexion) {
         $consulta = "SELECT COUNT(idPaquete) AS totalPaquetes FROM paquete

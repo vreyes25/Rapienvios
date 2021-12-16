@@ -18,6 +18,10 @@ class Envio {
         $this->total = $total;
     }
 
+    public function constructorIdPaquete($idPaquete){
+        $this->idPaquete = $idPaquete;
+    }
+
     public function constructorEnviosCliente($idEnvio, $descripcion, $fechaRecibido, $fechaEnvio){
         $this->idEnvio = $idEnvio;
         $this->descripcion = $descripcion;
@@ -44,13 +48,29 @@ class Envio {
         return $total;
     }
 
+    public function crearEnvioCliente($conexion){
+        $consulta = "INSERT INTO `envio`(`idEnvio`, `idPaquete`, `idEmpleado`, `fechaRecibido`, `fechaEnvio`, `estado`) VALUES
+                    (NULL, '$this->idPaquete', 2, '','',2)";
+        $Respuesta = new Respuesta();
+        
+
+        if (mysqli_query($conexion, $consulta)) {
+            $Respuesta->Succes("El envio se creado correctamente");
+            return $Respuesta;
+        } else {
+            $Respuesta->NoSucces("Error al crear" . $conexion->error);
+            return $Respuesta;
+        }
+    }
+    
+
     public function obtenerEnviosByCasillero($conexion,$idCasillero) {
 
         $consulta = 
         "SELECT E.idEnvio, P.descripcion,IF(fechaRecibido is null or fechaEnvio = '0000-00-00','-', fechaRecibido) as 'fechaRecibido', if (fechaEnvio is null or fechaEnvio = '' ,'-', fechaEnvio) as fechaEnvio, E.fechaEnvio FROM envio AS E
         INNER JOIN paquete AS P
             ON E.idPaquete = P.idPaquete
-        WHERE P.idCasillero = '$idCasillero' AND E.estado = 1;";
+        WHERE P.idCasillero = '$idCasillero' AND E.estado = 1";
 
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
