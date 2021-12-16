@@ -62,7 +62,7 @@
             }
         }
  
-    
+   
 
     public function constructorLlegada($trackingId, $fechaLlegada, $ubicacion, $idInventario){
 

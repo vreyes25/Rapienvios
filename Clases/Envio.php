@@ -49,8 +49,10 @@ class Envio {
     }
 
     public function crearEnvioCliente($conexion){
-        $consulta = "INSERT INTO `envio`(`idEnvio`, `idPaquete`, `idEmpleado`, `fechaRecibido`, `fechaEnvio`, `estado`) VALUES
-                    (NULL, '$this->idPaquete', 2, '' ,'',1)";
+
+        $this->fechaEnvio =date('Y-m-d');
+        $consulta = "INSERT INTO `envio`(`idPaquete`, `idEmpleado`, `fechaEnvio`, `estado`) VALUES
+                    ('$this->idPaquete', 1 ,'$this->fechaEnvio',1)";
         $Respuesta = new Respuesta();
         
 

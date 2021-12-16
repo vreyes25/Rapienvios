@@ -2,6 +2,7 @@
 
 if(isset($_POST)){
     include("../php/conexion.php");
+    include("../Clases/Respuesta.php");
     include("../Clases/Envio.php");
 
     $Envio = new Envio();

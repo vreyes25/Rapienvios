@@ -172,7 +172,7 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
             title: $Resp.Data,
             showConfirmButton: false,
             timer: 1800
-          })
+          });
         }
       }
     );
@@ -181,7 +181,7 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
 
   function totalPaquetes() {
     let totalPaquetes = document.getElementById('totalPaquetes');
-    var casillero = <?php echo $_SESSION['casillero'] ?>;
+    var casillero = <?php echo $_SESSION['casillero']?>;
     $.post(
       "webservice/totalPaquetesCliente.php",
       {'casillero':casillero},
@@ -207,7 +207,7 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
       "webservice/crearEnvioCliente.php",
       {'idPaquete':idPaquete},
       function(Data){
-        //alert(Data);
+        alert(Data);
         obtenerEnvios();
       }
     );

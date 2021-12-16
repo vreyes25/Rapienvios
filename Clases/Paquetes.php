@@ -58,12 +58,13 @@ class Paquete {
         return $Res;
     }
 
-    public function enviarPaqueteCliente($conexion){ //cambia el estado del paquete a 2
-        $consulta = "UPDATE paquete SET estado = 2 WHERE idPaquete = $this->idPaquete";
+    public function enviarPaqueteCliente($conexion){ //cambia el estado del paquete a 0
+        $consulta = "UPDATE paquete SET estado = 0 WHERE idPaquete = $this->idPaquete";
         $Respuesta = new Respuesta();
 
         if (mysqli_query($conexion, $consulta)) {
             $Respuesta->Succes("El paquete sera preparado para su Envio");
+            
             return $Respuesta;
         } else {
             $Respuesta->NoSucces("Error al modificar" . $conexion->error);

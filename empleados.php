@@ -376,10 +376,11 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
     var direccion = document.getElementById("direccionEditar").value;
     var idJornada = document.getElementById("idJornadaEditar").value;
     var idCargo = document.getElementById("idCargoEditar").value;
+    var correo = document.getElementById("correoEditar").value;
     var contrasena = document.getElementById("contrasenaEditar").value;
     var confirmacion = document.getElementById('confirmacionEditar').value;
     let tablaEmpleados = document.getElementById('tablaEmpleados');
-    
+    //lert(direccion+'-'+idJornada);
     $.post(
       "webservice/editarEmpleado.php",
       {
@@ -392,6 +393,7 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
         'correo' : correo
       },
       function(Data) {
+        //alert(Data);
         let notificacion = JSON.parse(Data);
         Swal.fire({
           icon: 'success',
