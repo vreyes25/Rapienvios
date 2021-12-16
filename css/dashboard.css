@@ -178,10 +178,11 @@ strong {
 }
 
 .contenido-modal{
+  height: auto;
 	position: relative;
 	background-color: #fefefe;
 	margin: auto;
-	width: 50%;
+	width: 60%;
 	box-shadow: 0 0 6px 0 rgba(0, 0, 0, .4);
 	animation-name: modal;
 	animation-duration: 1s;
@@ -216,7 +217,7 @@ p{
 
 .modal-body{
 	padding: 20px 16px;
-  height: 60vh;
+  height: 65vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -362,6 +363,5 @@ select {
 }
 
 .modal-tracking {
-  height: auto;
   display:block;
 }

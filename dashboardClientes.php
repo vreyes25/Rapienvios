@@ -6,6 +6,13 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 }
 
 ?>
+
+<?php 
+
+	$conexion=mysqli_connect('localhost','root','','rapienvio');
+
+ ?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -104,55 +111,60 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     </div>
 
     <div id="modalTracking" class="modal">
-    
-      <div class="flex" id="flex">
-        <div class="contenido-modal">
-          <div class="modal-header flex">
-            <i class="ri-folder-user-fill side-icons"></i>
-            
-            <h2>Tracking</h2>
-            <span class="close" id="closer">&times;</span>
-          </div>
-          <div class="modal-body modal-tracking">
-            <form action="" method="post" class="nuevoCliente">
-              <div class="form" style="display:grid; gap:2rem;">
-                <h4 style="grid-column:1/1">
-                ID :
-                </h4>
-                <p style="grid-column:2/2">xxxx</p>
-                <h4 style="grid-column:1/1">
-                ID Tracking:
-                </h4>
-                <p style="grid-column:2/2">xxxx</p>
-                <h4 style="grid-column:1/1">
-                ID Paquete:
-                </h4>
-                <p style="grid-column:2/2">xxxx</p>
-                <h4 style="grid-column:1/1">
-                  Fecha Llegada:
-                </h4>
-                <p style="grid-column:2/2">xxxx</p>
-                <h4 style="grid-column:1/1">
-                  Fecha Salida:
-                </h4>
-                <p style="grid-column:2/2">xxxx</p>
-                <h4 style="grid-column:1/1">
-                  Ubicación:
-                </h4>
-                <p style="grid-column:2/2">xxxx</p>
+      <?php 
+        $sql="SELECT * from tracking";
+        $result=mysqli_query($conexion,$sql);
+        $mostrar=mysqli_fetch_array($result);
+          for($i=0; $i<1;$i++){
+            ?>
+            <div class="flex" id="flex">
+              <div class="contenido-modal">
+                <div class="modal-header flex">
+                  <i class="ri-folder-user-fill side-icons"></i>
+                  
+                  <h2>Tracking</h2>
+                  <span class="close" id="closer">&times;</span>
+                </div>
+                <div class="modal-body modal-tracking">
+                  <form action="" method="post" class="nuevoCliente">
+                    <div class="form" style="display:grid; gap:2rem;">
+                      <h4 style="grid-column:1/1">
+                      ID :
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['id'] ?></p>
+                      <h4 style="grid-column:1/1">
+                      ID Tracking:
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['idTracking'] ?></p>
+                      <h4 style="grid-column:1/1">
+                      ID Paquete:
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['idPaquete'] ?></p>
+                      <h4 style="grid-column:1/1">
+                        Fecha Llegada:
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['fechaLlegada'] ?></p>
+                      <h4 style="grid-column:1/1">
+                        Fecha Salida:
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['fechaSalida'] ?></p>
+                      <h4 style="grid-column:1/1">
+                        Ubicación:
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['ubicacion'] ?></p>
+                    </div>
+                    <div class="imagen">
+                      <img src="img/nuevoCliente.svg" alt="ilustracion" />
+                    </div>
+                  </form>
+                </div>
               </div>
-              <div class="imagen">
-                <img src="img/nuevoCliente.svg" alt="ilustracion" />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+            </div>
+            <?php
+          }
+        ?> 
     </div>
-     
     
-    } 
-
     <script src="js/main.js"></script>
   </body>
 </html>
