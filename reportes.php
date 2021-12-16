@@ -1,3 +1,11 @@
+<?php
+Session_start();
+
+if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
+  header('Location:loginAdmin.php');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="es">
   <head>

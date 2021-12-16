@@ -1,11 +1,11 @@
 <?php
 Session_start();
+if(@$_SESSION['usuario']==null || @$_SESSION['usuario']==''){
 
-if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
-  header('Location:loginAdmin.php');
-}
+header("Location:loginAdmin.php");
+die();
 
-?>
+}?>
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -236,7 +236,7 @@ function registrarPaquete(){
       'tracking':tracking
     },
       function(data){
-        alert(data);
+        //alert(data);
         $Resp = JSON.parse(data);
         if($Resp.Ok==1){
           Swal.fire({

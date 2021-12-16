@@ -1,7 +1,7 @@
 <?php
 Session_start();
 
-if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
+if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
   header('Location:loginAdmin.php');
 }
 
@@ -182,7 +182,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     let tablaClientes = document.getElementById('tablaClientes');
 
     $.post(
-    "webservice/registrarCliente.php",
+    "webservice/RegistrarCliente.php",
     {
       'nombre': nombreCliente,
       'telefono': telefono,
