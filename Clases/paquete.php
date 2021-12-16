@@ -1,7 +1,7 @@
 <?php
 include "Respuesta.php";
 class Paquete{
-//Codigo de Roger
+
     public $IdInventario;
     //public $FechaLlegada;
     public $Descripcion;
