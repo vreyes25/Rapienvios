@@ -1,7 +1,7 @@
 <?php
-include "Respuesta.php";
+include_once("Respuesta.php");
 class Paquete{
-
+//Codigo de Roger
     public $IdInventario;
     //public $FechaLlegada;
     public $Descripcion;
@@ -133,5 +133,24 @@ class Paquete{
     }
     
 
+
+
+    public function desactivarPaquete($conexion)
+    {
+        
+
+        $consulta = "UPDATE paquete SET estado = 0 WHERE idPaquete = '$this->IdInventario'";
+        $Respuesta = new Respuesta();
+
+        if (mysqli_query($conexion, $consulta)) {
+            $Respuesta->Succes("El Paquete se ha actualizado correctamente");
+            return $Respuesta;
+        } else {
+            $Respuesta->NoSucces("Error al modificar" . $conexion->error);
+            return $Respuesta;
+        }
+    }
 }
+
+
 ?>
