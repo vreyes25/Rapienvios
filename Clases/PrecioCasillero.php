@@ -4,13 +4,20 @@ class precioCasillero{
 
     public $idHistorial;
     //public $FechaLlegada;
+    public $descripcion;
     public $idCasillero;
     public $fechaInicio;
     public $fechaFinal;
     public $precio;
 
+
     function __construct() {
 
+    }
+
+    function constructorPrecioCliente($descripcion, $precio){
+        $this->descripcion = $descripcion;
+        $this->precio=$precio;
     }
 
     function constructorRegistrar($idCasillero,$fechaInicio,/*$fechaFinal,*/$precio){
@@ -144,6 +151,21 @@ class precioCasillero{
         return $total;
     }
     
+    public function obtenerPreciosActivosCliente($conexion)
+    {
+        $consulta= "SELECT T.descripcion, H.precio FROM historialpreciocasillero AS H
+                    INNER JOIN tamanio AS T ON H.idCasillero = T.idTamanio 
+                    WHERE H.fechaFinal is NULL ORDER BY H.idCasillero";
+        $resultado = mysqli_query($conexion, $consulta);
+        $lista = array();
+        while ($fila = mysqli_fetch_array($resultado)) {
+            $Precio = new precioCasillero();
+            $Precio->constructorPrecioCliente($fila['descripcion'], $fila['precio']);
+            $lista[] = $Precio;
+        }
+        return $lista;
+        
+    }
 
 }
 ?>

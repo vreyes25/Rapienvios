@@ -5,6 +5,6 @@ if (isset($_POST)) {
 
     $casillero = @$_POST['casillero'];
     $envio = new Envio();
-    $envio->constructorEnviosCliente(@$_POST['idEnvio'], @$_POST['descripcion'], @$_POST['fechaRecibido'], @$_POST['fechaEnvio'], $casillero);
-    echo json_encode($envio->obtenerEnviosByCasillero($conexion));
+    $envio->constructorEnviosCliente(@$_POST['idEnvio'], @$_POST['descripcion'], @$_POST['fechaRecibido'], @$_POST['fechaEnvio']);
+    echo json_encode($envio->obtenerEnviosByCasillero($conexion,$casillero));
 }
