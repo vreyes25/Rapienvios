@@ -110,7 +110,7 @@ class Tracking{
 
             mysqli_query($conexion,
                 "INSERT into tracking(idTracking, idPaquete,  fechaLlegada, fechaSalida, ubicacion)
-                 values('$this->TrackingId','$auxiliar','$this->FechaLlegada','' /* Fecha de salida en blanco*/,'$this->Ubicacion')"
+                 values('$this->TrackingId','$auxiliar','$this->FechaLlegada','0000-00-00' /* Fecha de salida en blanco*/,'$this->Ubicacion')"
             );
             if (mysqli_error($conexion)) {
                 $Res->NoSucces("No se pudo guardar el tracking" . $conexion->error);

@@ -1,7 +1,7 @@
 <?php
 Session_start();
 
-if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
+if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
   header('Location:loginAdmin.php');
 }
 
@@ -163,7 +163,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       "webservice/mostrarTamanios.php",
       {},
       function(Data) {
-        //alert(Data);
+        alert(Data);
         let cargos = JSON.parse(Data);
         html = "<option value='0'>Seleccione Casillero...</option>";
         for(i in cargos) {
