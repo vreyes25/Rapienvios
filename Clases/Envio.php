@@ -50,7 +50,7 @@ class Envio {
 
     public function crearEnvioCliente($conexion){
         $consulta = "INSERT INTO `envio`(`idEnvio`, `idPaquete`, `idEmpleado`, `fechaRecibido`, `fechaEnvio`, `estado`) VALUES
-                    (NULL, '$this->idPaquete', 2, '','',2)";
+                    (NULL, '$this->idPaquete', 2, '' ,'',1)";
         $Respuesta = new Respuesta();
         
 
@@ -67,7 +67,8 @@ class Envio {
     public function obtenerEnviosByCasillero($conexion,$idCasillero) {
 
         $consulta = 
-        "SELECT E.idEnvio, P.descripcion,IF(fechaRecibido is null or fechaEnvio = '0000-00-00','-', fechaRecibido) as 'fechaRecibido', if (fechaEnvio is null or fechaEnvio = '' ,'-', fechaEnvio) as fechaEnvio, E.fechaEnvio FROM envio AS E
+        "SELECT E.idEnvio, P.descripcion,IF(fechaRecibido is null or fechaEnvio = '' or fechaEnvio = '0000-00-00','-', fechaRecibido) as 'fechaRecibido', 
+        if (fechaEnvio is null or fechaEnvio = '' or fechaEnvio = '0000-00-00' ,'Aun no enviado', fechaEnvio) as fechaEnvio, E.fechaEnvio FROM envio AS E
         INNER JOIN paquete AS P
             ON E.idPaquete = P.idPaquete
         WHERE P.idCasillero = '$idCasillero' AND E.estado = 1";

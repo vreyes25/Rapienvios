@@ -70,7 +70,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       </div>
       <div class="data">
         <div class="up-content">
-          <h3>Precios de los casilleros</h3>
+          <h3>Precios mensuales de los casilleros</h3>
         </div>
 
         <div class="tabla-paquetes">
@@ -173,7 +173,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         let paquetes = JSON.parse(Data);
         html = "<tr><th>Tamaño</th><th>Precio</th></tr>";
         for(i in paquetes) {
-          html += "<tr><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].precio +"</td></tr>";
+          html += "<tr><td>"+ paquetes[i].descripcion +"</td><td>"+"L. "+ paquetes[i].precio +"</td></tr>";
           tablaPaquetes.innerHTML = html;
         }
       }
