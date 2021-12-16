@@ -357,7 +357,7 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
         "idCliente": idCliente
       },
       function(Data) {
-        //alert(Data);
+        alert(Data);
         let clientes = JSON.parse(Data);
         var nombreCliente = document.getElementById("nombreClienteEditar").value = clientes['TrackingId'];
         var telefono = document.getElementById("telefonoEditar").value = clientes['idInventario'];

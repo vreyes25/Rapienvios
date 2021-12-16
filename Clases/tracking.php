@@ -61,29 +61,8 @@
                 }
             }
         }
-
-    }
-
-
-
-=======
-include "Respuesta.php";
-class Tracking{
-    public $TrackingId;
-    public $FechaLlegada;
-    public $FechaSalida;
-    public $Ubicacion;
-    public $IdInventario;
-
-    public function __construct() {}   
+ 
     
-    public function constructorTracking($trackingId, $fechaLlegada, $fechaSalida, $ubicacion){
-
-        $this->TrackingId = $trackingId;
-        $this->FechaLlegada = $fechaLlegada;
-        $this->FechaSalida = $fechaSalida;
-        $this->Ubicacion = $ubicacion;
-    }
 
     public function constructorLlegada($trackingId, $fechaLlegada, $ubicacion, $idInventario){
 

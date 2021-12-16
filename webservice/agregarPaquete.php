@@ -2,7 +2,7 @@
 if(isset($_POST)){
     include("../php/conexion.php");
     include("../Clases/Paquete.php");
-    include("../Clases/tracking.php");
+    include("../Clases/trackings.php");
     $Empleado = new Paquete();
 
     $track = new Tracking();

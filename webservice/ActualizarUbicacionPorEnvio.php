@@ -1,7 +1,7 @@
 <?php
 if(isset($_POST)){
     include("../php/conexion.php");
-    include("../Clases/tracking.php");
+    include("../Clases/trackings.php");
     $Tracking = new Tracking();
 
     date_default_timezone_set('America/Tegucigalpa');
