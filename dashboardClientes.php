@@ -1,7 +1,7 @@
 <?php
 Session_start();
 
-if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
+if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
   header('Location:login.php');
 }
 

@@ -1,7 +1,7 @@
 <?php
 Session_start();
 
-if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
+if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
   header('Location:loginAdmin.php');
 }
 
@@ -18,7 +18,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/dashboardEnvio.css" />
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/jquery.min.js"></script>
     <title>Rapienvios | Dashboard</title>
@@ -92,8 +92,8 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       <div class="data">
         <div class="up-content">
           <h3>Total de Envios Pendientes: <strong id="total"></strong></h3>
-          <button type="button" id="nuevoCliente" class="startSession">
-            Nuevo
+          <button type="button" id="" class="">
+            
           </button>
         </div>
         <div class="content-tables">
@@ -107,21 +107,25 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Nuevo Cliente</h2>
+            <h2>Información del Envio</h2>
             <span class="close" id="close">&times;</span>
           </div>
-          <div class="modal-body">
+          <div class="modal-body2">
             <form action="" method="post" class="nuevoCliente">
-              <div class="form">
-                <input type="text" placeholder="ID Cliente" disabled/>
-                <input type="text" placeholder="Ingrese el nombre"  id="nombreCliente"/>
-                <input type="text" placeholder="Ingrese el teléfono" id="telefono" />
-                <input type="text" placeholder="Ingrese la dirección" id="direccion"/>
-                <button type="button" onclick="registrarCliente()" class="guardarCliente">Guardar</button>
+              <div class="form">          
+              <label for="">ID Envio:    </label> <input type="text" placeholder="ID Envio" id="abcd" disabled/> 
+                <label for="nombreCliente">ID Paquete:</label><input type="text" placeholder="ID Paquete"  id="nombreCliente" disabled/> 
+                <label for="paquete">Descripción:</label>  <input type="text" placeholder="Descripcion " id="paquete" disabled/>
+                <label for="cliente">Cliente:</label> <input type="text" placeholder="Cliente" id="cliente" disabled/>
+                <label for="Residencia">Residencia del Cliente:</label>   <input type="text" placeholder="Residencia del cliente" id="Residencia" disabled/>
+                <label for="Telefono">Telefono:</label><input type="text" placeholder="Telefono del ciente" id="Telefono" disabled/>
+                <label for="Ubicacion">Ubicacion Actual del Paquete:</label> <input type="text" placeholder="Ubicacion actual del paquete" id="Ubicacion" disabled/>
+                
+                <!--<button type="button" onclick="registrarCliente()" class="guardarCliente">Guardar</button>-->
               </div>
-              <div class="imagen">
+              <!--<div class="imagen">
                 <img src="img/nuevoCliente.svg" alt="ilustracion" />
-              </div>
+              </div>-->
             </form>
           </div>
         </div>
@@ -133,16 +137,16 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Editar Cliente</h2>
+            <h2>Actualizar Ubicación Paquete</h2>
             <span class="close" id="close2">&times;</span>
           </div>
           <div class="modal-body">
             <form action="" method="post" class="nuevoCliente">
               <div class="form">
-                <input type="text" placeholder="ID Cliente" id="idClienteEditar" disabled/>
-                <input type="text" placeholder="Ingrese el nombre"  id="nombreClienteEditar"/>
-                <input type="text" placeholder="Ingrese el teléfono" id="telefonoEditar" />
-                <input type="text" placeholder="Ingrese la dirección" id="direccionEditar"/>
+                <input type="text" placeholder="Tracking Id" id="idClienteEditar" disabled/>
+                <input type="text" placeholder="ID Paquete"  id="nombreClienteEditar" disabled/>
+                <input type="text" placeholder="Ubicacion Actual" id="telefonoEditar" />
+                <!--<input type="text" placeholder="Ingrese la dirección" id="direccionEditar"/>-->
                 <button type="button" onclick="editarCliente()" class="guardarCliente">Actualizar</button>
               </div>
               <div class="imagen">
@@ -154,7 +158,8 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       </div>
     </div>
 
-    <script src="js/main.js"></script>
+    <!--<script src="js/main.js"></script>-->
+    <!--<script src="js/mainInf.js"></script>-->
   </body>
 </html>
 
@@ -162,6 +167,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   (function(){
     obtenerClientes();
     totalClientes();
+    //mostrarInfo();
   })();
 
   function limpiar() {
@@ -246,9 +252,9 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       function(Data) {
         //alert(Data);
         let clientes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>ID Paquete</th><th>ID de Empleado</th><th>Fecha Recibido</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
+        html = "<tr><th>Inf</th><th>ID</th><th>ID Paquete</th><th>ID de Empleado</th><th>Fecha Recibido</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
         for(i in clientes) {
-          html += "<tr><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].idPaquete +"</td><td>"+ clientes[i].idEmpleado +"</td><td>"+ clientes[i].fechaRecibido +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idCliente +">Actualizar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idEnvio +">Recibido</button></td></tr>";
+          html += "<tr></td><td><button id='inf' class='btnEdit' onclick='mostrarInfo(this)' value="+ clientes[i].idPaquete +">Inf.</button><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].idPaquete +"</td><td>"+ clientes[i].idEmpleado +"</td><td>"+ clientes[i].fechaRecibido +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button id='editarCliente' class='btnEdit' onclick='obtenerId(this); mostrarEditar();' value="+ clientes[i].idPaquete +">Actualizar</button><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ clientes[i].idEnvio+'-'+clientes[i].idPaquete +">Recibido</button></td></tr>";
           tablaClientes.innerHTML = html;
         }
       }
@@ -267,11 +273,12 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     let totalClientes = document.getElementById('total');
 
     $.post(
-      "webservice/totalClientes.php",
+      "webservice/totalEnviosPendiente.php",
       {},
       function(Data) {
+        //alert(Data);
         let total = JSON.parse(Data);
-        totalClientes.innerHTML = total['totalClientes'];
+        totalClientes.innerHTML = total;
       }
     );
   }
@@ -296,37 +303,87 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     });
   }
 
+  function mostrarInfo(elemento){
+    let modal = document.getElementById('miModal');
+    let flex = document.getElementById('flex');
+    let abrir = document.getElementById('inf');
+    let cerrar = document.getElementById('close');
+
+    
+        modal.style.display = 'block';
+    
+
+    cerrar.addEventListener('click', function(){
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(e){
+        console.log(e.target);
+        if(e.target == flex){
+            modal.style.display = 'none';
+        }
+    });
+
+
+    //alert(elemento.value);
+
+    $.post(
+      "webservice/mostrarInformacionEnvio.php",
+      {
+        "idPaquete":elemento.value
+      },
+      function(Data){
+        //alert(Data);
+        let cliente = JSON.parse(Data);
+        document.getElementById("abcd").value = cliente['idEnvio'];
+        document.getElementById("nombreCliente").value = cliente['idPaquete'];
+        document.getElementById("paquete").value = cliente['descripcion'];
+        document.getElementById("cliente").value = cliente['cliente'];
+        document.getElementById("Residencia").value = cliente['direccion'];
+        document.getElementById("Telefono").value = cliente['telefono'];
+        document.getElementById("Ubicacion").value = cliente['ubicacion'];
+      }
+
+    );
+    //Post con la adquisicion de datos
+
+
+  }
+
   function buscarCliente(idCliente) {
     $.post(
-      "webservice/buscarCliente.php",
+      "webservice/buscarTrackingEnvio.php",
       {
         "idCliente": idCliente
       },
       function(Data) {
+        //alert(Data);
         let clientes = JSON.parse(Data);
-        var nombreCliente = document.getElementById("nombreClienteEditar").value = clientes['nombre'];
-        var telefono = document.getElementById("telefonoEditar").value = clientes['telefono'];
-        var  direccion = document.getElementById("direccionEditar").value = clientes['direccion'];
+        var nombreCliente = document.getElementById("nombreClienteEditar").value = clientes['TrackingId'];
+        var telefono = document.getElementById("telefonoEditar").value = clientes['idInventario'];
+        var  direccion = document.getElementById("telefonoEditar").value = "";
       }
     );
   }
 
   function editarCliente() {
-    var idCliente = document.getElementById('idClienteEditar').value;
-    var nombreCliente = document.getElementById("nombreClienteEditar").value;
+    var idCliente = document.getElementById('idClienteEditar').value; //idPaquete
+    var nombreCliente = document.getElementById("nombreClienteEditar").value;//idTracking
     var telefono = document.getElementById("telefonoEditar").value;
-    var direccion = document.getElementById("direccionEditar").value;
+    //var direccion = document.getElementById("direccionEditar").value;
     let tablaClientes = document.getElementById('tablaClientes');
-    
+    //alert(nombreCliente);
+
     $.post(
-      "webservice/editarCliente.php",
+      "webservice/ActualizarUbicacionPorEnvio.php",
       {
-        "idCliente": idCliente,
-        "nombre": nombreCliente,
-        "telefono": telefono,
-        "direccion": direccion
+        "trackingId": nombreCliente,
+        "idPaquete": idCliente,
+        "Ubicacion": telefono
+        
       },
       function(Data) {
+        //alert(Data);
         let notificacion = JSON.parse(Data);
         Swal.fire({
           icon: 'success',
@@ -341,9 +398,14 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   }
 
   function obtenerIdEliminar(elemento) {
-    var idCliente = document.getElementById('eliminarCliente').value = elemento.value;
+    //alert(elemento);
+    var auxiliar = elemento.value.toString().split('-');
+    //alert(auxiliar);
+    var idCliente = document.getElementById('eliminarCliente').value = parseInt(auxiliar[0]);
     let tablaClientes = document.getElementById('tablaClientes');
     //alert(idCliente);
+    var paquete = parseInt(auxiliar[1]);
+    //alert(paquete);
     Swal.fire({
       title: '¿Estás seguro?',
       text: "Una vez Marcado como Entregado el envio no podrás Desmarcarlo",
@@ -358,9 +420,11 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         $.post(
           "webservice/entregarEnvio.php",
           {
-            "idEnvio": idCliente
+            "idEnvio": idCliente,
+            "paquete": paquete
           }, 
           function(Data) {
+            
             var notificacion = JSON.parse(Data);
             Swal.fire(
               '¡Hecho!',

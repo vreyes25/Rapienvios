@@ -1,3 +1,11 @@
+<?php
+Session_start();
+
+if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
+  header('Location:loginAdmin.php');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -117,7 +125,7 @@
           <div class="content">
             <h2>05</h2>
             <h3>ENVIOS</h3>
-            <a href="#">Generar Reporte</a>
+            <a href="reporte/ReporteEnviosTotales.php">Generar Reporte</a>
           </div>
         </div>
       </div>

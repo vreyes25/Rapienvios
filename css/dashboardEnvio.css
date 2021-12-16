@@ -128,7 +128,6 @@ strong {
   justify-content: space-between;
 }
 
-
 .startSession{
   background: var(--main-color);
   text-decoration: none;
@@ -222,6 +221,13 @@ p{
   align-items: center;
   justify-content: center;
 }
+.modal-body2{
+	padding: 20px 16px;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @media screen and (max-width:900px){
 	.contenido-modal{
@@ -249,7 +255,7 @@ p{
   height: 45vh;
   justify-content: space-between;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .nuevoCliente .form input, select{
@@ -291,12 +297,12 @@ p{
   justify-content: center;
 }
 
-.tablaClientes, .tablaPaquetes, .tablaEnvios, .tablaEmpleados {
+.tablaClientes, .tablaPaquetes, .tablaEmpleados {
   border-collapse: collapse;
   width: 93%;
 }
 
-.tablaClientes th, .tablaPaquetes th, .tablaEnvios th, .tablaEmpleados th {
+.tablaClientes th, .tablaPaquetes th, .tablaEmpleados th {
   text-align: center;
   border: solid var(--third-color) 1px;
   padding: 5px;
@@ -304,7 +310,7 @@ p{
   background-color: var(--main-color);
 }
 
-.tablaClientes td, .tablaPaquetes td, .tablaEnvios td, .tablaEmpleados td {
+.tablaClientes td, .tablaPaquetes td, .tablaEmpleados td {
   border: solid var(--third-color) 1px;
   text-align: center;
   padding: 2px;

@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
     include "Respuesta.php";
     class Tracking{
         public $TrackingId;
@@ -147,5 +146,4 @@ class Tracking{
 
     
 }
->>>>>>> master
 ?>
