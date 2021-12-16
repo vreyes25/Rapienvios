@@ -108,12 +108,17 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         <div class="contenido-modal">
           <div class="modal-header flex">
             <i class="ri-folder-user-fill side-icons"></i>
+            
             <h2>Tracking</h2>
             <span class="close" id="closer">&times;</span>
           </div>
           <div class="modal-body modal-tracking">
             <form action="" method="post" class="nuevoCliente">
               <div class="form" style="display:grid; gap:2rem;">
+                <h4 style="grid-column:1/1">
+                ID :
+                </h4>
+                <p style="grid-column:2/2">3496846346134</p>
                 <h4 style="grid-column:1/1">
                   ID Tracking:
                 </h4>
@@ -190,6 +195,8 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       }
     );
   }
+
+  
   
   function EstadoEdit() {
     var id = document.getElementById("idTr");
@@ -200,7 +207,6 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     let flex2 = document.getElementById('flex');
     let abrir2 = document.getElementById('eliminarCliente');
     let cerrar2 = document.getElementById('closer');
-
     modal2.style.display = 'block';
 
     cerrar2.addEventListener('click', function(){
