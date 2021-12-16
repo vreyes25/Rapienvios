@@ -128,6 +128,7 @@ strong {
   justify-content: space-between;
 }
 
+
 .startSession{
   background: var(--main-color);
   text-decoration: none;
@@ -290,12 +291,12 @@ p{
   justify-content: center;
 }
 
-.tablaClientes, .tablaPaquetes, .tablaEmpleados {
+.tablaClientes, .tablaPaquetes, .tablaEnvios, .tablaEmpleados {
   border-collapse: collapse;
   width: 93%;
 }
 
-.tablaClientes th, .tablaPaquetes th, .tablaEmpleados th {
+.tablaClientes th, .tablaPaquetes th, .tablaEnvios th, .tablaEmpleados th {
   text-align: center;
   border: solid var(--third-color) 1px;
   padding: 5px;
@@ -303,7 +304,7 @@ p{
   background-color: var(--main-color);
 }
 
-.tablaClientes td, .tablaPaquetes td, .tablaEmpleados td {
+.tablaClientes td, .tablaPaquetes td, .tablaEnvios td, .tablaEmpleados td {
   border: solid var(--third-color) 1px;
   text-align: center;
   padding: 2px;
