@@ -137,7 +137,7 @@ class Empleado {
     }
 
     public function buscarEmpleado($conexion) {
-        $consulta = "SELECT idEmpleado, nombre, direccion, idJornada, idCargo
+        $consulta = "SELECT idEmpleado, nombre, direccion, idJornada, idCargo, correo
         FROM empleado
         WHERE idEmpleado = '$this->idEmpleado'";
         $Respuesta = new Respuesta();
@@ -146,7 +146,7 @@ class Empleado {
         $data = $EmpleadoEncontrado->fetch_assoc();
 
         if ($data != null) {
-            $Empleado->constructorEditar($data['idEmpleado'], $data['nombre'], $data['direccion'], $data['idJornada'], $data['idCargo']);
+            $Empleado->constructorEditar($data['idEmpleado'], $data['nombre'], $data['direccion'], $data['idJornada'], $data['idCargo'],$data['correo'],"");
             return $Empleado;
         } else {
             $Respuesta->NoSucces("Debe ingresar un ID");

@@ -1,5 +1,5 @@
 <?php
-include "Respuesta.php";
+//include "Respuesta.php";
 
 class Envio {
     public $idEnvio;
@@ -68,7 +68,7 @@ class Envio {
 
     public function EntregarEnvio($conexion){
 
-        $consulta = "UPDATE envio SET estado = 0, fechaRecibido = $this->fechaRecibido WHERE idEnvio = '$this->idEnvio'";
+        $consulta = "UPDATE envio SET estado = 0, fechaRecibido = '$this->fechaRecibido' WHERE idEnvio = '$this->idEnvio'";
         $Respuesta = new Respuesta();
 
         if (mysqli_query($conexion, $consulta)) {
@@ -79,6 +79,22 @@ class Envio {
             return $Respuesta;
         }
 
+    }
+
+
+    public function totalEnviosPendientes($Conexion) {
+        $consulta = "SELECT `idEnvio`, envio.idPaquete,cliente.nombre ,envio.idEmpleado, IF(fechaRecibido is null,'', fechaRecibido) as 'fechaRecibido', fechaEnvio, IF(envio.estado=1,'Activo','Entregado') as Estado 
+        FROM `envio`, empleado,paquete,cliente,casillero 
+        WHERE envio.idEmpleado = empleado.idEmpleado AND envio.idPaquete = paquete.idPaquete AND paquete.idCasillero =  cliente.idCasillero 
+        AND envio.estado =1";
+        $resultado = mysqli_query($Conexion, $consulta);
+        $nr  = mysqli_num_rows($resultado);
+        /*while ($fila = mysqli_fetch_array($resultado)) {
+            $Jornadas = new Envio();
+            $Jornadas->ConstructorListarEnvios($fila['idEnvio'], $fila['idPaquete'], $fila['idEmpleado'], $fila['fechaRecibido'], $fila['fechaEnvio'], $fila['Estado']);
+            //$lista[] = $Jornadas;
+        }*/
+        return $nr;
     }
 
 }

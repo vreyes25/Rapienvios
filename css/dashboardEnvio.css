@@ -221,6 +221,13 @@ p{
   align-items: center;
   justify-content: center;
 }
+.modal-body2{
+	padding: 20px 16px;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @media screen and (max-width:900px){
 	.contenido-modal{
@@ -248,7 +255,7 @@ p{
   height: 45vh;
   justify-content: space-between;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .nuevoCliente .form input, select{

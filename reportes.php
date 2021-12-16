@@ -117,7 +117,7 @@
           <div class="content">
             <h2>05</h2>
             <h3>ENVIOS</h3>
-            <a href="#">Generar Reporte</a>
+            <a href="reporte/ReporteEnviosTotales.php">Generar Reporte</a>
           </div>
         </div>
       </div>
