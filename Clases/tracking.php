@@ -57,7 +57,7 @@ class Tracking{
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {
             $Tracking = new Tracking();
-            $Tracking->constructorTracking($fila['idTracking'], $fila['fechaLlegada'], $fila['fechaSalida'], $fila['ubicacion']);
+            $Tracking->constructorTracking($fila['id'], $fila['idTracking'], $fila['fechaLlegada'], $fila['fechaSalida'], $fila['ubicacion']);
             $lista[] = $Tracking;
         }
         return $Tracking;

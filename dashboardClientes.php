@@ -104,6 +104,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     </div>
 
     <div id="modalTracking" class="modal">
+    
       <div class="flex" id="flex">
         <div class="contenido-modal">
           <div class="modal-header flex">
@@ -118,23 +119,27 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
                 <h4 style="grid-column:1/1">
                 ID :
                 </h4>
-                <p style="grid-column:2/2">3496846346134</p>
+                <p style="grid-column:2/2">xxxx</p>
                 <h4 style="grid-column:1/1">
-                  ID Tracking:
+                ID Tracking:
                 </h4>
-                <p style="grid-column:2/2">3496846346134</p>
+                <p style="grid-column:2/2">xxxx</p>
+                <h4 style="grid-column:1/1">
+                ID Paquete:
+                </h4>
+                <p style="grid-column:2/2">xxxx</p>
                 <h4 style="grid-column:1/1">
                   Fecha Llegada:
                 </h4>
-                <p style="grid-column:2/2">16/12/22</p>
+                <p style="grid-column:2/2">xxxx</p>
                 <h4 style="grid-column:1/1">
                   Fecha Salida:
                 </h4>
-                <p style="grid-column:2/2">28/12/22</p>
+                <p style="grid-column:2/2">xxxx</p>
                 <h4 style="grid-column:1/1">
                   Ubicación:
                 </h4>
-                <p style="grid-column:2/2">Tangamandapio</p>
+                <p style="grid-column:2/2">xxxx</p>
               </div>
               <div class="imagen">
                 <img src="img/nuevoCliente.svg" alt="ilustracion" />
@@ -144,8 +149,9 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         </div>
       </div>
     </div>
-
-
+     
+    
+    } 
 
     <script src="js/main.js"></script>
   </body>
@@ -189,7 +195,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
         let clientes = JSON.parse(Data);
         html = "<tr><th>ID</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
         for(i in clientes) {
-          html += "<tr><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='mostrarTracking();' value="+ clientes[i].idEnvio +">Mostrar Tracking</button></td></tr>";
+          html += "<tr><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='mostrarTracking(this);' value="+ clientes[i].idPaquete +">Mostrar Tracking</button></td></tr>";
           tablaClientes.innerHTML = html;
         }
       }
@@ -202,7 +208,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     var id = document.getElementById("idTr");
     console.log(id);
   }
-  function mostrarTracking() {
+  function mostrarTracking(elemento) {
     let modal2 = document.getElementById('modalTracking');
     let flex2 = document.getElementById('flex');
     let abrir2 = document.getElementById('eliminarCliente');
@@ -219,5 +225,15 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
             modal.style.display = 'none';
         }
     });
+
+    $.POST(
+      'webservice/mostrarTracking.php',
+      {
+      'id':elemento.value
+      },
+    function (Data){
+    alert(Data);
+      
+    }); 
   }
 </script>
