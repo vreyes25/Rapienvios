@@ -14,13 +14,15 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  display: flex;
+  display: grid;
+  grid-template-columns: 25% 75%;
 }
 
 .side-panel {
-  width: 40vh;
   background: var(--main-color);
   height: 100vh;
+  grid-column: 1/1;
+  position: fixed;
 }
 
 .decoration-line {
@@ -104,7 +106,7 @@ strong {
 }
 
 .content-data {
-  width: 81%;
+  grid-column: 2/2;
 }
 
 .searchBar {

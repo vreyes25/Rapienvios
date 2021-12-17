@@ -75,7 +75,7 @@ li:hover {
 .logout {
   position: absolute;
   bottom: 5px;
-  padding-right: 13vh;
+  padding-right: 8.5vh;
 }
 
 .searchButton,
@@ -179,10 +179,11 @@ strong {
 }
 
 .contenido-modal{
+  height: auto;
 	position: relative;
 	background-color: #fefefe;
 	margin: auto;
-	width: 50%;
+	width: 60%;
 	box-shadow: 0 0 6px 0 rgba(0, 0, 0, .4);
 	animation-name: modal;
 	animation-duration: 1s;
@@ -217,7 +218,7 @@ p{
 
 .modal-body{
 	padding: 20px 16px;
-  height: 60vh;
+  height: 65vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -293,7 +294,7 @@ p{
 
 .tablaClientes, .tablaPaquetes, .tablaEnvios, .tablaEmpleados {
   border-collapse: collapse;
-  width: 93%;
+  width: 100%;
 }
 
 .tablaClientes th, .tablaPaquetes th, .tablaEnvios th, .tablaEmpleados th {
@@ -331,5 +332,37 @@ p{
 
 select {
   width: 100%;
+}
+
+.data {
+  width: 90%;
+  margin: auto;
+}
+
+.tablaEnvios {
+  margin-block-start: 5rem !important;
+  width: 100%;
+  margin: auto;
+}
+
+.tablaEnvios tbody > tr {
+  padding-inline:2rem;
+}
+
+.tablaEnvios td {
+  text-align: center;
+}
+
+.data-container-paquetes {
+  display: flex;
+  justify-content: space-between;
+}
+
+.side-nav-hr{
+  margin: 2rem 0;
+}
+
+.modal-tracking {
+  display:block;
 }
 

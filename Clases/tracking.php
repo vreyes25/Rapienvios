@@ -119,17 +119,17 @@ class Tracking{
 
     public function obtenerTracking($conexion, $idInventario)
     {
-        $consulta = "SELECT idTracking, fechaLlegada, fechaSalida, ubicacion
-        FROM estadopaquete WHERE idPaquete = $idInventario";
+        $consulta = "SELECT id, idTracking, fechaLlegada, fechaSalida, ubicacion
+        FROM estadopaquete WHERE END idPaquete = $IdInventario AND  fechaSalida = '0000-00-00'";
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {
             $Tracking = new Tracking();
-            $Tracking->constructorTracking($fila['idTracking'], $fila['fechaLlegada'], $fila['fechaSalida'], $fila['ubicacion']);
+            $Tracking->constructorTracking($fila['id'], $fila['idTracking'], $fila['fechaLlegada'], $fila['fechaSalida'], $fila['ubicacion']);
             $lista[] = $Tracking;
         }
-        return $lista;
-    }
+        return $Tracking;
+    }  
 
     public function actualizarTracking($conexion){
         $consulta = "UPDATE tracking SET ubicacion = '$this->Ubicacion', fechaLlegada = '$this->FechaLlegada', fechaSalida ='$this->FechaSalida' WHERE trackingId = '$this->TrackingId'";

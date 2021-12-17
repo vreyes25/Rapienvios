@@ -5,5 +5,6 @@ if (isset($_POST)) {
 
     $Tracking = new Tracking();
     echo json_encode($Tracking->obtenerTracking($conexion,@$_POST['id']));
+ 
 }
 ?>

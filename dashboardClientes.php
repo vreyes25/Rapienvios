@@ -6,6 +6,13 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
 }
 
 ?>
+
+<?php 
+
+	$conexion=mysqli_connect('localhost','root','','rapienvio');
+
+ ?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -25,7 +32,7 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
   <body>
     <div class="side-panel">
       <img src="img/Logo.png" alt="logo" id="logo" />
-      <div class="decoration-line"></div>
+      <hr class="side-nav-hr">
       <ul class="dashboard-elements">
 
         <a href="dashboardClientes.php">
@@ -51,12 +58,16 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
             Mi Cuenta
           </li>
         </a>
+      </ul>
 
-        <li class="logout">
-          <i class="ri-logout-box-r-line side-icons"></i>
-          <a href="cerrarSesion2.php">Cerrar Sesión</a>
-        </li>
 
+      <ul class="logout-container">
+        <a href="cerrarSesion2.php">
+            <li class="logout">
+              <i class="ri-logout-box-r-line side-icons"></i>
+              Cerrar Sesión
+            </li>
+          </a>
       </ul>
     </div>
     <div class="content-data">
@@ -68,14 +79,33 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
           <h3>Bienvenido, <strong><?php echo $_SESSION['usuario'];?></strong></h3>
         </div>
       </div>
+
       <div class="data">
+
+
+        <div class="data-container-paquetes">
+          <div class="up-content" style="margin-left:0;">
+            <h3>Total de paquetes: <strong>0</strong></h3>
+          </div>
+
+          <div class="up-content" style="margin-right:0;">
+            <h3>Total de envios: <strong>0</strong></h3>
+          </div>
         <div class="up-content">
           <h3>Paquetes en bodega: <strong id="totalPaquetes"></strong></h3>
         </div>
 
+
         <div class="tabla-paquetes">
           <table class="tablaPaquetes" id="tablaPaquetes">
+          </table>
         </div>
+
+        
+        <div class="tabla-envios">
+          <table class="tablaEnvios" id="tablaEnvios"></table>
+        </div>
+
 
         <div class="content-tables"></div>
       </div>
@@ -92,37 +122,77 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
 
 
     </div>
-    <div id="miModal" class="modal">
-      <div class="flex" id="flex">
-        <div class="contenido-modal">
-          <div class="modal-header flex">
-            <i class="ri-folder-user-fill side-icons"></i>
-            <h2>Nuevo Cliente</h2>
-            <span class="close" id="close">&times;</span>
-          </div>
-          <div class="modal-body">
-            <form action="" method="post" class="nuevoCliente">
-              <div class="form">
-                <input type="text" placeholder="ID Cliente" disabled/>
-                <input type="text" placeholder="Ingrese el nombre"  id="nombreCliente"/>
-                <input type="text" placeholder="Ingrese el teléfono" id="telefono" />
-                <input type="text" placeholder="Ingrese la dirección" id="direccion"/>
-                <button type="button" onclick="registrarCliente()" class="guardarCliente">Guardar</button>
-              </div>
-              <div class="imagen">
-                <img src="img/nuevoCliente.svg" alt="ilustracion" />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
 
+    <div id="modalTracking" class="modal">
+      <?php 
+        $sql="SELECT * from tracking";
+        $result=mysqli_query($conexion,$sql);
+        $mostrar=mysqli_fetch_array($result);
+          for($i=0; $i<1;$i++){
+            ?>
+            <div class="flex" id="flex">
+              <div class="contenido-modal">
+                <div class="modal-header flex">
+                  <i class="ri-folder-user-fill side-icons"></i>
+                  
+                  <h2>Tracking</h2>
+                  <span class="close" id="closer">&times;</span>
+                </div>
+                <div class="modal-body modal-tracking">
+                  <form action="" method="post" class="nuevoCliente">
+                    <div class="form" style="display:grid; gap:2rem;">
+                      <h4 style="grid-column:1/1">
+                      ID :
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['id'] ?></p>
+                      <h4 style="grid-column:1/1">
+                      ID Tracking:
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['idTracking'] ?></p>
+                      <h4 style="grid-column:1/1">
+                      ID Paquete:
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['idPaquete'] ?></p>
+                      <h4 style="grid-column:1/1">
+                        Fecha Llegada:
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['fechaLlegada'] ?></p>
+                      <h4 style="grid-column:1/1">
+                        Fecha Salida:
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['fechaSalida'] ?></p>
+                      <h4 style="grid-column:1/1">
+                        Ubicación:
+                      </h4>
+                      <p style="grid-column:2/2"><?php echo $mostrar['ubicacion'] ?></p>
+                    </div>
+                    <div class="imagen">
+                      <img src="img/nuevoCliente.svg" alt="ilustracion" />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <?php
+          }
+        ?> 
+    </div>
+    
     <script src="js/main.js"></script>
   </body>
 </html>
 
 <script type="text/javascript">
+
+
+  (function(){
+    obtenerPaquetes();
+    obtenerEnvios();
+    EstadoEdit();
+  })();
+  
+  function obtenerPaquetes(valor) {
+    let tablaPaquetes = document.getElementById('tablaPaquetes');
   
    (function(){
     totalPaquetes();
@@ -232,6 +302,7 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
     );
   }
 
+
   
   function totalEnvios() {
     let totalPaquetes = document.getElementById('totalEnvios');
@@ -240,9 +311,18 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
       "webservice/totalEnviosCliente.php",
       {'casillero':casillero},
       function(Data) {
+
+        let paquetes = JSON.parse(Data);
+        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th></tr>";
+        for(i in paquetes) {
+          html += "<tr id='idTr'><td id='idPaquete"+i+"'>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso;
+          tablaPaquetes.innerHTML = html;
+        }
+=======
         
         let total = JSON.parse(Data);
         totalPaquetes.innerHTML = total['totalEnvios'];
+
       }
     );
   }
@@ -257,6 +337,14 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
       },
       function(Data) {
 
+        //alert(Data);
+        let clientes = JSON.parse(Data);
+        html = "<tr><th>ID</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
+        for(i in clientes) {
+          html += "<tr><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='mostrarTracking(this);' value="+ clientes[i].idPaquete +">Mostrar Tracking</button></td></tr>";
+          tablaClientes.innerHTML = html;
+
+
         let envios = JSON.parse(Data);
         html = "<tr><th>ID</th><th>Descripcion</th><th>fecha Envio</th><th>Acciones</th></tr>";
         for(i in envios) {
@@ -265,10 +353,45 @@ if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
           else
           html += "<tr><td>"+ envios[i].idEnvio +"</td><td>"+ envios[i].descripcion +"</td><td>"+ envios[i].fechaEnvio +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ envios[i].idEnvio +">Mostrar Tracking</button></td></tr>";
           tablaEnvios.innerHTML = html;
+
         }
       }
       
     );
   }
 
+  
+  
+  function EstadoEdit() {
+    var id = document.getElementById("idTr");
+    console.log(id);
+  }
+  function mostrarTracking(elemento) {
+    let modal2 = document.getElementById('modalTracking');
+    let flex2 = document.getElementById('flex');
+    let abrir2 = document.getElementById('eliminarCliente');
+    let cerrar2 = document.getElementById('closer');
+    modal2.style.display = 'block';
+
+    cerrar2.addEventListener('click', function(){
+        modal2.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(e){
+        console.log(e.target);
+        if(e.target == flex2){
+            modal.style.display = 'none';
+        }
+    });
+
+    $.POST(
+      'webservice/mostrarTracking.php',
+      {
+      'id':elemento.value
+      },
+    function (Data){
+    alert(Data);
+      
+    }); 
+  }
 </script>
