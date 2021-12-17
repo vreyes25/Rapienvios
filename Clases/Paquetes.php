@@ -23,8 +23,17 @@ class Paquete {
         $this->idCasillero = $idCasillero;
     }
 
+    public function constructorIdPaquete($idPaquete){
+        $this->idPaquete = $idPaquete;
+    }
+
     public function constructorTotal($total) {
         $this->total = $total;
+    }
+
+    public function constructorTotalClientes($total, $idCasillero) {
+        $this->total = $total;
+        $this->idCasillero = $idCasillero;
     }
 
     public function registrarPaquete($conexion) {
@@ -49,9 +58,22 @@ class Paquete {
         return $Res;
     }
 
+    public function enviarPaqueteCliente($conexion){ //cambia el estado del paquete a 2
+        $consulta = "UPDATE paquete SET estado = 2 WHERE idPaquete = $this->idPaquete";
+        $Respuesta = new Respuesta();
+
+        if (mysqli_query($conexion, $consulta)) {
+            $Respuesta->Succes("El paquete sera preparado para su Envio");
+            return $Respuesta;
+        } else {
+            $Respuesta->NoSucces("Error al modificar" . $conexion->error);
+            return $Respuesta;
+        }
+    }
+
     public function obtenerPaquetesByCasillero($conexion) {
-        $consulta = "SELECT idPaquete, descripcion, peso, idCasillero
-        FROM paquete WHERE idCasillero ='$this->idCasillero'";
+        $consulta = "SELECT *
+        FROM paquete WHERE idCasillero = '$this->idCasillero' AND estado = 1";
         $resultado = mysqli_query($conexion, $consulta);
         $lista = array();
         while ($fila = mysqli_fetch_array($resultado)) {
@@ -74,6 +96,16 @@ class Paquete {
             $lista[] = $Paquetes;
         }
         return $lista;
+    }
+
+    
+
+    public function totalPaquetesCliente($conexion) {
+        $consulta = "SELECT COUNT(idPaquete) AS totalPaquetes FROM paquete
+                    WHERE idCasillero = '$this->idCasillero' AND estado = 1";
+        $resultado = mysqli_query($conexion, $consulta);
+        $total = mysqli_fetch_assoc($resultado);
+        return $total;
     }
 
     public function totalPaquetes($conexion) {

@@ -20,7 +20,7 @@ class Casilleros {
     public function ConstructorDetalle($idCasillero, $idTamanio){
         $this->idCasillero = $idCasillero;
         $this->idTamanio = $idTamanio;
-
+    }
     public function ConstructorParaPaquete($idCasillero){
         $this->idCasillero = $idCasillero;
         
@@ -52,7 +52,7 @@ class Casilleros {
             $lista[] = $Casilleros;
         }
         return $lista;
-
+    }
 
     public function obtenerCasillerosParaPaquetes($conexion){
         $consulta = "SELECT idCasillero FROM casillero";

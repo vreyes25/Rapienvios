@@ -75,7 +75,7 @@ li:hover {
 .logout {
   position: absolute;
   bottom: 5px;
-  padding-right: 8.5vh;
+  padding-right: 13vh;
 }
 
 .searchButton,
@@ -128,7 +128,6 @@ strong {
   justify-content: space-between;
 }
 
-
 .startSession{
   background: var(--main-color);
   text-decoration: none;
@@ -179,11 +178,10 @@ strong {
 }
 
 .contenido-modal{
-  height: auto;
 	position: relative;
 	background-color: #fefefe;
 	margin: auto;
-	width: 60%;
+	width: 50%;
 	box-shadow: 0 0 6px 0 rgba(0, 0, 0, .4);
 	animation-name: modal;
 	animation-duration: 1s;
@@ -218,7 +216,14 @@ p{
 
 .modal-body{
 	padding: 20px 16px;
-  height: 65vh;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-body2{
+	padding: 20px 16px;
+  height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -250,7 +255,7 @@ p{
   height: 45vh;
   justify-content: space-between;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .nuevoCliente .form input, select{
@@ -292,12 +297,12 @@ p{
   justify-content: center;
 }
 
-.tablaClientes, .tablaPaquetes, .tablaEnvios, .tablaEmpleados {
+.tablaClientes, .tablaPaquetes, .tablaEmpleados {
   border-collapse: collapse;
-  width: 100%;
+  width: 93%;
 }
 
-.tablaClientes th, .tablaPaquetes th, .tablaEnvios th, .tablaEmpleados th {
+.tablaClientes th, .tablaPaquetes th, .tablaEmpleados th {
   text-align: center;
   border: solid var(--third-color) 1px;
   padding: 5px;
@@ -305,7 +310,7 @@ p{
   background-color: var(--main-color);
 }
 
-.tablaClientes td, .tablaPaquetes td, .tablaEnvios td, .tablaEmpleados td {
+.tablaClientes td, .tablaPaquetes td, .tablaEmpleados td {
   border: solid var(--third-color) 1px;
   text-align: center;
   padding: 2px;
@@ -332,37 +337,5 @@ p{
 
 select {
   width: 100%;
-}
-
-.data {
-  width: 90%;
-  margin: auto;
-}
-
-.tablaEnvios {
-  margin-block-start: 5rem !important;
-  width: 100%;
-  margin: auto;
-}
-
-.tablaEnvios tbody > tr {
-  padding-inline:2rem;
-}
-
-.tablaEnvios td {
-  text-align: center;
-}
-
-.data-container-paquetes {
-  display: flex;
-  justify-content: space-between;
-}
-
-.side-nav-hr{
-  margin: 2rem 0;
-}
-
-.modal-tracking {
-  display:block;
 }
 

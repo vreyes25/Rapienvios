@@ -1,7 +1,7 @@
 <?php
 Session_start();
 
-if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
+if(@$_SESSION['usuario'] == null || @$_SESSION['usuario'] == ''){
   header('Location:login.php');
 }
 
@@ -24,7 +24,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/dashboard.css"/>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/jquery.min.js"></script>
     <title>Rapienvios | Dashboard</title>
@@ -73,8 +73,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
     <div class="content-data">
       <div class="up-content">
         <div class="searchBar">
-          <input type="text" id="search" placeholder="Buscar paquete" />
-          <i class="ri-search-line searchButton"></i>
+        <h3 id="casillero">casillero no: <strong><?php echo $_SESSION['casillero'];?></strong></h3>
         </div>
         <div class="user-name">
           <h3>Bienvenido, <strong><?php echo $_SESSION['usuario'];?></strong></h3>
@@ -82,6 +81,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
       </div>
 
       <div class="data">
+
 
         <div class="data-container-paquetes">
           <div class="up-content" style="margin-left:0;">
@@ -91,6 +91,8 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
           <div class="up-content" style="margin-right:0;">
             <h3>Total de envios: <strong>0</strong></h3>
           </div>
+        <div class="up-content">
+          <h3>Paquetes en bodega: <strong id="totalPaquetes"></strong></h3>
         </div>
 
 
@@ -107,7 +109,18 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 
         <div class="content-tables"></div>
       </div>
-      
+
+      <div class="data">
+      <div class="up-content">
+          <h3>Paquetes enviados: <strong id="totalEnvios"> </strong></h3>
+        </div>
+        <div class="tabla-envios">
+          <table class="tablaEnvios" id="tablaEnvios">
+        </div>   
+        <div class="content-tables"></div>
+      </div>
+
+
     </div>
 
     <div id="modalTracking" class="modal">
@@ -171,6 +184,7 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
 
 <script type="text/javascript">
 
+
   (function(){
     obtenerPaquetes();
     obtenerEnvios();
@@ -179,38 +193,170 @@ if($_SESSION['usuario'] == null || $_SESSION['usuario'] == ''){
   
   function obtenerPaquetes(valor) {
     let tablaPaquetes = document.getElementById('tablaPaquetes');
+  
+   (function(){
+    totalPaquetes();
+    totalEnvios();
+    obtenerPaquetes();
+    obtenerEnvios();
+  })();
+  
+  function limpiar() {
+    var nombreCliente = document.getElementById("nombreCliente").value = "";
+    var telefono = document.getElementById("telefono").value = "";
+    var  direccion = document.getElementById("direccion").value = "";
+  }
 
+  function registrarCliente(){
+    var nombreCliente = document.getElementById("nombreCliente").value;
+    var telefono = document.getElementById("telefono").value;
+    var  direccion = document.getElementById("direccion").value;
+
+    
+    //alert(nombreCliente+" "+telefono);
     $.post(
-      "webservice/mostrarPaquetes.php",
-      {'valor':valor},
+    "webservice/RegistrarCliente.php",
+    {
+      'nombre': nombreCliente,
+      'telefono': telefono,
+      'direccion':direccion
+    },
+      function(data){
+        //alert(data);
+        $Resp = JSON.parse(data);
+        if($Resp.Ok==1){
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: $Resp.Data,
+            showConfirmButton: false,
+            timer: 1800
+          })
+          limpiar();
+          //sleep(4);
+          //window.location="dashboard.php";
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: $Resp.Data,
+            showConfirmButton: false,
+            timer: 1800
+          })
+        }
+      }
+    );
+  }
+
+
+  function totalPaquetes() {
+    let totalPaquetes = document.getElementById('totalPaquetes');
+    var casillero = <?php echo $_SESSION['casillero'] ?>;
+    $.post(
+      "webservice/totalPaquetesCliente.php",
+      {'casillero':casillero},
+      function(Data) {
+        let total = JSON.parse(Data);
+        totalPaquetes.innerHTML = total['totalPaquetes'];
+      }
+    );
+  }
+
+  function enviarPaquete(elemento){
+    var idPaquete = document.getElementById('enviarPaquete').value = elemento.value;
+    $.post(
+      "webservice/enviarPaqueteCliente.php",
+      {'idPaquete':idPaquete},
+      function(Data){
+        //alert(Data);
+        obtenerPaquetes();
+      }
+    );
+    
+    $.post(
+      "webservice/crearEnvioCliente.php",
+      {'idPaquete':idPaquete},
+      function(Data){
+        //alert(Data);
+        obtenerEnvios();
+      }
+    );
+    
+  }
+ 
+  function obtenerPaquetes(valor) {
+    let tablaPaquetes = document.getElementById('tablaPaquetes');
+    
+    var casillero = <?php echo $_SESSION['casillero'] ?>;
+    $.post(
+      "webservice/mostrarPaquetesCliente.php",
+      {'casillero':casillero},
       function(Data) {
         let paquetes = JSON.parse(Data);
-        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th></tr>";
+        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th><th>Acciones</th></tr>";
         for(i in paquetes) {
-          html += "<tr id='idTr'><td id='idPaquete"+i+"'>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso;
+          html += "<tr><td>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso +"</td><td><button id='enviarPaquete' class='btnEdit' onclick='enviarPaquete(this);' value="+ paquetes[i].idPaquete +">Enviar paquete</button></td></tr>";
           tablaPaquetes.innerHTML = html;
         }
       }
     );
   }
 
-  function obtenerEnvios(valor) {
-    let tablaClientes = document.getElementById('tablaEnvios');
 
+  
+  function totalEnvios() {
+    let totalPaquetes = document.getElementById('totalEnvios');
+    var casillero = <?php echo $_SESSION['casillero'] ?>;
     $.post(
-      "webservice/mostrarEnviosActivos.php",
+      "webservice/totalEnviosCliente.php",
+      {'casillero':casillero},
+      function(Data) {
+
+        let paquetes = JSON.parse(Data);
+        html = "<tr><th>ID</th><th>Descripción</th><th>Peso</th></tr>";
+        for(i in paquetes) {
+          html += "<tr id='idTr'><td id='idPaquete"+i+"'>"+ paquetes[i].idPaquete +"</td><td>"+ paquetes[i].descripcion +"</td><td>"+ paquetes[i].peso;
+          tablaPaquetes.innerHTML = html;
+        }
+=======
+        
+        let total = JSON.parse(Data);
+        totalPaquetes.innerHTML = total['totalEnvios'];
+
+      }
+    );
+  }
+
+  function obtenerEnvios(valor) {
+    let tablaEnvios = document.getElementById('tablaEnvios'); 
+    var casillero = <?php echo $_SESSION['casillero'] ?>;
+    $.post(
+      "webservice/mostrarEnviosActivosCliente.php",
       {
-        'valor':valor
+        'casillero':casillero
       },
       function(Data) {
+
         //alert(Data);
         let clientes = JSON.parse(Data);
         html = "<tr><th>ID</th><th>fecha Envio</th><th>Estado</th><th>Acciones</th></tr>";
         for(i in clientes) {
           html += "<tr><td>"+ clientes[i].idEnvio +"</td><td>"+ clientes[i].fechaEnvio +"</td><td>"+ clientes[i].estado +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='mostrarTracking(this);' value="+ clientes[i].idPaquete +">Mostrar Tracking</button></td></tr>";
           tablaClientes.innerHTML = html;
+
+
+        let envios = JSON.parse(Data);
+        html = "<tr><th>ID</th><th>Descripcion</th><th>fecha Envio</th><th>Acciones</th></tr>";
+        for(i in envios) {
+          if (i in envios <1)
+            html =+ "<h3>No hay envios disponibles</h3>"
+          else
+          html += "<tr><td>"+ envios[i].idEnvio +"</td><td>"+ envios[i].descripcion +"</td><td>"+ envios[i].fechaEnvio +"</td><td><button class='btnDelete' id='eliminarCliente' onclick='obtenerIdEliminar(this);' value="+ envios[i].idEnvio +">Mostrar Tracking</button></td></tr>";
+          tablaEnvios.innerHTML = html;
+
         }
       }
+      
     );
   }
 
